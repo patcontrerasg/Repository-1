@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Top 10 Destinos 2026 · @paty_viajera</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── Reset & Base ─────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:      #F4EFE8;
+      --sand:       #E5DDD0;
+      --charcoal:   #1C1C1C;
+      --stone:      #6B6460;
+      --terracotta: #BF7B5E;
+      --sage:       #8A9E8C;
+      --gold:       #C5A46D;
+    }
+
+    body {
+      background: #D6CFC8;
+      font-family: 'Jost', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      gap: 16px;
+    }
+
+    /* ─── Slide wrapper ─────────────────────────────────── */
+    .slide {
+      width: 540px;
+      height: 540px;
+      position: relative;
+      overflow: hidden;
+      background: var(--cream);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 42px 44px 36px;
+      box-shadow: 0 6px 32px rgba(0,0,0,.12);
+      /* Export at 2× → 1080×1080 px */
+    }
+
+    /* ─── Decorative border rule ────────────────────────── */
+    .slide::before {
+      content: '';
+      position: absolute;
+      inset: 12px;
+      border: 1px solid rgba(28,28,28,.10);
+      pointer-events: none;
+    }
+
+    /* ─── Header row ────────────────────────────────────── */
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .handle {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 10px;
+      letter-spacing: .20em;
+      text-transform: uppercase;
+      color: var(--stone);
+    }
+
+    .slide-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 13px;
+      color: var(--stone);
+      letter-spacing: .12em;
+    }
+
+    /* ─── Body ──────────────────────────────────────────── */
+    .slide-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .destination-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 80px;
+      line-height: 1;
+      color: var(--sand);
+      letter-spacing: -.02em;
+      user-select: none;
+    }
+
+    .destination-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: 40px;
+      line-height: 1.1;
+      color: var(--charcoal);
+      letter-spacing: -.01em;
+    }
+
+    .destination-country {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 11px;
+      letter-spacing: .30em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+    }
+
+    .divider {
+      width: 32px;
+      height: 1px;
+      background: var(--gold);
+      margin: 4px 0;
+    }
+
+    .destination-desc {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--stone);
+      max-width: 340px;
+    }
+
+    .destination-tip {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .tip-label {
+      font-family: 'Jost', sans-serif;
+      font-weight: 400;
+      font-size: 9px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--sage);
+      white-space: nowrap;
+      padding-top: 2px;
+    }
+
+    .tip-text {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 11px;
+      line-height: 1.6;
+      color: var(--stone);
+    }
+
+    /* ─── Footer ────────────────────────────────────────── */
+    .slide-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .progress-dots {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--sand);
+    }
+
+    .dot.active {
+      background: var(--terracotta);
+      width: 16px;
+      border-radius: 2px;
+    }
+
+    .year-tag {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 10px;
+      letter-spacing: .22em;
+      color: var(--stone);
+      text-transform: uppercase;
+    }
+
+    /* ─── COVER slide overrides ─────────────────────────── */
+    .slide--cover .slide-body {
+      gap: 16px;
+      justify-content: center;
+    }
+
+    .cover-tag {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 10px;
+      letter-spacing: .30em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+    }
+
+    .cover-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: 50px;
+      line-height: 1.05;
+      color: var(--charcoal);
+      letter-spacing: -.015em;
+    }
+
+    .cover-title em {
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    .cover-subtitle {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--stone);
+      max-width: 320px;
+    }
+
+    .cover-handle {
+      font-family: 'Jost', sans-serif;
+      font-weight: 400;
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ─── OUTRO slide overrides ─────────────────────────── */
+    .slide--outro .slide-body {
+      justify-content: center;
+      gap: 18px;
+    }
+
+    .outro-question {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 38px;
+      line-height: 1.2;
+      color: var(--charcoal);
+    }
+
+    .outro-cta {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--stone);
+    }
+
+    .outro-cta strong {
+      color: var(--terracotta);
+      font-weight: 400;
+    }
+
+    /* ─── Accent corner shape ───────────────────────────── */
+    .accent-corner {
+      position: absolute;
+      bottom: 36px;
+      right: 44px;
+      width: 56px;
+      height: 56px;
+      border-bottom: 1px solid var(--gold);
+      border-right: 1px solid var(--gold);
+      opacity: .5;
+    }
+
+    .accent-top-left {
+      position: absolute;
+      top: 28px;
+      left: 30px;
+      width: 28px;
+      height: 28px;
+      border-top: 1px solid var(--gold);
+      border-left: 1px solid var(--gold);
+      opacity: .35;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════
+       SLIDE 0 — PORTADA
+  ════════════════════════════════════════════════════ -->
+  <div class="slide slide--cover">
+    <div class="accent-top-left"></div>
+    <div class="accent-corner"></div>
+
+    <div class="slide-header">
+      <span class="handle">@paty_viajera</span>
+      <span class="slide-number">2026</span>
+    </div>
+
+    <div class="slide-body">
+      <span class="cover-tag">Guía de viajes · 2026</span>
+      <h1 class="cover-title">Top <em>10</em><br>Destinos<br>del Año</h1>
+      <div class="divider"></div>
+      <p class="cover-subtitle">Los lugares que debes visitar este año — selección personal con alma viajera.</p>
+      <span class="cover-handle">@paty_viajera</span>
+    </div>
+
+    <div class="slide-footer">
+      <div class="progress-dots">
+        <div class="dot active"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div>
+      </div>
+      <span class="year-tag">Desliza →</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       SLIDE 1 — JAPÓN
+  ════════════════════════════════════════════════════ -->
+  <div class="slide">
+    <div class="accent-top-left"></div>
+    <div class="accent-corner"></div>
+
+    <div class="slide-header">
+      <span class="handle">@paty_viajera</span>
+      <span class="slide-number">01 / 10</span>
+    </div>
+
+    <div class="slide-body">
+      <div class="destination-number">01</div>
+      <div>
+        <p class="destination-country">Japón · Asia</p>
+        <h2 class="destination-name">Kioto &<br>Osaka</h2>
+      </div>
+      <div class="divider"></div>
+      <p class="destination-desc">La magia de los templos milenarios contrasta con la energía urbana de Dotonbori. Un viaje entre el pasado y el futuro.</p>
+      <div class="destination-tip">
+        <span class="tip-label">2026 ✦</span>
+        <span class="tip-text">Osaka acoge la Expo 2025 (extendida a 2026) — el momento ideal para visitar.</span>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div class="progress-dots">
+        <div class="dot"></div>
+        <div class="dot active"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <span class="year-tag">@paty_viajera</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       SLIDE 2 — MARRUECOS
+  ════════════════════════════════════════════════════ -->
+  <div class="slide">
+    <div class="accent-top-left"></div>
+    <div class="accent-corner"></div>
+
+    <div class="slide-header">
+      <span class="handle">@paty_viajera</span>
+      <span class="slide-number">02 / 10</span>
+    </div>
+
+    <div class="slide-body">
+      <div class="destination-number">02</div>
+      <div>
+        <p class="destination-country">Marruecos · África</p>
+        <h2 class="destination-name">Marrakech<br>& el Sáhara</h2>
+      </div>
+      <div class="divider"></div>
+      <p class="destination-desc">Zoco, riads y especias en el aire. Llegar al desierto y ver el amanecer sobre las dunas es una experiencia que transforma.</p>
+      <div class="destination-tip">
+        <span class="tip-label">2026 ✦</span>
+        <span class="tip-text">Marruecos co-organiza el Mundial FIFA 2030 — infraestructura turística en su mejor momento.</span>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div class="progress-dots">
+        <div class="dot"></div><div class="dot"></div>
+        <div class="dot active"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+      <span class="year-tag">@paty_viajera</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       SLIDE 3 — ISLANDIA
+  ════════════════════════════════════════════════════ -->
+  <div class="slide">
+    <div class="accent-top-left"></div>
+    <div class="accent-corner"></div>
+
+    <div class="slide-header">
+      <span class="handle">@paty_viajera</span>
+      <span class="slide-number">03 / 10</span>
+    </div>
+
+    <div class="slide-body">
+      <div class="destination-number">03</div>
+      <div>
+        <p class="destination-country">Islandia · Europa</p>
+        <h2 class="destination-name">Reikiavik<br>& las Auroras</h2>
+      </div>
+      <div class="divider"></div>
+      <p class="destination-desc">Géiseres, cascadas y el cielo pintado de verde y violeta. Un paisaje de otro planeta accesible desde Europa.</p>
+      <div class="destination-tip">
+        <span class="tip-label">2026 ✦</span>
+        <span class="tip-text">Ciclo solar en máximo histórico — las auroras boreales serán especialmente intensas.</span>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div class="progress-dots">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot active"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div>
+      </div>
+      <span class="year-tag">@paty_viajera</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       SLIDE 4 — COLOMBIA
+  ════════════════════════════════════════════════════ -->
+  <div class="slide">
+    <div class="accent-top-left"></div>
+    <div class="accent-corner"></div>
+
+    <div class="slide-header">
+      <span class="handle">@paty_viajera</span>
+      <span class="slide-number">04 / 10</span>
+    </div>
+
+    <div class="slide-body">
+      <div class="destination-number">04</div>
+      <div>
+        <p class="destination-country">Colombia · Latinoamérica</p>
+        <h2 class="destination-name">Cartagena<br>& Medellín</h2>
+      </div>
+      <div class="divider"></div>
+      <p class="destination-desc">Ciudad amurallada de colores en el Caribe y la ciudad de la eterna primavera. Colombia es el secreto mejor guardado del continente.</p>
+      <div class="destination-tip">
+        <span class="tip-label">2026 ✦</span>
+        <span class="tip-text">Medellín lidera el turismo sostenible y de innovación en América Latina este año.</span>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div class="progress-dots">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot active"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <span class="year-tag">@paty_viajera</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       SLIDE 5 — VIETNAM
+  ════════════════════════════════════════════════════ -->
+  <div class="slide">
+    <div class="accent-top-left"></div>
+    <div class="accent-corner"></div>
+
+    <div class="slide-header">
+      <span class="handle">@paty_viajera</span>
+      <span class="slide-number">05 / 10</span>
+    </div>
+
+    <div class="slide-body">
+      <div class="destination-number">05</div>
+      <div>
+        <p class="destination-country">Vietnam · Asia</p>
+        <h2 class="destination-name">Hội An<br>& Ha Long</h2>
+      </div>
+      <div class="divider"></div>
+      <p class="destination-desc">Linternas flotantes en el río, arrozales esmeralda y bahías con islas de piedra caliza emergiendo del mar.</p>
+      <div class="destination-tip">
+        <span class="tip-label">2026 ✦</span>
+        <span class="tip-text">Vuelos directos desde LATAM en expansión — más fácil y accesible que nunca llegar.</span>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div class="progress-dots">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot active"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+      <span class="year-tag">@paty_viajera</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       SLIDE 6 — GRECIA
+  ════════════════════════════════════════════════════ -->
+  <div class="slide">
+    <div class="accent-top-left"></div>
+    <div class="accent-corner"></div>
+
+    <div class="slide-header">
+      <span class="handle">@paty_viajera</span>
+      <span class="slide-number">06 / 10</span>
+    </div>
+
+    <div class="slide-body">
+      <div class="destination-number">06</div>
+      <div>
+        <p class="destination-country">Grecia · Europa</p>
+        <h2 class="destination-name">Santorini<br>& Rodas</h2>
+      </div>
+      <div class="divider"></div>
+      <p class="destination-desc">Cúpulas azules sobre el Egeo y pueblos medievales con historia milenaria. El verano griego nunca pasa de moda.</p>
+      <div class="destination-tip">
+        <span class="tip-label">2026 ✦</span>
+        <span class="tip-text">Rodas 2026: Capital Europea de la Cultura — programación artística excepcional.</span>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div class="progress-dots">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot active"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div>
+      </div>
+      <span class="year-tag">@paty_viajera</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       SLIDE 7 — PERÚ
+  ════════════════════════════════════════════════════ -->
+  <div class="slide">
+    <div class="accent-top-left"></div>
+    <div class="accent-corner"></div>
+
+    <div class="slide-header">
+      <span class="handle">@paty_viajera</span>
+      <span class="slide-number">07 / 10</span>
+    </div>
+
+    <div class="slide-body">
+      <div class="destination-number">07</div>
+      <div>
+        <p class="destination-country">Perú · Latinoamérica</p>
+        <h2 class="destination-name">Cusco<br>& Machu Picchu</h2>
+      </div>
+      <div class="divider"></div>
+      <p class="destination-desc">La ciudadela inca entre las nubes es uno de los lugares más sobrecogedores del planeta. Una visita que cambia la perspectiva.</p>
+      <div class="destination-tip">
+        <span class="tip-label">2026 ✦</span>
+        <span class="tip-text">Nuevo sistema de reservas por horarios — acceso más tranquilo y experiencia más íntima.</span>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div class="progress-dots">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot active"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <span class="year-tag">@paty_viajera</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       SLIDE 8 — PORTUGAL
+  ════════════════════════════════════════════════════ -->
+  <div class="slide">
+    <div class="accent-top-left"></div>
+    <div class="accent-corner"></div>
+
+    <div class="slide-header">
+      <span class="handle">@paty_viajera</span>
+      <span class="slide-number">08 / 10</span>
+    </div>
+
+    <div class="slide-body">
+      <div class="destination-number">08</div>
+      <div>
+        <p class="destination-country">Portugal · Europa</p>
+        <h2 class="destination-name">Azores<br>& Lisboa</h2>
+      </div>
+      <div class="divider"></div>
+      <p class="destination-desc">Volcanes en el Atlántico con aguas termales turquesa y una capital llena de fado, azulejos y brunch con vista al Tejo.</p>
+      <div class="destination-tip">
+        <span class="tip-label">2026 ✦</span>
+        <span class="tip-text">Las Azores: destino número uno en turismo sostenible de Europa dos años consecutivos.</span>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div class="progress-dots">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot active"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+      <span class="year-tag">@paty_viajera</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       SLIDE 9 — TANZANÍA
+  ════════════════════════════════════════════════════ -->
+  <div class="slide">
+    <div class="accent-top-left"></div>
+    <div class="accent-corner"></div>
+
+    <div class="slide-header">
+      <span class="handle">@paty_viajera</span>
+      <span class="slide-number">09 / 10</span>
+    </div>
+
+    <div class="slide-body">
+      <div class="destination-number">09</div>
+      <div>
+        <p class="destination-country">Tanzanía · África</p>
+        <h2 class="destination-name">Zanzíbar<br>& el Serengueti</h2>
+      </div>
+      <div class="divider"></div>
+      <p class="destination-desc">Playas de arena blanca con agua cristalina y la gran migración animal más espectacular del mundo. África en estado puro.</p>
+      <div class="destination-tip">
+        <span class="tip-label">2026 ✦</span>
+        <span class="tip-text">Nueva ruta aérea directa desde Madrid y CDMX — el continente africano más cercano que nunca.</span>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div class="progress-dots">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot active"></div>
+        <div class="dot"></div><div class="dot"></div>
+      </div>
+      <span class="year-tag">@paty_viajera</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       SLIDE 10 — MÉXICO (OAXACA)
+  ════════════════════════════════════════════════════ -->
+  <div class="slide">
+    <div class="accent-top-left"></div>
+    <div class="accent-corner"></div>
+
+    <div class="slide-header">
+      <span class="handle">@paty_viajera</span>
+      <span class="slide-number">10 / 10</span>
+    </div>
+
+    <div class="slide-body">
+      <div class="destination-number">10</div>
+      <div>
+        <p class="destination-country">México · Latinoamérica</p>
+        <h2 class="destination-name">Oaxaca<br>& la Costa</h2>
+      </div>
+      <div class="divider"></div>
+      <p class="destination-desc">Gastronomía patrimonio de la humanidad, mercados de colores y la Mixteca verde. México tiene un alma propia que enamora.</p>
+      <div class="destination-tip">
+        <span class="tip-label">2026 ✦</span>
+        <span class="tip-text">Oaxaca: ciudad del año según Condé Nast Traveler — en el top mundial del turismo cultural.</span>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div class="progress-dots">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot active"></div>
+        <div class="dot"></div>
+      </div>
+      <span class="year-tag">@paty_viajera</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       SLIDE 11 — CIERRE / CTA
+  ════════════════════════════════════════════════════ -->
+  <div class="slide slide--outro">
+    <div class="accent-top-left"></div>
+    <div class="accent-corner"></div>
+
+    <div class="slide-header">
+      <span class="handle">@paty_viajera</span>
+      <span class="slide-number">2026</span>
+    </div>
+
+    <div class="slide-body">
+      <p class="destination-country">Tu turno</p>
+      <h2 class="outro-question">¿Cuál es tu<br>destino<br>favorito?</h2>
+      <div class="divider"></div>
+      <p class="outro-cta">
+        Cuéntame en los comentarios 👇<br>
+        Guarda este carrusel para tu próximo viaje.<br><br>
+        <strong>Sígueme</strong> para más guías e inspiración viajera.<br>
+        <strong>@paty_viajera</strong>
+      </p>
+    </div>
+
+    <div class="slide-footer">
+      <div class="progress-dots">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot active"></div>
+      </div>
+      <span class="year-tag">Top 10 · 2026</span>
+    </div>
+  </div>
+
+</body>
+</html>
