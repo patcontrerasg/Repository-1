@@ -287,6 +287,74 @@
       border-left: 1px solid var(--gold);
       opacity: .35;
     }
+
+    /* ─── PHOTO slide ────────────────────────────────── */
+    .slide--photo {
+      background-size: cover;
+      background-position: center;
+    }
+
+    .slide--photo .photo-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        155deg,
+        rgba(8,8,12,.60) 0%,
+        rgba(8,8,12,.30) 50%,
+        rgba(8,8,12,.72) 100%
+      );
+      z-index: 0;
+    }
+
+    .slide--photo .slide-header,
+    .slide--photo .slide-body,
+    .slide--photo .slide-footer {
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide--photo .accent-corner,
+    .slide--photo .accent-top-left {
+      z-index: 1;
+    }
+
+    .slide--photo::before {
+      border-color: rgba(255,255,255,.14);
+      z-index: 2;
+    }
+
+    .slide--photo .accent-corner {
+      border-color: rgba(255,255,255,.30);
+      opacity: .6;
+    }
+
+    .slide--photo .accent-top-left {
+      border-color: rgba(255,255,255,.22);
+      opacity: .5;
+    }
+
+    .slide--photo .handle,
+    .slide--photo .slide-number { color: rgba(255,255,255,.50); }
+
+    .slide--photo .destination-number { color: rgba(255,255,255,.10); }
+
+    .slide--photo .destination-name { color: #ffffff; text-shadow: 0 2px 12px rgba(0,0,0,.35); }
+
+    .slide--photo .destination-country { color: var(--gold); }
+
+    .slide--photo .divider { background: rgba(255,255,255,.40); }
+
+    .slide--photo .destination-desc { color: rgba(255,255,255,.78); }
+
+    .slide--photo .tip-label { color: var(--gold); }
+
+    .slide--photo .tip-text { color: rgba(255,255,255,.62); }
+
+    .slide--photo .dot { background: rgba(255,255,255,.28); }
+
+    .slide--photo .dot.active { background: var(--gold); }
+
+    .slide--photo .year-tag { color: rgba(255,255,255,.42); }
   </style>
 </head>
 <body>
@@ -326,7 +394,8 @@
   <!-- ═══════════════════════════════════════════════════
        SLIDE 1 — JAPÓN
   ════════════════════════════════════════════════════ -->
-  <div class="slide">
+  <div class="slide slide--photo" style="background-image: url('images/01-japon.jpg')">
+    <div class="photo-overlay"></div>
     <div class="accent-top-left"></div>
     <div class="accent-corner"></div>
 
@@ -365,7 +434,8 @@
   <!-- ═══════════════════════════════════════════════════
        SLIDE 2 — MARRUECOS
   ════════════════════════════════════════════════════ -->
-  <div class="slide">
+  <div class="slide slide--photo" style="background-image: url('images/02-marruecos.jpg')">
+    <div class="photo-overlay"></div>
     <div class="accent-top-left"></div>
     <div class="accent-corner"></div>
 
@@ -403,7 +473,8 @@
   <!-- ═══════════════════════════════════════════════════
        SLIDE 3 — ISLANDIA
   ════════════════════════════════════════════════════ -->
-  <div class="slide">
+  <div class="slide slide--photo" style="background-image: url('images/03-islandia.jpg')">
+    <div class="photo-overlay"></div>
     <div class="accent-top-left"></div>
     <div class="accent-corner"></div>
 
@@ -441,7 +512,8 @@
   <!-- ═══════════════════════════════════════════════════
        SLIDE 4 — COLOMBIA
   ════════════════════════════════════════════════════ -->
-  <div class="slide">
+  <div class="slide slide--photo" style="background-image: url('images/04-colombia.jpg')">
+    <div class="photo-overlay"></div>
     <div class="accent-top-left"></div>
     <div class="accent-corner"></div>
 
@@ -479,7 +551,8 @@
   <!-- ═══════════════════════════════════════════════════
        SLIDE 5 — VIETNAM
   ════════════════════════════════════════════════════ -->
-  <div class="slide">
+  <div class="slide slide--photo" style="background-image: url('images/05-vietnam.jpg')">
+    <div class="photo-overlay"></div>
     <div class="accent-top-left"></div>
     <div class="accent-corner"></div>
 
@@ -516,7 +589,8 @@
   <!-- ═══════════════════════════════════════════════════
        SLIDE 6 — GRECIA
   ════════════════════════════════════════════════════ -->
-  <div class="slide">
+  <div class="slide slide--photo" style="background-image: url('images/06-grecia.jpg')">
+    <div class="photo-overlay"></div>
     <div class="accent-top-left"></div>
     <div class="accent-corner"></div>
 
@@ -553,7 +627,8 @@
   <!-- ═══════════════════════════════════════════════════
        SLIDE 7 — PERÚ
   ════════════════════════════════════════════════════ -->
-  <div class="slide">
+  <div class="slide slide--photo" style="background-image: url('images/07-peru.jpg')">
+    <div class="photo-overlay"></div>
     <div class="accent-top-left"></div>
     <div class="accent-corner"></div>
 
@@ -590,7 +665,8 @@
   <!-- ═══════════════════════════════════════════════════
        SLIDE 8 — PORTUGAL
   ════════════════════════════════════════════════════ -->
-  <div class="slide">
+  <div class="slide slide--photo" style="background-image: url('images/08-azores.jpg')">
+    <div class="photo-overlay"></div>
     <div class="accent-top-left"></div>
     <div class="accent-corner"></div>
 
@@ -626,7 +702,8 @@
   <!-- ═══════════════════════════════════════════════════
        SLIDE 9 — TANZANÍA
   ════════════════════════════════════════════════════ -->
-  <div class="slide">
+  <div class="slide slide--photo" style="background-image: url('images/09-zanzibar.jpg')">
+    <div class="photo-overlay"></div>
     <div class="accent-top-left"></div>
     <div class="accent-corner"></div>
 
@@ -662,7 +739,8 @@
   <!-- ═══════════════════════════════════════════════════
        SLIDE 10 — MÉXICO (OAXACA)
   ════════════════════════════════════════════════════ -->
-  <div class="slide">
+  <div class="slide slide--photo" style="background-image: url('images/10-oaxaca.jpg')">
+    <div class="photo-overlay"></div>
     <div class="accent-top-left"></div>
     <div class="accent-corner"></div>
 
