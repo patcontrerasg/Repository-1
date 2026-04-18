@@ -30,24 +30,10 @@
       padding: 20px 16px 40px;
     }
 
-    header {
-      text-align: center;
-      margin-bottom: 28px;
-    }
-
-    header h1 {
-      font-size: 1.7rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-    }
-
+    header { text-align: center; margin-bottom: 28px; }
+    header h1 { font-size: 1.7rem; font-weight: 700; letter-spacing: -0.5px; }
     header h1 span { color: var(--accent); }
-
-    header p {
-      color: var(--muted);
-      font-size: 0.85rem;
-      margin-top: 4px;
-    }
+    header p { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
 
     .card {
       background: var(--card);
@@ -58,12 +44,7 @@
       max-width: 440px;
     }
 
-    .city-row {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-bottom: 16px;
-    }
+    .city-row { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
 
     label {
       font-size: 0.75rem;
@@ -87,16 +68,10 @@
       transition: border-color 0.2s;
     }
 
-    select:focus, input[type="time"]:focus {
-      border-color: var(--accent);
-    }
+    select:focus, input[type="time"]:focus { border-color: var(--accent); }
+    select option, select optgroup { background: #1a1a2e; color: var(--text); }
 
-    select option { background: #1a1a2e; }
-
-    .select-wrapper {
-      position: relative;
-    }
-
+    .select-wrapper { position: relative; }
     .select-wrapper::after {
       content: '▾';
       position: absolute;
@@ -108,27 +83,18 @@
       font-size: 1rem;
     }
 
-    .swap-btn {
-      display: flex;
-      justify-content: center;
-      margin: 4px 0 16px;
-    }
-
+    .swap-btn { display: flex; justify-content: center; margin: 4px 0 16px; }
     .swap-btn button {
       background: var(--accent2);
       border: 1px solid var(--border);
       border-radius: 50%;
-      width: 42px;
-      height: 42px;
+      width: 42px; height: 42px;
       color: var(--text);
       font-size: 1.2rem;
       cursor: pointer;
       transition: background 0.2s, transform 0.15s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
     }
-
     .swap-btn button:active { transform: scale(0.9); background: var(--accent); }
 
     .time-row {
@@ -138,13 +104,7 @@
       align-items: center;
       margin-bottom: 20px;
     }
-
-    .time-row .arrow {
-      color: var(--accent);
-      font-size: 1.3rem;
-      text-align: center;
-      margin-top: 22px;
-    }
+    .time-row .arrow { color: var(--accent); font-size: 1.3rem; text-align: center; margin-top: 22px; }
 
     .convert-btn {
       width: 100%;
@@ -156,10 +116,8 @@
       font-size: 1.05rem;
       font-weight: 700;
       cursor: pointer;
-      letter-spacing: 0.3px;
       transition: opacity 0.2s, transform 0.1s;
     }
-
     .convert-btn:active { opacity: 0.85; transform: scale(0.98); }
 
     .result-card {
@@ -172,130 +130,51 @@
       margin-top: 16px;
       display: none;
     }
-
     .result-card.visible { display: block; }
 
     .result-header {
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--muted);
-      margin-bottom: 12px;
+      font-size: 0.75rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      color: var(--muted); margin-bottom: 12px;
     }
 
-    .result-main {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
+    .result-main { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 
-    .city-time {
-      flex: 1;
-      text-align: center;
-    }
+    .city-time { flex: 1; text-align: center; }
+    .city-time .city-name { font-size: 0.9rem; color: var(--muted); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .city-time .time-display { font-size: 2rem; font-weight: 700; letter-spacing: -1px; color: var(--text); }
+    .city-time .date-display { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
 
-    .city-time .city-name {
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin-bottom: 4px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .city-time .time-display {
-      font-size: 2rem;
-      font-weight: 700;
-      letter-spacing: -1px;
-      color: var(--text);
-    }
-
-    .city-time .date-display {
-      font-size: 0.78rem;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-
-    .result-arrow {
-      font-size: 1.5rem;
-      color: var(--accent);
-      flex-shrink: 0;
-    }
+    .result-arrow { font-size: 1.5rem; color: var(--accent); flex-shrink: 0; }
 
     .diff-badge {
-      text-align: center;
-      margin-top: 16px;
-      padding: 8px 14px;
-      background: var(--card2);
-      border-radius: 8px;
-      font-size: 0.85rem;
-      color: var(--muted);
+      text-align: center; margin-top: 16px;
+      padding: 8px 14px; background: var(--card2);
+      border-radius: 8px; font-size: 0.85rem; color: var(--muted);
     }
-
     .diff-badge span { color: var(--accent); font-weight: 700; }
 
     .now-btn {
-      width: 100%;
-      max-width: 440px;
-      padding: 10px;
-      background: transparent;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--muted);
-      font-size: 0.85rem;
-      cursor: pointer;
-      margin-top: 10px;
-      transition: border-color 0.2s, color 0.2s;
+      width: 100%; max-width: 440px;
+      padding: 10px; background: transparent;
+      border: 1px solid var(--border); border-radius: 10px;
+      color: var(--muted); font-size: 0.85rem; cursor: pointer;
+      margin-top: 10px; transition: border-color 0.2s, color 0.2s;
     }
-
     .now-btn:active { border-color: var(--accent); color: var(--accent); }
 
-    .world-clock {
-      width: 100%;
-      max-width: 440px;
-      margin-top: 24px;
-    }
-
+    .world-clock { width: 100%; max-width: 440px; margin-top: 24px; }
     .world-clock h2 {
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--muted);
-      margin-bottom: 10px;
+      font-size: 0.75rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      color: var(--muted); margin-bottom: 10px;
     }
 
-    .clock-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .clock-item {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px 14px;
-    }
-
-    .clock-item .clock-city {
-      font-size: 0.78rem;
-      color: var(--muted);
-    }
-
-    .clock-item .clock-time {
-      font-size: 1.4rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      margin: 2px 0;
-    }
-
-    .clock-item .clock-date {
-      font-size: 0.7rem;
-      color: var(--muted);
-    }
+    .clock-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .clock-item { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; }
+    .clock-item .clock-city { font-size: 0.78rem; color: var(--muted); }
+    .clock-item .clock-time { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.5px; margin: 2px 0; }
+    .clock-item .clock-date { font-size: 0.7rem; color: var(--muted); }
   </style>
 </head>
 <body>
@@ -306,35 +185,201 @@
 </header>
 
 <div class="card">
-  <!-- Ciudad origen -->
   <div class="city-row">
     <label>Ciudad origen</label>
     <div class="select-wrapper">
-      <select id="cityFrom"></select>
+      <select id="cityFrom">
+        <optgroup label="América Latina">
+          <option value="America/Argentina/Buenos_Aires">Buenos Aires</option>
+          <option value="America/Bogota" selected>Bogotá</option>
+          <option value="America/Mexico_City">Ciudad de México</option>
+          <option value="America/Lima">Lima</option>
+          <option value="America/Santiago">Santiago</option>
+          <option value="America/Caracas">Caracas</option>
+          <option value="America/La_Paz">La Paz</option>
+          <option value="America/Asuncion">Asunción</option>
+          <option value="America/Montevideo">Montevideo</option>
+          <option value="America/Guayaquil">Quito</option>
+          <option value="America/Panama">Panamá</option>
+          <option value="America/Costa_Rica">San José (CR)</option>
+          <option value="America/Guatemala">Guatemala</option>
+          <option value="America/Havana">La Habana</option>
+          <option value="America/Santo_Domingo">Santo Domingo</option>
+          <option value="America/Puerto_Rico">San Juan (PR)</option>
+        </optgroup>
+        <optgroup label="Norteamérica">
+          <option value="America/New_York">Nueva York / Miami</option>
+          <option value="America/Chicago">Chicago</option>
+          <option value="America/Denver">Denver</option>
+          <option value="America/Los_Angeles">Los Ángeles</option>
+          <option value="America/Toronto">Toronto</option>
+          <option value="America/Vancouver">Vancouver</option>
+          <option value="America/Anchorage">Anchorage</option>
+          <option value="Pacific/Honolulu">Honolulu</option>
+        </optgroup>
+        <optgroup label="Europa">
+          <option value="Europe/London">Londres</option>
+          <option value="Europe/Madrid">Madrid</option>
+          <option value="Europe/Paris">París</option>
+          <option value="Europe/Berlin">Berlín</option>
+          <option value="Europe/Rome">Roma</option>
+          <option value="Europe/Amsterdam">Ámsterdam</option>
+          <option value="Europe/Lisbon">Lisboa</option>
+          <option value="Europe/Moscow">Moscú</option>
+          <option value="Europe/Istanbul">Estambul</option>
+          <option value="Europe/Warsaw">Varsovia</option>
+          <option value="Europe/Athens">Atenas</option>
+          <option value="Europe/Stockholm">Estocolmo</option>
+          <option value="Europe/Zurich">Zúrich</option>
+          <option value="Atlantic/Reykjavik">Reikiavik</option>
+        </optgroup>
+        <optgroup label="Medio Oriente y Asia Central">
+          <option value="Asia/Dubai">Dubái</option>
+          <option value="Asia/Riyadh">Riad</option>
+          <option value="Asia/Jerusalem">Tel Aviv</option>
+          <option value="Asia/Tehran">Teherán</option>
+          <option value="Asia/Karachi">Karachi</option>
+          <option value="Asia/Kolkata">Mumbai / Delhi</option>
+          <option value="Asia/Dhaka">Dhaka</option>
+          <option value="Asia/Tashkent">Tashkent</option>
+          <option value="Asia/Almaty">Almaty</option>
+        </optgroup>
+        <optgroup label="Asia">
+          <option value="Asia/Bangkok">Bangkok</option>
+          <option value="Asia/Singapore">Singapur</option>
+          <option value="Asia/Kuala_Lumpur">Kuala Lumpur</option>
+          <option value="Asia/Hong_Kong">Hong Kong</option>
+          <option value="Asia/Shanghai">Shanghai / Beijing</option>
+          <option value="Asia/Tokyo">Tokio</option>
+          <option value="Asia/Seoul">Seúl</option>
+          <option value="Asia/Jakarta">Yakarta</option>
+          <option value="Asia/Manila">Manila</option>
+          <option value="Asia/Ho_Chi_Minh">Ho Chi Minh</option>
+          <option value="Asia/Colombo">Colombo</option>
+        </optgroup>
+        <optgroup label="África">
+          <option value="Africa/Cairo">El Cairo</option>
+          <option value="Africa/Lagos">Lagos</option>
+          <option value="Africa/Nairobi">Nairobi</option>
+          <option value="Africa/Johannesburg">Johannesburgo</option>
+          <option value="Africa/Casablanca">Casablanca</option>
+          <option value="Africa/Accra">Accra</option>
+          <option value="Africa/Addis_Ababa">Adís Abeba</option>
+        </optgroup>
+        <optgroup label="Oceanía">
+          <option value="Australia/Sydney">Sídney</option>
+          <option value="Australia/Melbourne">Melbourne</option>
+          <option value="Australia/Brisbane">Brisbane</option>
+          <option value="Australia/Perth">Perth</option>
+          <option value="Pacific/Auckland">Auckland</option>
+        </optgroup>
+      </select>
     </div>
   </div>
 
-  <!-- Botón intercambiar -->
   <div class="swap-btn">
     <button id="swapBtn" title="Intercambiar ciudades">⇅</button>
   </div>
 
-  <!-- Ciudad destino -->
   <div class="city-row">
     <label>Ciudad destino</label>
     <div class="select-wrapper">
-      <select id="cityTo"></select>
+      <select id="cityTo">
+        <optgroup label="América Latina">
+          <option value="America/Argentina/Buenos_Aires">Buenos Aires</option>
+          <option value="America/Bogota">Bogotá</option>
+          <option value="America/Mexico_City">Ciudad de México</option>
+          <option value="America/Lima">Lima</option>
+          <option value="America/Santiago">Santiago</option>
+          <option value="America/Caracas">Caracas</option>
+          <option value="America/La_Paz">La Paz</option>
+          <option value="America/Asuncion">Asunción</option>
+          <option value="America/Montevideo">Montevideo</option>
+          <option value="America/Guayaquil">Quito</option>
+          <option value="America/Panama">Panamá</option>
+          <option value="America/Costa_Rica">San José (CR)</option>
+          <option value="America/Guatemala">Guatemala</option>
+          <option value="America/Havana">La Habana</option>
+          <option value="America/Santo_Domingo">Santo Domingo</option>
+          <option value="America/Puerto_Rico">San Juan (PR)</option>
+        </optgroup>
+        <optgroup label="Norteamérica">
+          <option value="America/New_York">Nueva York / Miami</option>
+          <option value="America/Chicago">Chicago</option>
+          <option value="America/Denver">Denver</option>
+          <option value="America/Los_Angeles">Los Ángeles</option>
+          <option value="America/Toronto">Toronto</option>
+          <option value="America/Vancouver">Vancouver</option>
+          <option value="America/Anchorage">Anchorage</option>
+          <option value="Pacific/Honolulu">Honolulu</option>
+        </optgroup>
+        <optgroup label="Europa">
+          <option value="Europe/London">Londres</option>
+          <option value="Europe/Madrid" selected>Madrid</option>
+          <option value="Europe/Paris">París</option>
+          <option value="Europe/Berlin">Berlín</option>
+          <option value="Europe/Rome">Roma</option>
+          <option value="Europe/Amsterdam">Ámsterdam</option>
+          <option value="Europe/Lisbon">Lisboa</option>
+          <option value="Europe/Moscow">Moscú</option>
+          <option value="Europe/Istanbul">Estambul</option>
+          <option value="Europe/Warsaw">Varsovia</option>
+          <option value="Europe/Athens">Atenas</option>
+          <option value="Europe/Stockholm">Estocolmo</option>
+          <option value="Europe/Zurich">Zúrich</option>
+          <option value="Atlantic/Reykjavik">Reikiavik</option>
+        </optgroup>
+        <optgroup label="Medio Oriente y Asia Central">
+          <option value="Asia/Dubai">Dubái</option>
+          <option value="Asia/Riyadh">Riad</option>
+          <option value="Asia/Jerusalem">Tel Aviv</option>
+          <option value="Asia/Tehran">Teherán</option>
+          <option value="Asia/Karachi">Karachi</option>
+          <option value="Asia/Kolkata">Mumbai / Delhi</option>
+          <option value="Asia/Dhaka">Dhaka</option>
+          <option value="Asia/Tashkent">Tashkent</option>
+          <option value="Asia/Almaty">Almaty</option>
+        </optgroup>
+        <optgroup label="Asia">
+          <option value="Asia/Bangkok">Bangkok</option>
+          <option value="Asia/Singapore">Singapur</option>
+          <option value="Asia/Kuala_Lumpur">Kuala Lumpur</option>
+          <option value="Asia/Hong_Kong">Hong Kong</option>
+          <option value="Asia/Shanghai">Shanghai / Beijing</option>
+          <option value="Asia/Tokyo">Tokio</option>
+          <option value="Asia/Seoul">Seúl</option>
+          <option value="Asia/Jakarta">Yakarta</option>
+          <option value="Asia/Manila">Manila</option>
+          <option value="Asia/Ho_Chi_Minh">Ho Chi Minh</option>
+          <option value="Asia/Colombo">Colombo</option>
+        </optgroup>
+        <optgroup label="África">
+          <option value="Africa/Cairo">El Cairo</option>
+          <option value="Africa/Lagos">Lagos</option>
+          <option value="Africa/Nairobi">Nairobi</option>
+          <option value="Africa/Johannesburg">Johannesburgo</option>
+          <option value="Africa/Casablanca">Casablanca</option>
+          <option value="Africa/Accra">Accra</option>
+          <option value="Africa/Addis_Ababa">Adís Abeba</option>
+        </optgroup>
+        <optgroup label="Oceanía">
+          <option value="Australia/Sydney">Sídney</option>
+          <option value="Australia/Melbourne">Melbourne</option>
+          <option value="Australia/Brisbane">Brisbane</option>
+          <option value="Australia/Perth">Perth</option>
+          <option value="Pacific/Auckland">Auckland</option>
+        </optgroup>
+      </select>
     </div>
   </div>
 
-  <!-- Hora de entrada -->
   <div class="time-row">
     <div class="city-row" style="margin:0">
       <label>Hora a convertir</label>
       <input type="time" id="timeInput" />
     </div>
     <div class="arrow">→</div>
-    <div class="city-row" style="margin:0; opacity:0.4">
+    <div class="city-row" style="margin:0; opacity:0.4" id="outputWrapper">
       <label>Resultado</label>
       <input type="time" id="timeOutput" readonly style="cursor:default" />
     </div>
@@ -345,7 +390,6 @@
 
 <button class="now-btn" id="nowBtn">Usar hora actual</button>
 
-<!-- Resultado detallado -->
 <div class="result-card" id="resultCard">
   <div class="result-header">Resultado</div>
   <div class="result-main">
@@ -364,137 +408,39 @@
   <div class="diff-badge" id="diffBadge"></div>
 </div>
 
-<!-- Reloj mundial en vivo -->
 <div class="world-clock">
   <h2>Hora actual en el mundo</h2>
   <div class="clock-grid" id="clockGrid"></div>
 </div>
 
 <script>
-  const CITIES = [
-    { name: "Buenos Aires",   tz: "America/Argentina/Buenos_Aires" },
-    { name: "Bogotá",         tz: "America/Bogota" },
-    { name: "Ciudad de México", tz: "America/Mexico_City" },
-    { name: "Lima",           tz: "America/Lima" },
-    { name: "Santiago",       tz: "America/Santiago" },
-    { name: "Caracas",        tz: "America/Caracas" },
-    { name: "La Paz",         tz: "America/La_Paz" },
-    { name: "Asunción",       tz: "America/Asuncion" },
-    { name: "Montevideo",     tz: "America/Montevideo" },
-    { name: "Quito",          tz: "America/Guayaquil" },
-    { name: "Panamá",         tz: "America/Panama" },
-    { name: "San José (CR)",  tz: "America/Costa_Rica" },
-    { name: "Guatemala",      tz: "America/Guatemala" },
-    { name: "La Habana",      tz: "America/Havana" },
-    { name: "Santo Domingo",  tz: "America/Santo_Domingo" },
-    { name: "San Juan (PR)",  tz: "America/Puerto_Rico" },
+  const WORLD_CLOCKS = [
     { name: "Nueva York",     tz: "America/New_York" },
-    { name: "Chicago",        tz: "America/Chicago" },
-    { name: "Denver",         tz: "America/Denver" },
-    { name: "Los Ángeles",    tz: "America/Los_Angeles" },
-    { name: "Toronto",        tz: "America/Toronto" },
-    { name: "Vancouver",      tz: "America/Vancouver" },
-    { name: "Miami",          tz: "America/New_York" },
     { name: "Londres",        tz: "Europe/London" },
     { name: "Madrid",         tz: "Europe/Madrid" },
-    { name: "París",          tz: "Europe/Paris" },
-    { name: "Berlín",         tz: "Europe/Berlin" },
-    { name: "Roma",           tz: "Europe/Rome" },
-    { name: "Ámsterdam",      tz: "Europe/Amsterdam" },
-    { name: "Bruselas",       tz: "Europe/Brussels" },
-    { name: "Lisboa",         tz: "Europe/Lisbon" },
-    { name: "Moscú",          tz: "Europe/Moscow" },
-    { name: "Estambul",       tz: "Europe/Istanbul" },
-    { name: "Varsovia",       tz: "Europe/Warsaw" },
-    { name: "Atenas",         tz: "Europe/Athens" },
-    { name: "Bucarest",       tz: "Europe/Bucharest" },
-    { name: "Estocolmo",      tz: "Europe/Stockholm" },
-    { name: "Oslo",           tz: "Europe/Oslo" },
-    { name: "Helsinki",       tz: "Europe/Helsinki" },
-    { name: "Zúrich",         tz: "Europe/Zurich" },
     { name: "Dubái",          tz: "Asia/Dubai" },
-    { name: "Riad",           tz: "Asia/Riyadh" },
-    { name: "Tel Aviv",       tz: "Asia/Jerusalem" },
-    { name: "Teherán",        tz: "Asia/Tehran" },
-    { name: "Karachi",        tz: "Asia/Karachi" },
-    { name: "Mumbai",         tz: "Asia/Kolkata" },
-    { name: "Delhi",          tz: "Asia/Kolkata" },
-    { name: "Kolkata",        tz: "Asia/Kolkata" },
-    { name: "Dhaka",          tz: "Asia/Dhaka" },
-    { name: "Bangkok",        tz: "Asia/Bangkok" },
-    { name: "Singapur",       tz: "Asia/Singapore" },
-    { name: "Kuala Lumpur",   tz: "Asia/Kuala_Lumpur" },
-    { name: "Hong Kong",      tz: "Asia/Hong_Kong" },
-    { name: "Shanghai",       tz: "Asia/Shanghai" },
-    { name: "Beijing",        tz: "Asia/Shanghai" },
     { name: "Tokio",          tz: "Asia/Tokyo" },
-    { name: "Seúl",           tz: "Asia/Seoul" },
-    { name: "Yakarta",        tz: "Asia/Jakarta" },
-    { name: "Manila",         tz: "Asia/Manila" },
-    { name: "Ho Chi Minh",    tz: "Asia/Ho_Chi_Minh" },
-    { name: "Colombo",        tz: "Asia/Colombo" },
-    { name: "Kabul",          tz: "Asia/Kabul" },
-    { name: "Tashkent",       tz: "Asia/Tashkent" },
-    { name: "Almaty",         tz: "Asia/Almaty" },
-    { name: "El Cairo",       tz: "Africa/Cairo" },
-    { name: "Lagos",          tz: "Africa/Lagos" },
-    { name: "Nairobi",        tz: "Africa/Nairobi" },
-    { name: "Johannesburgo",  tz: "Africa/Johannesburg" },
-    { name: "Casablanca",     tz: "Africa/Casablanca" },
-    { name: "Accra",          tz: "Africa/Accra" },
-    { name: "Adís Abeba",     tz: "Africa/Addis_Ababa" },
     { name: "Sídney",         tz: "Australia/Sydney" },
-    { name: "Melbourne",      tz: "Australia/Melbourne" },
-    { name: "Brisbane",       tz: "Australia/Brisbane" },
-    { name: "Perth",          tz: "Australia/Perth" },
-    { name: "Auckland",       tz: "Pacific/Auckland" },
-    { name: "Honolulu",       tz: "Pacific/Honolulu" },
-    { name: "Anchorage",      tz: "America/Anchorage" },
-    { name: "Reikiavik",      tz: "Atlantic/Reykjavik" },
+    { name: "Ciudad de México", tz: "America/Mexico_City" },
+    { name: "Buenos Aires",   tz: "America/Argentina/Buenos_Aires" },
   ];
 
-  const WORLD_CLOCKS = ["Nueva York","Londres","Madrid","Dubái","Tokio","Sídney","Ciudad de México","Buenos Aires"];
+  const cityFrom   = document.getElementById('cityFrom');
+  const cityTo     = document.getElementById('cityTo');
+  const timeInput  = document.getElementById('timeInput');
+  const timeOutput = document.getElementById('timeOutput');
+  const outputWrapper = document.getElementById('outputWrapper');
+  const convertBtn = document.getElementById('convertBtn');
+  const swapBtn    = document.getElementById('swapBtn');
+  const nowBtn     = document.getElementById('nowBtn');
+  const resultCard = document.getElementById('resultCard');
+  const clockGrid  = document.getElementById('clockGrid');
 
-  const cityFrom  = document.getElementById('cityFrom');
-  const cityTo    = document.getElementById('cityTo');
-  const timeInput = document.getElementById('timeInput');
-  const timeOutput= document.getElementById('timeOutput');
-  const convertBtn= document.getElementById('convertBtn');
-  const swapBtn   = document.getElementById('swapBtn');
-  const nowBtn    = document.getElementById('nowBtn');
-  const resultCard= document.getElementById('resultCard');
-  const clockGrid = document.getElementById('clockGrid');
-
-  // Populate selects
-  CITIES.forEach((c, i) => {
-    [cityFrom, cityTo].forEach(sel => {
-      const opt = document.createElement('option');
-      opt.value = i;
-      opt.textContent = c.name;
-      sel.appendChild(opt);
-    });
-  });
-
-  // Default selections: Bogotá → Madrid
-  cityFrom.value = CITIES.findIndex(c => c.name === "Bogotá");
-  cityTo.value   = CITIES.findIndex(c => c.name === "Madrid");
-
-  // Set current time
   function setNow() {
     const now = new Date();
-    const hh = String(now.getHours()).padStart(2,'0');
-    const mm = String(now.getMinutes()).padStart(2,'0');
-    timeInput.value = `${hh}:${mm}`;
+    timeInput.value = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
   }
   setNow();
-
-  nowBtn.addEventListener('click', () => { setNow(); convert(); });
-  swapBtn.addEventListener('click', () => {
-    const tmp = cityFrom.value;
-    cityFrom.value = cityTo.value;
-    cityTo.value = tmp;
-    if (resultCard.classList.contains('visible')) convert();
-  });
 
   function getOffsetMinutes(tz) {
     const now = new Date();
@@ -514,73 +460,75 @@
     }).format(date);
   }
 
+  function getSelectedName(sel) {
+    return sel.options[sel.selectedIndex].text;
+  }
+
   function convert() {
-    const fromCity = CITIES[cityFrom.value];
-    const toCity   = CITIES[cityTo.value];
-    const [hh, mm] = timeInput.value.split(':').map(Number);
+    const fromTz   = cityFrom.value;
+    const toTz     = cityTo.value;
+    const fromName = getSelectedName(cityFrom);
+    const toName   = getSelectedName(cityTo);
 
-    // Build a date in from-timezone at the given time
+    const parts = timeInput.value.split(':');
+    const hh = parseInt(parts[0], 10) || 0;
+    const mm = parseInt(parts[1], 10) || 0;
+
+    const fromOffset = getOffsetMinutes(fromTz);
+    const toOffset   = getOffsetMinutes(toTz);
     const now = new Date();
-    const fromOffset = getOffsetMinutes(fromCity.tz);
-    const toOffset   = getOffsetMinutes(toCity.tz);
 
-    // Create a reference date at given time in from-tz
     const baseDate = new Date(Date.UTC(
       now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),
       hh, mm, 0
     ) - fromOffset * 60000);
 
-    const fromTime = formatTime(baseDate, fromCity.tz);
-    const fromDate = formatDate(baseDate, fromCity.tz);
-    const toTime   = formatTime(baseDate, toCity.tz);
-    const toDate   = formatDate(baseDate, toCity.tz);
+    const fromTime = formatTime(baseDate, fromTz);
+    const toTime   = formatTime(baseDate, toTz);
+    const fromDate = formatDate(baseDate, fromTz);
+    const toDate   = formatDate(baseDate, toTz);
 
-    // Update mini output
     timeOutput.value = toTime;
-    timeOutput.style.opacity = '1';
-    timeOutput.closest('.city-row').style.opacity = '1';
+    outputWrapper.style.opacity = '1';
 
-    // Fill result card
-    document.getElementById('resFromCity').textContent = fromCity.name;
+    document.getElementById('resFromCity').textContent = fromName;
     document.getElementById('resFromTime').textContent = fromTime;
     document.getElementById('resFromDate').textContent = fromDate;
-    document.getElementById('resToCity').textContent   = toCity.name;
+    document.getElementById('resToCity').textContent   = toName;
     document.getElementById('resToTime').textContent   = toTime;
     document.getElementById('resToDate').textContent   = toDate;
 
     const diffMin = Math.round(toOffset - fromOffset);
-    const sign = diffMin >= 0 ? '+' : '';
-    const diffH = Math.floor(Math.abs(diffMin) / 60);
-    const diffM = Math.abs(diffMin) % 60;
-    const diffStr = diffM === 0
-      ? `${sign}${diffMin >= 0 ? '' : '-'}${diffH}h`
-      : `${sign}${diffMin >= 0 ? '' : '-'}${diffH}h ${diffM}min`;
+    const sign    = diffMin >= 0 ? '+' : '-';
+    const absMin  = Math.abs(diffMin);
+    const diffH   = Math.floor(absMin / 60);
+    const diffM   = absMin % 60;
+    const diffStr = diffM === 0 ? `${sign}${diffH}h` : `${sign}${diffH}h ${diffM}min`;
 
     document.getElementById('diffBadge').innerHTML =
-      `${toCity.name} tiene <span>${diffStr}</span> respecto a ${fromCity.name}`;
+      `${toName} tiene <span>${diffStr}</span> respecto a ${fromName}`;
 
     resultCard.classList.add('visible');
   }
 
   convertBtn.addEventListener('click', convert);
+  nowBtn.addEventListener('click', () => { setNow(); convert(); });
+  swapBtn.addEventListener('click', () => {
+    const tmp = cityFrom.value;
+    cityFrom.value = cityTo.value;
+    cityTo.value = tmp;
+    if (resultCard.classList.contains('visible')) convert();
+  });
   timeInput.addEventListener('change', () => { if (resultCard.classList.contains('visible')) convert(); });
   cityFrom.addEventListener('change', () => { if (resultCard.classList.contains('visible')) convert(); });
   cityTo.addEventListener('change',   () => { if (resultCard.classList.contains('visible')) convert(); });
 
-  // World clock
   function buildWorldClocks() {
-    clockGrid.innerHTML = '';
-    WORLD_CLOCKS.forEach(name => {
-      const city = CITIES.find(c => c.name === name);
-      if (!city) return;
+    WORLD_CLOCKS.forEach(c => {
       const el = document.createElement('div');
       el.className = 'clock-item';
-      el.dataset.tz = city.tz;
-      el.innerHTML = `
-        <div class="clock-city">${city.name}</div>
-        <div class="clock-time">--:--</div>
-        <div class="clock-date">—</div>
-      `;
+      el.dataset.tz = c.tz;
+      el.innerHTML = `<div class="clock-city">${c.name}</div><div class="clock-time">--:--</div><div class="clock-date">—</div>`;
       clockGrid.appendChild(el);
     });
   }
@@ -588,17 +536,14 @@
   function tickClocks() {
     const now = new Date();
     document.querySelectorAll('.clock-item').forEach(el => {
-      const tz = el.dataset.tz;
-      el.querySelector('.clock-time').textContent = formatTime(now, tz);
-      el.querySelector('.clock-date').textContent = formatDate(now, tz);
+      el.querySelector('.clock-time').textContent = formatTime(now, el.dataset.tz);
+      el.querySelector('.clock-date').textContent = formatDate(now, el.dataset.tz);
     });
   }
 
   buildWorldClocks();
   tickClocks();
   setInterval(tickClocks, 1000);
-
-  // Auto-convert on load
   convert();
 </script>
 </body>
