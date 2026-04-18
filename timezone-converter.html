@@ -414,131 +414,197 @@
 </div>
 
 <script>
-  const WORLD_CLOCKS = [
-    { name: "Nueva York",     tz: "America/New_York" },
-    { name: "Londres",        tz: "Europe/London" },
-    { name: "Madrid",         tz: "Europe/Madrid" },
-    { name: "Dubái",          tz: "Asia/Dubai" },
-    { name: "Tokio",          tz: "Asia/Tokyo" },
-    { name: "Sídney",         tz: "Australia/Sydney" },
-    { name: "Ciudad de México", tz: "America/Mexico_City" },
-    { name: "Buenos Aires",   tz: "America/Argentina/Buenos_Aires" },
+  var WORLD_CLOCKS = [
+    { name: "Nueva York",       tz: "America/New_York" },
+    { name: "Londres",          tz: "Europe/London" },
+    { name: "Madrid",           tz: "Europe/Madrid" },
+    { name: "Dubai",            tz: "Asia/Dubai" },
+    { name: "Tokio",            tz: "Asia/Tokyo" },
+    { name: "Sidney",           tz: "Australia/Sydney" },
+    { name: "Mexico",           tz: "America/Mexico_City" },
+    { name: "Buenos Aires",     tz: "America/Argentina/Buenos_Aires" }
   ];
 
-  const cityFrom   = document.getElementById('cityFrom');
-  const cityTo     = document.getElementById('cityTo');
-  const timeInput  = document.getElementById('timeInput');
-  const timeOutput = document.getElementById('timeOutput');
-  const outputWrapper = document.getElementById('outputWrapper');
-  const convertBtn = document.getElementById('convertBtn');
-  const swapBtn    = document.getElementById('swapBtn');
-  const nowBtn     = document.getElementById('nowBtn');
-  const resultCard = document.getElementById('resultCard');
-  const clockGrid  = document.getElementById('clockGrid');
+  var cityFrom    = document.getElementById('cityFrom');
+  var cityTo      = document.getElementById('cityTo');
+  var timeInput   = document.getElementById('timeInput');
+  var timeOutput  = document.getElementById('timeOutput');
+  var outputWrapper = document.getElementById('outputWrapper');
+  var convertBtn  = document.getElementById('convertBtn');
+  var swapBtn     = document.getElementById('swapBtn');
+  var nowBtn      = document.getElementById('nowBtn');
+  var resultCard  = document.getElementById('resultCard');
+  var clockGrid   = document.getElementById('clockGrid');
+
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
 
   function setNow() {
-    const now = new Date();
-    timeInput.value = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+    var now = new Date();
+    timeInput.value = pad(now.getHours()) + ':' + pad(now.getMinutes());
   }
   setNow();
 
-  function getOffsetMinutes(tz) {
-    const now = new Date();
-    const local = new Date(now.toLocaleString('en-US', { timeZone: tz }));
-    return (local - now) / 60000;
+  // Get UTC offset in ms for a timezone at a given Date
+  function getOffsetMs(tz, date) {
+    try {
+      var fmt = new Intl.DateTimeFormat('en-US', {
+        timeZone: tz,
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit', second: '2-digit',
+        hour12: false
+      });
+      var p = {};
+      fmt.formatToParts(date).forEach(function(part) { p[part.type] = part.value; });
+      var h = parseInt(p.hour, 10);
+      if (h === 24) h = 0;
+      var tzMs = Date.UTC(
+        parseInt(p.year, 10),
+        parseInt(p.month, 10) - 1,
+        parseInt(p.day, 10),
+        h,
+        parseInt(p.minute, 10),
+        parseInt(p.second, 10)
+      );
+      return tzMs - date.getTime();
+    } catch(e) {
+      return 0;
+    }
   }
 
   function formatTime(date, tz) {
-    return new Intl.DateTimeFormat('es', {
-      hour: '2-digit', minute: '2-digit', hour12: false, timeZone: tz
-    }).format(date);
+    try {
+      var s = new Intl.DateTimeFormat('es', {
+        hour: '2-digit', minute: '2-digit', hour12: false, timeZone: tz
+      }).format(date);
+      return s;
+    } catch(e) {
+      return '--:--';
+    }
   }
 
   function formatDate(date, tz) {
-    return new Intl.DateTimeFormat('es', {
-      weekday: 'long', day: 'numeric', month: 'short', timeZone: tz
-    }).format(date);
-  }
-
-  function getSelectedName(sel) {
-    return sel.options[sel.selectedIndex].text;
+    try {
+      return new Intl.DateTimeFormat('es', {
+        weekday: 'long', day: 'numeric', month: 'short', timeZone: tz
+      }).format(date);
+    } catch(e) {
+      return '';
+    }
   }
 
   function convert() {
-    const fromTz   = cityFrom.value;
-    const toTz     = cityTo.value;
-    const fromName = getSelectedName(cityFrom);
-    const toName   = getSelectedName(cityTo);
+    try {
+      var fromTz   = cityFrom.value;
+      var toTz     = cityTo.value;
+      var fromName = cityFrom.options[cityFrom.selectedIndex].text;
+      var toName   = cityTo.options[cityTo.selectedIndex].text;
 
-    const parts = timeInput.value.split(':');
-    const hh = parseInt(parts[0], 10) || 0;
-    const mm = parseInt(parts[1], 10) || 0;
+      var timeVal = timeInput.value || '00:00';
+      var parts   = timeVal.split(':');
+      var hh = parseInt(parts[0], 10) || 0;
+      var mm = parseInt(parts[1], 10) || 0;
 
-    const fromOffset = getOffsetMinutes(fromTz);
-    const toOffset   = getOffsetMinutes(toTz);
-    const now = new Date();
+      var now = new Date();
 
-    const baseDate = new Date(Date.UTC(
-      now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),
-      hh, mm, 0
-    ) - fromOffset * 60000);
+      // Get today's date components in the "from" timezone
+      var dayFmt = new Intl.DateTimeFormat('en-US', {
+        timeZone: fromTz,
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour12: false
+      });
+      var dp = {};
+      dayFmt.formatToParts(now).forEach(function(part) { dp[part.type] = part.value; });
 
-    const fromTime = formatTime(baseDate, fromTz);
-    const toTime   = formatTime(baseDate, toTz);
-    const fromDate = formatDate(baseDate, fromTz);
-    const toDate   = formatDate(baseDate, toTz);
+      // Naive UTC timestamp treating local time as UTC
+      var naive = new Date(Date.UTC(
+        parseInt(dp.year, 10),
+        parseInt(dp.month, 10) - 1,
+        parseInt(dp.day, 10),
+        hh, mm, 0
+      ));
 
-    timeOutput.value = toTime;
-    outputWrapper.style.opacity = '1';
+      // Correct for the fromTz offset
+      var offsetMs = getOffsetMs(fromTz, naive);
+      var utcDate  = new Date(naive.getTime() - offsetMs);
 
-    document.getElementById('resFromCity').textContent = fromName;
-    document.getElementById('resFromTime').textContent = fromTime;
-    document.getElementById('resFromDate').textContent = fromDate;
-    document.getElementById('resToCity').textContent   = toName;
-    document.getElementById('resToTime').textContent   = toTime;
-    document.getElementById('resToDate').textContent   = toDate;
+      var fromTime = formatTime(utcDate, fromTz);
+      var toTime   = formatTime(utcDate, toTz);
+      var fromDate = formatDate(utcDate, fromTz);
+      var toDate   = formatDate(utcDate, toTz);
 
-    const diffMin = Math.round(toOffset - fromOffset);
-    const sign    = diffMin >= 0 ? '+' : '-';
-    const absMin  = Math.abs(diffMin);
-    const diffH   = Math.floor(absMin / 60);
-    const diffM   = absMin % 60;
-    const diffStr = diffM === 0 ? `${sign}${diffH}h` : `${sign}${diffH}h ${diffM}min`;
+      // Diff for display
+      var fromOff = getOffsetMs(fromTz, utcDate);
+      var toOff   = getOffsetMs(toTz, utcDate);
+      var diffMin = Math.round((toOff - fromOff) / 60000);
+      var sign    = diffMin >= 0 ? '+' : '-';
+      var absMin  = Math.abs(diffMin);
+      var diffH   = Math.floor(absMin / 60);
+      var diffM   = absMin % 60;
+      var diffStr = diffM === 0
+        ? sign + diffH + 'h'
+        : sign + diffH + 'h ' + diffM + 'min';
 
-    document.getElementById('diffBadge').innerHTML =
-      `${toName} tiene <span>${diffStr}</span> respecto a ${fromName}`;
+      timeOutput.value = toTime;
+      outputWrapper.style.opacity = '1';
 
-    resultCard.classList.add('visible');
+      document.getElementById('resFromCity').textContent = fromName;
+      document.getElementById('resFromTime').textContent = fromTime;
+      document.getElementById('resFromDate').textContent = fromDate;
+      document.getElementById('resToCity').textContent   = toName;
+      document.getElementById('resToTime').textContent   = toTime;
+      document.getElementById('resToDate').textContent   = toDate;
+      document.getElementById('diffBadge').innerHTML     =
+        toName + ' tiene <span>' + diffStr + '</span> respecto a ' + fromName;
+
+      resultCard.classList.add('visible');
+    } catch(e) {
+      alert('Error al convertir: ' + e.message);
+    }
   }
 
   convertBtn.addEventListener('click', convert);
-  nowBtn.addEventListener('click', () => { setNow(); convert(); });
-  swapBtn.addEventListener('click', () => {
-    const tmp = cityFrom.value;
+
+  nowBtn.addEventListener('click', function() { setNow(); convert(); });
+
+  swapBtn.addEventListener('click', function() {
+    var tmp = cityFrom.value;
     cityFrom.value = cityTo.value;
     cityTo.value = tmp;
+    convert();
+  });
+
+  timeInput.addEventListener('change', function() {
     if (resultCard.classList.contains('visible')) convert();
   });
-  timeInput.addEventListener('change', () => { if (resultCard.classList.contains('visible')) convert(); });
-  cityFrom.addEventListener('change', () => { if (resultCard.classList.contains('visible')) convert(); });
-  cityTo.addEventListener('change',   () => { if (resultCard.classList.contains('visible')) convert(); });
+  cityFrom.addEventListener('change', function() {
+    if (resultCard.classList.contains('visible')) convert();
+  });
+  cityTo.addEventListener('change', function() {
+    if (resultCard.classList.contains('visible')) convert();
+  });
 
   function buildWorldClocks() {
-    WORLD_CLOCKS.forEach(c => {
-      const el = document.createElement('div');
+    WORLD_CLOCKS.forEach(function(c) {
+      var el = document.createElement('div');
       el.className = 'clock-item';
-      el.dataset.tz = c.tz;
-      el.innerHTML = `<div class="clock-city">${c.name}</div><div class="clock-time">--:--</div><div class="clock-date">—</div>`;
+      el.setAttribute('data-tz', c.tz);
+      el.innerHTML =
+        '<div class="clock-city">' + c.name + '</div>' +
+        '<div class="clock-time">--:--</div>' +
+        '<div class="clock-date">-</div>';
       clockGrid.appendChild(el);
     });
   }
 
   function tickClocks() {
-    const now = new Date();
-    document.querySelectorAll('.clock-item').forEach(el => {
-      el.querySelector('.clock-time').textContent = formatTime(now, el.dataset.tz);
-      el.querySelector('.clock-date').textContent = formatDate(now, el.dataset.tz);
-    });
+    var now = new Date();
+    var items = document.querySelectorAll('.clock-item');
+    for (var i = 0; i < items.length; i++) {
+      var el = items[i];
+      var tz = el.getAttribute('data-tz');
+      el.querySelector('.clock-time').textContent = formatTime(now, tz);
+      el.querySelector('.clock-date').textContent = formatDate(now, tz);
+    }
   }
 
   buildWorldClocks();
