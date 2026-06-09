@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Impara l'Italiano — A1 & A2</title>
+<style>
+  :root {
+    --verde: #009246;
+    --bianco: #ffffff;
+    --rosso: #ce2b37;
+    --oro: #f5c842;
+    --azul-claro: #e8f4fd;
+    --gris: #f4f4f4;
+    --texto: #2c2c2c;
+    --sombra: 0 4px 20px rgba(0,0,0,0.12);
+    --radio: 16px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: linear-gradient(135deg, #f0fff4 0%, #fff5f5 100%);
+    color: var(--texto);
+    min-height: 100vh;
+  }
+
+  /* === HEADER === */
+  header {
+    background: linear-gradient(135deg, var(--verde) 0%, #006830 100%);
+    color: white;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--sombra);
+    position: sticky; top: 0; z-index: 100;
+  }
+  header h1 { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.5px; }
+  header h1 span { color: var(--oro); }
+  .flag { font-size: 2rem; }
+  .progress-bar-wrap {
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px; height: 8px; width: 140px;
+  }
+  .progress-bar {
+    background: var(--oro); height: 8px;
+    border-radius: 10px; width: 0%;
+    transition: width 0.6s ease;
+  }
+  .level-badge {
+    background: var(--oro); color: #333;
+    font-weight: 800; font-size: 0.8rem;
+    padding: 4px 12px; border-radius: 20px;
+  }
+
+  /* === NAVEGACIÓN === */
+  nav {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    padding: 16px 24px;
+    background: white;
+    border-bottom: 2px solid #eee;
+    overflow-x: auto;
+  }
+  nav button {
+    padding: 10px 18px; border: 2px solid #ddd;
+    border-radius: 30px; background: white;
+    cursor: pointer; font-size: 0.9rem; font-weight: 600;
+    transition: all 0.2s; white-space: nowrap;
+  }
+  nav button:hover { border-color: var(--verde); color: var(--verde); }
+  nav button.active {
+    background: var(--verde); color: white;
+    border-color: var(--verde);
+  }
+  nav button.a2-btn.active { background: var(--rosso); border-color: var(--rosso); }
+
+  /* === CONTENIDO PRINCIPAL === */
+  main { max-width: 900px; margin: 0 auto; padding: 24px 16px; }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .section-title {
+    font-size: 1.8rem; font-weight: 800;
+    margin-bottom: 8px;
+  }
+  .section-subtitle {
+    color: #666; margin-bottom: 24px; font-size: 1rem;
+  }
+
+  /* === TARJETAS VISUALES === */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px; margin-bottom: 32px;
+  }
+  .vocab-card {
+    background: white; border-radius: var(--radio);
+    padding: 20px 12px; text-align: center;
+    box-shadow: var(--sombra); cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 2px solid transparent;
+    user-select: none;
+  }
+  .vocab-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.15); }
+  .vocab-card.flipped { border-color: var(--verde); background: #f0fff4; }
+  .vocab-card .emoji { font-size: 2.8rem; display: block; margin-bottom: 8px; }
+  .vocab-card .italiano { font-size: 1.1rem; font-weight: 700; color: var(--verde); }
+  .vocab-card .español { font-size: 0.85rem; color: #888; margin-top: 4px; display: none; }
+  .vocab-card.flipped .español { display: block; }
+  .vocab-card .pronuncia { font-size: 0.75rem; color: #aaa; font-style: italic; margin-top: 2px; display: none; }
+  .vocab-card.flipped .pronuncia { display: block; }
+
+  /* === FLASHCARD GRANDE === */
+  .flashcard-container {
+    display: flex; flex-direction: column; align-items: center; gap: 20px;
+  }
+  .flashcard {
+    width: 100%; max-width: 500px;
+    perspective: 1000px; cursor: pointer;
+  }
+  .flashcard-inner {
+    position: relative; width: 100%; height: 260px;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+  .flashcard-front, .flashcard-back {
+    position: absolute; width: 100%; height: 100%;
+    backface-visibility: hidden;
+    border-radius: var(--radio);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    box-shadow: var(--sombra);
+    padding: 24px;
+  }
+  .flashcard-front {
+    background: linear-gradient(135deg, #fff 0%, #f0fff4 100%);
+    border: 3px solid var(--verde);
+  }
+  .flashcard-back {
+    background: linear-gradient(135deg, var(--verde) 0%, #006830 100%);
+    color: white;
+    transform: rotateY(180deg);
+  }
+  .flashcard-front .big-emoji { font-size: 5rem; }
+  .flashcard-front .word { font-size: 2rem; font-weight: 800; color: var(--verde); }
+  .flashcard-back .translation { font-size: 1.8rem; font-weight: 800; }
+  .flashcard-back .example { font-size: 1rem; margin-top: 12px; opacity: 0.9; text-align: center; font-style: italic; }
+  .flashcard-hint { color: #999; font-size: 0.85rem; }
+
+  .fc-controls { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .btn {
+    padding: 12px 24px; border: none; border-radius: 30px;
+    cursor: pointer; font-size: 1rem; font-weight: 700;
+    transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-verde { background: var(--verde); color: white; }
+  .btn-verde:hover { background: #007a39; transform: translateY(-2px); }
+  .btn-rosso { background: var(--rosso); color: white; }
+  .btn-rosso:hover { background: #aa2030; transform: translateY(-2px); }
+  .btn-oro { background: var(--oro); color: #333; }
+  .btn-oro:hover { background: #e0b030; transform: translateY(-2px); }
+  .btn-gris { background: #eee; color: #555; }
+  .btn-gris:hover { background: #ddd; }
+
+  /* === QUIZ === */
+  .quiz-box {
+    background: white; border-radius: var(--radio);
+    padding: 28px; box-shadow: var(--sombra);
+    margin-bottom: 20px;
+  }
+  .quiz-question {
+    font-size: 1.3rem; font-weight: 700; margin-bottom: 6px;
+  }
+  .quiz-context { color: #888; font-size: 0.95rem; margin-bottom: 20px; }
+  .quiz-options {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .quiz-option {
+    padding: 14px 18px; border: 2px solid #e0e0e0;
+    border-radius: 12px; background: white;
+    cursor: pointer; font-size: 0.95rem; font-weight: 600;
+    transition: all 0.2s; text-align: left;
+  }
+  .quiz-option:hover:not(.disabled) { border-color: var(--verde); background: #f0fff4; }
+  .quiz-option.correct { border-color: var(--verde); background: #d4edda; color: #155724; }
+  .quiz-option.incorrect { border-color: var(--rosso); background: #f8d7da; color: #721c24; }
+  .quiz-option.disabled { cursor: default; }
+  .quiz-feedback {
+    margin-top: 16px; padding: 12px 16px;
+    border-radius: 10px; font-weight: 600;
+    display: none;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.ok { background: #d4edda; color: #155724; }
+  .quiz-feedback.fail { background: #f8d7da; color: #721c24; }
+  .quiz-score {
+    font-size: 1rem; color: #666; margin-bottom: 20px;
+    display: flex; gap: 16px; align-items: center;
+  }
+  .score-badge {
+    background: var(--verde); color: white;
+    padding: 4px 14px; border-radius: 20px;
+    font-weight: 800; font-size: 1.1rem;
+  }
+
+  /* === GRAMMATICA VISUAL === */
+  .grammar-block {
+    background: white; border-radius: var(--radio);
+    padding: 24px; box-shadow: var(--sombra);
+    margin-bottom: 20px;
+    border-left: 6px solid var(--verde);
+  }
+  .grammar-block.a2 { border-left-color: var(--rosso); }
+  .grammar-block h3 { font-size: 1.2rem; font-weight: 800; margin-bottom: 12px; }
+  .grammar-table {
+    width: 100%; border-collapse: collapse; margin: 12px 0;
+  }
+  .grammar-table th {
+    background: var(--verde); color: white;
+    padding: 10px 14px; text-align: left;
+    font-weight: 700;
+  }
+  .grammar-table.a2 th { background: var(--rosso); }
+  .grammar-table td {
+    padding: 10px 14px; border-bottom: 1px solid #f0f0f0;
+  }
+  .grammar-table tr:hover td { background: #f9f9f9; }
+  .highlight-verde { color: var(--verde); font-weight: 700; }
+  .highlight-rosso { color: var(--rosso); font-weight: 700; }
+  .highlight-oro { color: #c9960a; font-weight: 700; background: #fff9e6; padding: 1px 5px; border-radius: 4px; }
+
+  .pill {
+    display: inline-block; padding: 3px 12px;
+    border-radius: 20px; font-size: 0.85rem; font-weight: 700; margin: 3px;
+  }
+  .pill-verde { background: #d4edda; color: #155724; }
+  .pill-rosso { background: #f8d7da; color: #721c24; }
+  .pill-azul { background: #d1ecf1; color: #0c5460; }
+  .pill-oro { background: #fff3cd; color: #856404; }
+
+  /* === MÚSICA === */
+  .music-section { margin-bottom: 32px; }
+  .song-card {
+    background: white; border-radius: var(--radio);
+    padding: 20px; box-shadow: var(--sombra);
+    margin-bottom: 16px; display: flex; gap: 16px; align-items: flex-start;
+  }
+  .song-emoji { font-size: 3rem; flex-shrink: 0; }
+  .song-info h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 4px; }
+  .song-info p { color: #666; font-size: 0.9rem; margin-bottom: 8px; }
+  .song-lyrics {
+    background: #f8f9fa; border-radius: 10px;
+    padding: 14px 16px; font-size: 0.9rem; line-height: 1.8;
+    margin-top: 12px; display: none;
+    border-left: 4px solid var(--oro);
+  }
+  .song-lyrics.show { display: block; }
+  .lyric-it { font-weight: 700; color: var(--verde); }
+  .lyric-es { color: #888; font-size: 0.82rem; font-style: italic; }
+
+  /* === DRAG & DROP EJERCICIO === */
+  .drag-exercise {
+    background: white; border-radius: var(--radio);
+    padding: 24px; box-shadow: var(--sombra);
+    margin-bottom: 20px;
+  }
+  .drag-sentence {
+    font-size: 1.1rem; margin-bottom: 16px;
+    min-height: 44px; line-height: 2.5;
+  }
+  .drop-zone {
+    display: inline-block;
+    min-width: 90px; height: 36px;
+    border-bottom: 3px solid var(--verde);
+    margin: 0 6px; vertical-align: middle;
+    text-align: center; line-height: 36px;
+    font-weight: 700; color: var(--verde);
+    transition: background 0.2s;
+  }
+  .drop-zone.filled { background: #f0fff4; border-radius: 6px; padding: 0 8px; }
+  .drag-words {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px;
+  }
+  .drag-word {
+    padding: 8px 16px; background: #f0f0f0;
+    border-radius: 20px; cursor: grab; font-weight: 600;
+    transition: all 0.2s; user-select: none;
+    border: 2px solid transparent;
+  }
+  .drag-word:hover { background: #e0e0e0; border-color: var(--verde); }
+  .drag-word.used { opacity: 0.3; cursor: not-allowed; }
+
+  /* === DIALOGO VISUAL === */
+  .dialogo {
+    background: white; border-radius: var(--radio);
+    padding: 24px; box-shadow: var(--sombra);
+    margin-bottom: 20px;
+  }
+  .dialogo h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 16px; color: #555; }
+  .burbuja-wrap { display: flex; margin-bottom: 12px; gap: 12px; align-items: flex-start; }
+  .burbuja-wrap.derecha { flex-direction: row-reverse; }
+  .avatar { font-size: 1.8rem; flex-shrink: 0; }
+  .burbuja {
+    max-width: 70%; padding: 12px 16px;
+    border-radius: 16px; font-size: 0.95rem; line-height: 1.5;
+  }
+  .burbuja-wrap:not(.derecha) .burbuja {
+    background: #f0f0f0; border-bottom-left-radius: 4px;
+  }
+  .burbuja-wrap.derecha .burbuja {
+    background: #d4edda; border-bottom-right-radius: 4px;
+  }
+  .burbuja strong { color: var(--verde); }
+  .burbuja .traduccion { font-size: 0.8rem; color: #999; margin-top: 4px; font-style: italic; }
+
+  /* === FILL IN THE BLANK === */
+  .fill-exercise {
+    background: white; border-radius: var(--radio);
+    padding: 24px; box-shadow: var(--sombra);
+    margin-bottom: 20px;
+  }
+  .fill-sentence {
+    font-size: 1.1rem; line-height: 2.5; margin-bottom: 12px;
+  }
+  .fill-input {
+    border: none; border-bottom: 3px solid var(--verde);
+    width: 100px; font-size: 1rem; font-weight: 700;
+    color: var(--verde); background: transparent;
+    text-align: center; outline: none; padding: 0 4px;
+  }
+  .fill-input.correct { border-color: var(--verde); background: #f0fff4; border-radius: 6px 6px 0 0; }
+  .fill-input.incorrect { border-color: var(--rosso); background: #fff5f5; border-radius: 6px 6px 0 0; }
+
+  /* === TIPS VISUALES === */
+  .tip-box {
+    border-radius: var(--radio); padding: 16px 20px;
+    margin-bottom: 16px; display: flex; gap: 14px; align-items: flex-start;
+  }
+  .tip-box.verde { background: #f0fff4; border: 1px solid #b8ddc8; }
+  .tip-box.oro { background: #fffbeb; border: 1px solid #f0d080; }
+  .tip-box.rosso { background: #fff5f5; border: 1px solid #f5c0c0; }
+  .tip-icon { font-size: 1.6rem; flex-shrink: 0; }
+  .tip-text { font-size: 0.95rem; line-height: 1.6; }
+  .tip-text strong { display: block; margin-bottom: 4px; font-size: 1rem; }
+
+  /* === TABS DENTRO DE SECCIÓN === */
+  .sub-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+  .sub-tab {
+    padding: 8px 18px; border: 2px solid #ddd;
+    border-radius: 20px; background: white;
+    cursor: pointer; font-size: 0.9rem; font-weight: 600;
+    transition: all 0.2s;
+  }
+  .sub-tab.active { background: var(--oro); border-color: var(--oro); color: #333; }
+  .sub-content { display: none; }
+  .sub-content.active { display: block; }
+
+  /* === PROGRESS === */
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px; margin-bottom: 28px;
+  }
+  .stat-card {
+    background: white; border-radius: var(--radio);
+    padding: 20px; text-align: center; box-shadow: var(--sombra);
+  }
+  .stat-num { font-size: 2.5rem; font-weight: 900; color: var(--verde); }
+  .stat-label { font-size: 0.85rem; color: #888; margin-top: 4px; }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 600px) {
+    header h1 { font-size: 1.2rem; }
+    .quiz-options { grid-template-columns: 1fr; }
+    .card-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+    nav { padding: 12px 16px; }
+    .song-card { flex-direction: column; }
+  }
+
+  /* === ANIMACIONES === */
+  @keyframes pop {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .pop { animation: pop 0.3s ease; }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .intro-banner {
+    background: linear-gradient(135deg, var(--verde) 0%, #006830 50%, var(--rosso) 100%);
+    border-radius: var(--radio); color: white; padding: 32px;
+    text-align: center; margin-bottom: 28px;
+    box-shadow: var(--sombra);
+  }
+  .intro-banner h2 { font-size: 2rem; font-weight: 900; margin-bottom: 8px; }
+  .intro-banner p { opacity: 0.9; font-size: 1rem; max-width: 500px; margin: 0 auto 20px; }
+  .intro-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin-top: 20px; }
+  .intro-item {
+    background: rgba(255,255,255,0.15); border-radius: 12px;
+    padding: 14px; text-align: center;
+  }
+  .intro-item .icon { font-size: 2rem; margin-bottom: 6px; display: block; }
+  .intro-item span { font-size: 0.9rem; opacity: 0.9; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>🇮🇹 Impara l'<span>Italiano</span></h1>
+    <small style="opacity:0.8; font-size:0.8rem">Metodo Visual + Música + Práctica</small>
+  </div>
+  <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px">
+    <span class="level-badge" id="currentLevel">A1</span>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <small style="color:rgba(255,255,255,0.7); font-size:0.75rem" id="progressText">0 / 0 ejercicios</small>
+  </div>
+</header>
+
+<nav id="mainNav">
+  <button class="active" onclick="showSection('inicio')">🏠 Inicio</button>
+  <button onclick="showSection('vocabulario')">🔤 Vocabulario A1</button>
+  <button onclick="showSection('grammatica')">📐 Gramática A1</button>
+  <button onclick="showSection('dialogos')">💬 Diálogos A1</button>
+  <button onclick="showSection('quiz-a1')">🎯 Quiz A1</button>
+  <button class="a2-btn" onclick="showSection('vocabulario-a2')">🔤 Vocabulario A2</button>
+  <button class="a2-btn" onclick="showSection('grammatica-a2')">📐 Gramática A2</button>
+  <button class="a2-btn" onclick="showSection('quiz-a2')">🎯 Quiz A2</button>
+  <button onclick="showSection('musica')">🎵 Música</button>
+  <button onclick="showSection('practica')">✏️ Práctica</button>
+</nav>
+
+<main>
+
+<!-- ===== INICIO ===== -->
+<section class="section active" id="inicio">
+  <div class="intro-banner">
+    <h2>Benvenuti! 🇮🇹</h2>
+    <p>Aprende italiano de manera visual, con práctica interactiva y música. Método diseñado para aprendices visuales.</p>
+    <div class="intro-grid">
+      <div class="intro-item"><span class="icon">👁️</span><span>Aprendizaje Visual con imágenes y colores</span></div>
+      <div class="intro-item"><span class="icon">🃏</span><span>Flashcards interactivas para vocabulario</span></div>
+      <div class="intro-item"><span class="icon">🎵</span><span>Canciones italianas con letra y traducción</span></div>
+      <div class="intro-item"><span class="icon">🎯</span><span>Quizzes para A1 y A2 con puntuación</span></div>
+      <div class="intro-item"><span class="icon">💬</span><span>Diálogos reales de la vida cotidiana</span></div>
+      <div class="intro-item"><span class="icon">✏️</span><span>Ejercicios de escritura y completar</span></div>
+    </div>
+  </div>
+
+  <div class="tip-box verde">
+    <span class="tip-icon">🗺️</span>
+    <div class="tip-text">
+      <strong>¿Cómo usar esta app?</strong>
+      Empieza por <b>Vocabulario A1</b> y usa las tarjetas visuales. Luego estudia <b>Gramática A1</b>, practica con <b>Diálogos</b> y refuerza con el <b>Quiz</b>. Cuando domines A1, pasa a A2. Usa la sección <b>Música</b> para aprender con canciones.
+    </div>
+  </div>
+
+  <div class="tip-box oro">
+    <span class="tip-icon">💡</span>
+    <div class="tip-text">
+      <strong>Consejo para aprendices visuales</strong>
+      Asocia cada palabra con su emoji o imagen. El color <span style="color:var(--verde); font-weight:700">verde</span> = sustantivos, <span style="color:var(--rosso); font-weight:700">rojo</span> = verbos, <span style="color:#c9960a; font-weight:700">dorado</span> = conectores. Esto activa tu memoria fotográfica.
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-num" id="st-corrects">0</div><div class="stat-label">Respuestas correctas</div></div>
+    <div class="stat-card"><div class="stat-num" id="st-cards">0</div><div class="stat-label">Flashcards vistas</div></div>
+    <div class="stat-card"><div class="stat-num" id="st-exercises">0</div><div class="stat-label">Ejercicios completados</div></div>
+    <div class="stat-card"><div class="stat-num" id="st-streak">0🔥</div><div class="stat-label">Racha correctas</div></div>
+  </div>
+</section>
+
+<!-- ===== VOCABULARIO A1 ===== -->
+<section class="section" id="vocabulario">
+  <div class="section-title">🔤 Vocabulario A1</div>
+  <div class="section-subtitle">Toca cada tarjeta para ver la traducción — método visual: imagen + palabra</div>
+
+  <div class="sub-tabs">
+    <button class="sub-tab active" onclick="showSubTab('voc-a1','vt-saludos')">👋 Saludos</button>
+    <button class="sub-tab" onclick="showSubTab('voc-a1','vt-numeros')">🔢 Números</button>
+    <button class="sub-tab" onclick="showSubTab('voc-a1','vt-colores')">🎨 Colores</button>
+    <button class="sub-tab" onclick="showSubTab('voc-a1','vt-familia')">👨‍👩‍👧 Familia</button>
+    <button class="sub-tab" onclick="showSubTab('voc-a1','vt-comida')">🍕 Comida</button>
+    <button class="sub-tab" onclick="showSubTab('voc-a1','vt-lugares')">🏙️ Lugares</button>
+  </div>
+
+  <div id="voc-a1">
+    <div class="sub-content active" id="vt-saludos">
+      <div class="card-grid" id="grid-saludos"></div>
+      <div class="flashcard-container">
+        <div class="flashcard" id="fc-saludos" onclick="flipFlashcard('fc-saludos','saludos')">
+          <div class="flashcard-inner">
+            <div class="flashcard-front">
+              <span class="big-emoji" id="fc-saludos-emoji">👋</span>
+              <div class="word" id="fc-saludos-it">Ciao</div>
+              <div style="color:#aaa; font-size:0.85rem; margin-top:8px">Toca para ver la traducción</div>
+            </div>
+            <div class="flashcard-back">
+              <div class="translation" id="fc-saludos-es">Hola / Adiós</div>
+              <div class="example" id="fc-saludos-ex">Ciao! Come stai?<br><em>¡Hola! ¿Cómo estás?</em></div>
+            </div>
+          </div>
+        </div>
+        <div class="flashcard-hint">💡 Toca la tarjeta para ver la traducción</div>
+        <div class="fc-controls">
+          <button class="btn btn-gris" onclick="prevCard('saludos')">◀ Anterior</button>
+          <button class="btn btn-verde" onclick="nextCard('saludos')">Siguiente ▶</button>
+        </div>
+        <div id="fc-saludos-counter" style="color:#888; font-size:0.9rem">1 / 8</div>
+      </div>
+    </div>
+
+    <div class="sub-content" id="vt-numeros">
+      <div class="card-grid" id="grid-numeros"></div>
+    </div>
+
+    <div class="sub-content" id="vt-colores">
+      <div class="card-grid" id="grid-colores"></div>
+    </div>
+
+    <div class="sub-content" id="vt-familia">
+      <div class="card-grid" id="grid-familia"></div>
+      <div class="tip-box oro" style="margin-top:16px">
+        <span class="tip-icon">💡</span>
+        <div class="tip-text"><strong>Truco visual</strong> En italiano, los sustantivos terminados en <span class="pill pill-verde">-o</span> son masculinos y en <span class="pill pill-rosso">-a</span> son femeninos. ¡Asocia el color verde con -o y rojo con -a!</div>
+      </div>
+    </div>
+
+    <div class="sub-content" id="vt-comida">
+      <div class="card-grid" id="grid-comida"></div>
+    </div>
+
+    <div class="sub-content" id="vt-lugares">
+      <div class="card-grid" id="grid-lugares"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GRAMÁTICA A1 ===== -->
+<section class="section" id="grammatica">
+  <div class="section-title">📐 Gramática A1</div>
+  <div class="section-subtitle">Reglas visuales con tablas, colores y ejemplos</div>
+
+  <div class="sub-tabs">
+    <button class="sub-tab active" onclick="showSubTab('gram-a1','gt-articulos')">📌 Artículos</button>
+    <button class="sub-tab" onclick="showSubTab('gram-a1','gt-verbos')">⚡ Verbos Ser/Estar</button>
+    <button class="sub-tab" onclick="showSubTab('gram-a1','gt-presente')">🕐 Presente</button>
+    <button class="sub-tab" onclick="showSubTab('gram-a1','gt-adjetivos')">🌈 Adjetivos</button>
+  </div>
+
+  <div id="gram-a1">
+    <div class="sub-content active" id="gt-articulos">
+      <div class="grammar-block">
+        <h3>📌 Artículos Determinados (El / La / Los / Las)</h3>
+        <div class="tip-box verde" style="margin-bottom:16px">
+          <span class="tip-icon">👁️</span>
+          <div class="tip-text"><strong>Visualízalo así:</strong> Verde = masculino, Rojo = femenino. ¡Cada vez que veas una palabra, pinta mentalmente su artículo!</div>
+        </div>
+        <table class="grammar-table">
+          <tr><th>Género</th><th>Singular</th><th>Plural</th><th>Ejemplo</th></tr>
+          <tr><td><span class="pill pill-verde">Masculino</span></td><td><span class="highlight-verde">il</span> / <span class="highlight-verde">lo</span></td><td><span class="highlight-verde">i</span> / <span class="highlight-verde">gli</span></td><td><span class="highlight-verde">il</span> libro, <span class="highlight-verde">lo</span> zaino</td></tr>
+          <tr><td><span class="pill pill-rosso">Femenino</span></td><td><span class="highlight-rosso">la</span> / <span class="highlight-rosso">l'</span></td><td><span class="highlight-rosso">le</span></td><td><span class="highlight-rosso">la</span> casa, <span class="highlight-rosso">l'</span>amica</td></tr>
+        </table>
+        <div class="tip-box oro" style="margin-top:12px">
+          <span class="tip-icon">🎵</span>
+          <div class="tip-text"><strong>Canción mnemónica:</strong> "IL para él, LA para ella, I y LE para el plural, LO antes de S+consonante o Z"</div>
+        </div>
+      </div>
+
+      <div class="grammar-block">
+        <h3>📌 Artículos Indeterminados (Un / Una)</h3>
+        <table class="grammar-table">
+          <tr><th>Género</th><th>Artículo</th><th>Cuando</th><th>Ejemplo</th></tr>
+          <tr><td><span class="pill pill-verde">Masculino</span></td><td><span class="highlight-verde">un</span> / <span class="highlight-verde">uno</span></td><td>uno: antes de z, s+cons</td><td><span class="highlight-verde">un</span> cane, <span class="highlight-verde">uno</span> studente</td></tr>
+          <tr><td><span class="pill pill-rosso">Femenino</span></td><td><span class="highlight-rosso">una</span> / <span class="highlight-rosso">un'</span></td><td>un': antes de vocal</td><td><span class="highlight-rosso">una</span> ragazza, <span class="highlight-rosso">un'</span>ora</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="sub-content" id="gt-verbos">
+      <div class="grammar-block">
+        <h3>⚡ ESSERE (Ser / Estar) — El verbo más importante</h3>
+        <div class="tip-box verde" style="margin-bottom:16px">
+          <span class="tip-icon">🌟</span>
+          <div class="tip-text"><strong>Atención visual:</strong> En italiano ESSERE se usa para SER y ESTAR. Memoriza la tabla con su color:</div>
+        </div>
+        <table class="grammar-table">
+          <tr><th>Pronombre</th><th>Verbo</th><th>Pronunciación</th><th>Ejemplo</th></tr>
+          <tr><td>io (yo)</td><td><span class="highlight-verde">sono</span></td><td>[so-no]</td><td>Io <span class="highlight-verde">sono</span> Marco</td></tr>
+          <tr><td>tu (tú)</td><td><span class="highlight-verde">sei</span></td><td>[sei]</td><td>Tu <span class="highlight-verde">sei</span> bella</td></tr>
+          <tr><td>lui/lei (él/ella)</td><td><span class="highlight-verde">è</span></td><td>[è]</td><td>Lei <span class="highlight-verde">è</span> italiana</td></tr>
+          <tr><td>noi (nosotros)</td><td><span class="highlight-verde">siamo</span></td><td>[sia-mo]</td><td>Noi <span class="highlight-verde">siamo</span> amici</td></tr>
+          <tr><td>voi (vosotros)</td><td><span class="highlight-verde">siete</span></td><td>[sie-te]</td><td>Voi <span class="highlight-verde">siete</span> bravi</td></tr>
+          <tr><td>loro (ellos)</td><td><span class="highlight-verde">sono</span></td><td>[so-no]</td><td>Loro <span class="highlight-verde">sono</span> qui</td></tr>
+        </table>
+      </div>
+
+      <div class="grammar-block">
+        <h3>⚡ AVERE (Tener / Haber)</h3>
+        <table class="grammar-table">
+          <tr><th>Pronombre</th><th>Verbo</th><th>Ejemplo</th></tr>
+          <tr><td>io</td><td><span class="highlight-rosso">ho</span></td><td>Io <span class="highlight-rosso">ho</span> un cane</td></tr>
+          <tr><td>tu</td><td><span class="highlight-rosso">hai</span></td><td>Tu <span class="highlight-rosso">hai</span> fame?</td></tr>
+          <tr><td>lui/lei</td><td><span class="highlight-rosso">ha</span></td><td>Lei <span class="highlight-rosso">ha</span> trent'anni</td></tr>
+          <tr><td>noi</td><td><span class="highlight-rosso">abbiamo</span></td><td>Noi <span class="highlight-rosso">abbiamo</span> un'idea</td></tr>
+          <tr><td>voi</td><td><span class="highlight-rosso">avete</span></td><td>Voi <span class="highlight-rosso">avete</span> ragione</td></tr>
+          <tr><td>loro</td><td><span class="highlight-rosso">hanno</span></td><td>Loro <span class="highlight-rosso">hanno</span> fretta</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="sub-content" id="gt-presente">
+      <div class="grammar-block">
+        <h3>🕐 Presente Indicativo — Verbos regulares</h3>
+        <div class="tip-box verde" style="margin-bottom:16px">
+          <span class="tip-icon">📊</span>
+          <div class="tip-text"><strong>Patrón visual:</strong> Los verbos italianos se dividen en 3 grupos según su terminación: <span class="pill pill-verde">-ARE</span> <span class="pill pill-azul">-ERE</span> <span class="pill pill-rosso">-IRE</span></div>
+        </div>
+        <table class="grammar-table">
+          <tr><th>Pronombre</th><th><span style="color:var(--verde)">PARLARE</span> (-are)</th><th><span style="color:#0c5460">VEDERE</span> (-ere)</th><th><span style="color:var(--rosso)">DORMIRE</span> (-ire)</th></tr>
+          <tr><td>io</td><td>parl<span class="highlight-verde">o</span></td><td>ved<span class="highlight-verde">o</span></td><td>dorm<span class="highlight-verde">o</span></td></tr>
+          <tr><td>tu</td><td>parl<span class="highlight-verde">i</span></td><td>ved<span class="highlight-verde">i</span></td><td>dorm<span class="highlight-verde">i</span></td></tr>
+          <tr><td>lui/lei</td><td>parl<span class="highlight-verde">a</span></td><td>ved<span class="highlight-verde">e</span></td><td>dorm<span class="highlight-verde">e</span></td></tr>
+          <tr><td>noi</td><td>parl<span class="highlight-verde">iamo</span></td><td>ved<span class="highlight-verde">iamo</span></td><td>dorm<span class="highlight-verde">iamo</span></td></tr>
+          <tr><td>voi</td><td>parl<span class="highlight-verde">ate</span></td><td>ved<span class="highlight-verde">ete</span></td><td>dorm<span class="highlight-verde">ite</span></td></tr>
+          <tr><td>loro</td><td>parl<span class="highlight-verde">ano</span></td><td>ved<span class="highlight-verde">ono</span></td><td>dorm<span class="highlight-verde">ono</span></td></tr>
+        </table>
+        <div class="tip-box oro" style="margin-top:16px">
+          <span class="tip-icon">🎵</span>
+          <div class="tip-text"><strong>Ritmo mnemónico -ARE:</strong> "O, I, A... IA-MO, ATE, ANO" — repítelo como una canción, ¡funciona!</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content" id="gt-adjetivos">
+      <div class="grammar-block">
+        <h3>🌈 Adjetivos — Concordancia de género</h3>
+        <table class="grammar-table">
+          <tr><th>Adjetivo</th><th>Masculino Sing.</th><th>Femenino Sing.</th><th>M. Plural</th><th>F. Plural</th></tr>
+          <tr><td>Alto/a</td><td>alt<span class="highlight-verde">o</span></td><td>alt<span class="highlight-rosso">a</span></td><td>alt<span class="highlight-verde">i</span></td><td>alt<span class="highlight-rosso">e</span></td></tr>
+          <tr><td>Grande</td><td colspan="2">grand<span class="highlight-oro">e</span></td><td colspan="2">grand<span class="highlight-oro">i</span></td></tr>
+          <tr><td>Bello/a</td><td>bell<span class="highlight-verde">o</span></td><td>bell<span class="highlight-rosso">a</span></td><td>bell<span class="highlight-verde">i</span></td><td>bell<span class="highlight-rosso">e</span></td></tr>
+          <tr><td>Nuovo/a</td><td>nuov<span class="highlight-verde">o</span></td><td>nuov<span class="highlight-rosso">a</span></td><td>nuov<span class="highlight-verde">i</span></td><td>nuov<span class="highlight-rosso">e</span></td></tr>
+        </table>
+        <div class="tip-box verde" style="margin-top:12px">
+          <span class="tip-icon">👁️</span>
+          <div class="tip-text"><strong>Regla visual fácil:</strong> <span class="pill pill-verde">-O/-I</span> = masculino | <span class="pill pill-rosso">-A/-E</span> = femenino | <span class="pill pill-azul">-E/-I</span> = ambos géneros</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DIÁLOGOS A1 ===== -->
+<section class="section" id="dialogos">
+  <div class="section-title">💬 Diálogos A1</div>
+  <div class="section-subtitle">Situaciones reales con burbuja de chat visual — exactamente como en WhatsApp</div>
+
+  <div class="sub-tabs">
+    <button class="sub-tab active" onclick="showSubTab('dial-a1','dt-presentacion')">👋 Presentación</button>
+    <button class="sub-tab" onclick="showSubTab('dial-a1','dt-cafeteria')">☕ En el bar</button>
+    <button class="sub-tab" onclick="showSubTab('dial-a1','dt-direcciones')">🗺️ Direcciones</button>
+    <button class="sub-tab" onclick="showSubTab('dial-a1','dt-compras')">🛒 Compras</button>
+  </div>
+
+  <div id="dial-a1">
+    <div class="sub-content active" id="dt-presentacion">
+      <div class="dialogo">
+        <h3>🎬 Escena: Dos personas se conocen en clase</h3>
+        <div class="burbuja-wrap">
+          <span class="avatar">👩</span>
+          <div class="burbuja">
+            <strong>Ciao! Mi chiamo Sofia.</strong> Piacere!
+            <div class="traduccion">¡Hola! Me llamo Sofía. ¡Encantada!</div>
+          </div>
+        </div>
+        <div class="burbuja-wrap derecha">
+          <span class="avatar">👨</span>
+          <div class="burbuja">
+            <strong>Ciao Sofia! Io sono Marco.</strong> Piacere mio!
+            <div class="traduccion">¡Hola Sofía! Yo soy Marco. ¡El placer es mío!</div>
+          </div>
+        </div>
+        <div class="burbuja-wrap">
+          <span class="avatar">👩</span>
+          <div class="burbuja">
+            <strong>Di dove sei?</strong>
+            <div class="traduccion">¿De dónde eres?</div>
+          </div>
+        </div>
+        <div class="burbuja-wrap derecha">
+          <span class="avatar">👨</span>
+          <div class="burbuja">
+            <strong>Sono di Roma. E tu?</strong>
+            <div class="traduccion">Soy de Roma. ¿Y tú?</div>
+          </div>
+        </div>
+        <div class="burbuja-wrap">
+          <span class="avatar">👩</span>
+          <div class="burbuja">
+            <strong>Io sono di Milano. Quanti anni hai?</strong>
+            <div class="traduccion">Yo soy de Milán. ¿Cuántos años tienes?</div>
+          </div>
+        </div>
+        <div class="burbuja-wrap derecha">
+          <span class="avatar">👨</span>
+          <div class="burbuja">
+            <strong>Ho ventidue anni. E tu?</strong>
+            <div class="traduccion">Tengo veintidós años. ¿Y tú?</div>
+          </div>
+        </div>
+        <div class="burbuja-wrap">
+          <span class="avatar">👩</span>
+          <div class="burbuja">
+            <strong>Ho ventiquattro anni. Parli spagnolo?</strong>
+            <div class="traduccion">Tengo veinticuatro años. ¿Hablas español?</div>
+          </div>
+        </div>
+        <div class="burbuja-wrap derecha">
+          <span class="avatar">👨</span>
+          <div class="burbuja">
+            <strong>No, non parlo spagnolo. Parlo solo italiano e un po' di inglese!</strong>
+            <div class="traduccion">No, no hablo español. ¡Solo hablo italiano y un poco de inglés!</div>
+          </div>
+        </div>
+      </div>
+      <div class="tip-box verde">
+        <span class="tip-icon">📝</span>
+        <div class="tip-text">
+          <strong>Frases clave de presentación:</strong><br>
+          • <span class="pill pill-verde">Mi chiamo...</span> = Me llamo...<br>
+          • <span class="pill pill-verde">Sono di...</span> = Soy de...<br>
+          • <span class="pill pill-verde">Ho ... anni</span> = Tengo ... años<br>
+          • <span class="pill pill-verde">Piacere!</span> = ¡Encantado/a!
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content" id="dt-cafeteria">
+      <div class="dialogo">
+        <h3>🎬 Escena: En un bar italiano</h3>
+        <div class="burbuja-wrap">
+          <span class="avatar">👨‍🍳</span>
+          <div class="burbuja">
+            <strong>Buongiorno! Cosa desidera?</strong>
+            <div class="traduccion">¡Buenos días! ¿Qué desea?</div>
+          </div>
+        </div>
+        <div class="burbuja-wrap derecha">
+          <span class="avatar">👩</span>
+          <div class="burbuja">
+            <strong>Buongiorno! Vorrei un caffè e un cornetto, per favore.</strong>
+            <div class="traduccion">¡Buenos días! Quisiera un café y un croissant, por favor.</div>
+          </div>
+        </div>
+        <div class="burbuja-wrap">
+          <span class="avatar">👨‍🍳</span>
+          <div class="burbuja">
+            <strong>Il caffè macchiato o normale?</strong>
+            <div class="traduccion">¿El café manchado o normal?</div>
+          </div>
+        </div>
+        <div class="burbuja-wrap derecha">
+          <span class="avatar">👩</span>
+          <div class="burbuja">
+            <strong>Macchiato, grazie. Quanto costa?</strong>
+            <div class="traduccion">Manchado, gracias. ¿Cuánto cuesta?</div>
+          </div>
+        </div>
+        <div class="burbuja-wrap">
+          <span class="avatar">👨‍🍳</span>
+          <div class="burbuja">
+            <strong>Due euro e cinquanta, prego.</strong>
+            <div class="traduccion">Dos euros con cincuenta, de nada.</div>
+          </div>
+        </div>
+        <div class="burbuja-wrap derecha">
+          <span class="avatar">👩</span>
+          <div class="burbuja">
+            <strong>Ecco a lei. Arrivederci!</strong>
+            <div class="traduccion">Aquí tiene. ¡Hasta luego!</div>
+          </div>
+        </div>
+      </div>
+      <div class="tip-box oro">
+        <span class="tip-icon">☕</span>
+        <div class="tip-text">
+          <strong>Vocabulario del bar:</strong><br>
+          • <span class="pill pill-verde">un caffè</span> = un café expreso | <span class="pill pill-verde">un cappuccino</span> = un capuchino<br>
+          • <span class="pill pill-verde">un cornetto</span> = un croissant | <span class="pill pill-verde">l'acqua</span> = el agua<br>
+          • <span class="pill pill-verde">il conto</span> = la cuenta | <span class="pill pill-verde">per favore</span> = por favor
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content" id="dt-direcciones">
+      <div class="dialogo">
+        <h3>🎬 Escena: Pidiendo direcciones</h3>
+        <div class="burbuja-wrap">
+          <span class="avatar">🧍</span>
+          <div class="burbuja">
+            <strong>Scusi, dov'è la stazione?</strong>
+            <div class="traduccion">Disculpe, ¿dónde está la estación?</div>
+          </div>
+        </div>
+        <div class="burbuja-wrap derecha">
+          <span class="avatar">👩‍💼</span>
+          <div class="burbuja">
+            <strong>Vai dritto, poi gira a sinistra alla piazza.</strong>
+            <div class="traduccion">Ve recto, luego gira a la izquierda en la plaza.</div>
+          </div>
+        </div>
+        <div class="burbuja-wrap">
+          <span class="avatar">🧍</span>
+          <div class="burbuja">
+            <strong>È lontano?</strong>
+            <div class="traduccion">¿Está lejos?</div>
+          </div>
+        </div>
+        <div class="burbuja-wrap derecha">
+          <span class="avatar">👩‍💼</span>
+          <div class="burbuja">
+            <strong>No, è vicino. Cinque minuti a piedi.</strong>
+            <div class="traduccion">No, está cerca. Cinco minutos a pie.</div>
+          </div>
+        </div>
+        <div class="burbuja-wrap">
+          <span class="avatar">🧍</span>
+          <div class="burbuja">
+            <strong>Grazie mille!</strong>
+            <div class="traduccion">¡Muchísimas gracias!</div>
+          </div>
+        </div>
+        <div class="burbuja-wrap derecha">
+          <span class="avatar">👩‍💼</span>
+          <div class="burbuja">
+            <strong>Prego! Buona giornata!</strong>
+            <div class="traduccion">¡De nada! ¡Que tenga un buen día!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content" id="dt-compras">
+      <div class="dialogo">
+        <h3>🎬 Escena: En una tienda de ropa</h3>
+        <div class="burbuja-wrap">
+          <span class="avatar">🛍️</span>
+          <div class="burbuja">
+            <strong>Buonasera! Posso aiutarla?</strong>
+            <div class="traduccion">¡Buenas tardes! ¿Puedo ayudarle?</div>
+          </div>
+        </div>
+        <div class="burbuja-wrap derecha">
+          <span class="avatar">👨</span>
+          <div class="burbuja">
+            <strong>Sì, cerco una maglietta rossa. Ce l'avete?</strong>
+            <div class="traduccion">Sí, busco una camiseta roja. ¿La tienen?</div>
+          </div>
+        </div>
+        <div class="burbuja-wrap">
+          <span class="avatar">🛍️</span>
+          <div class="burbuja">
+            <strong>Certo! Che taglia porta?</strong>
+            <div class="traduccion">¡Claro! ¿Qué talla usa?</div>
+          </div>
+        </div>
+        <div class="burbuja-wrap derecha">
+          <span class="avatar">👨</span>
+          <div class="burbuja">
+            <strong>Porto la taglia M. Quanto costa?</strong>
+            <div class="traduccion">Uso la talla M. ¿Cuánto cuesta?</div>
+          </div>
+        </div>
+        <div class="burbuja-wrap">
+          <span class="avatar">🛍️</span>
+          <div class="burbuja">
+            <strong>Venti euro. Vuole provarla?</strong>
+            <div class="traduccion">Veinte euros. ¿Quiere probársela?</div>
+          </div>
+        </div>
+        <div class="burbuja-wrap derecha">
+          <span class="avatar">👨</span>
+          <div class="burbuja">
+            <strong>Sì, la prendo! Pago con la carta.</strong>
+            <div class="traduccion">¡Sí, me la llevo! Pago con tarjeta.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== QUIZ A1 ===== -->
+<section class="section" id="quiz-a1">
+  <div class="section-title">🎯 Quiz A1</div>
+  <div class="section-subtitle">Pon a prueba tu italiano nivel A1</div>
+
+  <div class="quiz-score">
+    <span>Puntuación:</span>
+    <span class="score-badge" id="qa1-score">0 / 0</span>
+    <span id="qa1-streak">Racha: 0🔥</span>
+  </div>
+
+  <div class="quiz-box" id="qa1-box">
+    <div class="quiz-question" id="qa1-question">Cargando pregunta...</div>
+    <div class="quiz-context" id="qa1-context"></div>
+    <div class="quiz-options" id="qa1-options"></div>
+    <div class="quiz-feedback" id="qa1-feedback"></div>
+  </div>
+  <button class="btn btn-verde" onclick="nextQuizQuestion('a1')" id="qa1-next" style="display:none">Siguiente pregunta ▶</button>
+  <button class="btn btn-gris" onclick="resetQuiz('a1')" style="margin-left:8px">Reiniciar quiz</button>
+</section>
+
+<!-- ===== VOCABULARIO A2 ===== -->
+<section class="section" id="vocabulario-a2">
+  <div class="section-title" style="color:var(--rosso)">🔤 Vocabulario A2</div>
+  <div class="section-subtitle">Vocabulario intermedio — amplia tu repertorio</div>
+
+  <div class="sub-tabs">
+    <button class="sub-tab active" onclick="showSubTab('voc-a2','va2-trabajo')">💼 Trabajo</button>
+    <button class="sub-tab" onclick="showSubTab('voc-a2','va2-tiempo')">⛅ Tiempo</button>
+    <button class="sub-tab" onclick="showSubTab('voc-a2','va2-emociones')">❤️ Emociones</button>
+    <button class="sub-tab" onclick="showSubTab('voc-a2','va2-viajes')">✈️ Viajes</button>
+  </div>
+
+  <div id="voc-a2">
+    <div class="sub-content active" id="va2-trabajo">
+      <div class="card-grid" id="grid-trabajo"></div>
+    </div>
+    <div class="sub-content" id="va2-tiempo">
+      <div class="card-grid" id="grid-tiempo"></div>
+    </div>
+    <div class="sub-content" id="va2-emociones">
+      <div class="card-grid" id="grid-emociones"></div>
+    </div>
+    <div class="sub-content" id="va2-viajes">
+      <div class="card-grid" id="grid-viajes"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GRAMÁTICA A2 ===== -->
+<section class="section" id="grammatica-a2">
+  <div class="section-title" style="color:var(--rosso)">📐 Gramática A2</div>
+  <div class="section-subtitle">Tiempos verbales y estructuras intermedias</div>
+
+  <div class="sub-tabs">
+    <button class="sub-tab active" onclick="showSubTab('gram-a2','ga2-passato')">🕰️ Passato Prossimo</button>
+    <button class="sub-tab" onclick="showSubTab('gram-a2','ga2-imperfetto')">📽️ Imperfetto</button>
+    <button class="sub-tab" onclick="showSubTab('gram-a2','ga2-futuro')">🔮 Futuro</button>
+    <button class="sub-tab" onclick="showSubTab('gram-a2','ga2-pronomi')">🔗 Pronombres</button>
+  </div>
+
+  <div id="gram-a2">
+    <div class="sub-content active" id="ga2-passato">
+      <div class="grammar-block a2">
+        <h3>🕰️ Passato Prossimo — El pasado cercano</h3>
+        <div class="tip-box rosso" style="margin-bottom:16px">
+          <span class="tip-icon">🔑</span>
+          <div class="tip-text"><strong>Regla visual:</strong> Passato Prossimo = <span class="pill pill-verde">AVERE/ESSERE</span> + <span class="pill pill-rosso">participio passato</span><br>Como el "he comido" o "he ido" en español.</div>
+        </div>
+        <table class="grammar-table a2">
+          <tr><th>Verbo</th><th>Auxiliar</th><th>Participio</th><th>Ejemplo</th></tr>
+          <tr><td>mangiare (comer)</td><td><span class="highlight-verde">ho</span></td><td>mangi<span class="highlight-rosso">ato</span></td><td>Ho <span class="highlight-rosso">mangiato</span> la pizza</td></tr>
+          <tr><td>vedere (ver)</td><td><span class="highlight-verde">ho</span></td><td>v<span class="highlight-rosso">isto</span></td><td>Ho <span class="highlight-rosso">visto</span> un film</td></tr>
+          <tr><td>andare (ir)</td><td><span class="highlight-rosso">sono</span></td><td>and<span class="highlight-rosso">ato/a</span></td><td>Sono <span class="highlight-rosso">andato</span> a Roma</td></tr>
+          <tr><td>venire (venir)</td><td><span class="highlight-rosso">sono</span></td><td>ven<span class="highlight-rosso">uto/a</span></td><td>Sei <span class="highlight-rosso">venuta</span> tardi</td></tr>
+        </table>
+        <div class="tip-box oro" style="margin-top:12px">
+          <span class="tip-icon">💡</span>
+          <div class="tip-text">
+            <strong>¿Cuándo usar ESSERE?</strong> Verbos de movimiento (andare, venire, uscire, arrivare) y verbos reflexivos usan ESSERE. Con ESSERE, el participio concuerda en género: <span class="pill pill-verde">-o</span> masc. | <span class="pill pill-rosso">-a</span> fem.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content" id="ga2-imperfetto">
+      <div class="grammar-block a2">
+        <h3>📽️ Imperfetto — Pasado habitual o descriptivo</h3>
+        <div class="tip-box rosso" style="margin-bottom:16px">
+          <span class="tip-icon">🎬</span>
+          <div class="tip-text"><strong>Visualización:</strong> El imperfetto es como una película en loop. Describe acciones que se repetían o el contexto de una historia. Como "yo comía" o "cuando era niño..."</div>
+        </div>
+        <table class="grammar-table a2">
+          <tr><th>Pronombre</th><th>PARLARE</th><th>VEDERE</th><th>DORMIRE</th></tr>
+          <tr><td>io</td><td>parl<span class="highlight-rosso">avo</span></td><td>ved<span class="highlight-rosso">evo</span></td><td>dorm<span class="highlight-rosso">ivo</span></td></tr>
+          <tr><td>tu</td><td>parl<span class="highlight-rosso">avi</span></td><td>ved<span class="highlight-rosso">evi</span></td><td>dorm<span class="highlight-rosso">ivi</span></td></tr>
+          <tr><td>lui/lei</td><td>parl<span class="highlight-rosso">ava</span></td><td>ved<span class="highlight-rosso">eva</span></td><td>dorm<span class="highlight-rosso">iva</span></td></tr>
+          <tr><td>noi</td><td>parl<span class="highlight-rosso">avamo</span></td><td>ved<span class="highlight-rosso">evamo</span></td><td>dorm<span class="highlight-rosso">ivamo</span></td></tr>
+          <tr><td>voi</td><td>parl<span class="highlight-rosso">avate</span></td><td>ved<span class="highlight-rosso">evate</span></td><td>dorm<span class="highlight-rosso">ivate</span></td></tr>
+          <tr><td>loro</td><td>parl<span class="highlight-rosso">avano</span></td><td>ved<span class="highlight-rosso">evano</span></td><td>dorm<span class="highlight-rosso">ivano</span></td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="sub-content" id="ga2-futuro">
+      <div class="grammar-block a2">
+        <h3>🔮 Futuro Semplice</h3>
+        <table class="grammar-table a2">
+          <tr><th>Pronombre</th><th>PARLARE → parler-</th><th>VEDERE → vedr-</th></tr>
+          <tr><td>io</td><td>parler<span class="highlight-rosso">ò</span></td><td>vedr<span class="highlight-rosso">ò</span></td></tr>
+          <tr><td>tu</td><td>parler<span class="highlight-rosso">ai</span></td><td>vedr<span class="highlight-rosso">ai</span></td></tr>
+          <tr><td>lui/lei</td><td>parler<span class="highlight-rosso">à</span></td><td>vedr<span class="highlight-rosso">à</span></td></tr>
+          <tr><td>noi</td><td>parler<span class="highlight-rosso">emo</span></td><td>vedr<span class="highlight-rosso">emo</span></td></tr>
+          <tr><td>voi</td><td>parler<span class="highlight-rosso">ete</span></td><td>vedr<span class="highlight-rosso">ete</span></td></tr>
+          <tr><td>loro</td><td>parler<span class="highlight-rosso">anno</span></td><td>vedr<span class="highlight-rosso">anno</span></td></tr>
+        </table>
+        <div class="tip-box oro" style="margin-top:12px">
+          <span class="tip-icon">🎵</span>
+          <div class="tip-text"><strong>Patrón rítmico futuro:</strong> "Ò, AI, À... EMO, ETE, ANNO" — las tres primeras tienen acento, las tres últimas no.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content" id="ga2-pronomi">
+      <div class="grammar-block a2">
+        <h3>🔗 Pronombres de Objeto Directo e Indirecto</h3>
+        <table class="grammar-table a2">
+          <tr><th>Persona</th><th>Directo (lo veo)</th><th>Indirecto (le digo)</th></tr>
+          <tr><td>yo</td><td><span class="highlight-rosso">mi</span></td><td><span class="highlight-rosso">mi</span></td></tr>
+          <tr><td>tú</td><td><span class="highlight-rosso">ti</span></td><td><span class="highlight-rosso">ti</span></td></tr>
+          <tr><td>él</td><td><span class="highlight-rosso">lo</span></td><td><span class="highlight-rosso">gli</span></td></tr>
+          <tr><td>ella</td><td><span class="highlight-rosso">la</span></td><td><span class="highlight-rosso">le</span></td></tr>
+          <tr><td>nosotros</td><td><span class="highlight-rosso">ci</span></td><td><span class="highlight-rosso">ci</span></td></tr>
+          <tr><td>vosotros</td><td><span class="highlight-rosso">vi</span></td><td><span class="highlight-rosso">vi</span></td></tr>
+          <tr><td>ellos</td><td><span class="highlight-rosso">li/le</span></td><td><span class="highlight-rosso">gli/loro</span></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== QUIZ A2 ===== -->
+<section class="section" id="quiz-a2">
+  <div class="section-title" style="color:var(--rosso)">🎯 Quiz A2</div>
+  <div class="section-subtitle">Desafío nivel A2 — más complejo</div>
+
+  <div class="quiz-score">
+    <span>Puntuación:</span>
+    <span class="score-badge" style="background:var(--rosso)" id="qa2-score">0 / 0</span>
+    <span id="qa2-streak">Racha: 0🔥</span>
+  </div>
+
+  <div class="quiz-box" id="qa2-box">
+    <div class="quiz-question" id="qa2-question">Cargando pregunta...</div>
+    <div class="quiz-context" id="qa2-context"></div>
+    <div class="quiz-options" id="qa2-options"></div>
+    <div class="quiz-feedback" id="qa2-feedback"></div>
+  </div>
+  <button class="btn btn-rosso" onclick="nextQuizQuestion('a2')" id="qa2-next" style="display:none">Siguiente pregunta ▶</button>
+  <button class="btn btn-gris" onclick="resetQuiz('a2')" style="margin-left:8px">Reiniciar quiz</button>
+</section>
+
+<!-- ===== MÚSICA ===== -->
+<section class="section" id="musica">
+  <div class="section-title">🎵 Aprende con Música</div>
+  <div class="section-subtitle">Canciones italianas con letra bilingüe — la música fija el idioma en tu memoria</div>
+
+  <div class="tip-box oro">
+    <span class="tip-icon">🧠</span>
+    <div class="tip-text"><strong>¿Por qué música?</strong> La música activa la memoria emocional y rítmica. Estudios muestran que el vocabulario aprendido en canciones se recuerda un 30% mejor. ¡Canta en voz alta!</div>
+  </div>
+
+  <div class="music-section" id="songs-container"></div>
+</section>
+
+<!-- ===== PRÁCTICA ===== -->
+<section class="section" id="practica">
+  <div class="section-title">✏️ Práctica Escrita</div>
+  <div class="section-subtitle">Completa las frases — ejercicios para fijar la gramática</div>
+
+  <div class="sub-tabs">
+    <button class="sub-tab active" onclick="showSubTab('prac','pr-fill')">✏️ Completa</button>
+    <button class="sub-tab" onclick="showSubTab('prac','pr-translate')">🔄 Traduce</button>
+  </div>
+
+  <div id="prac">
+    <div class="sub-content active" id="pr-fill">
+      <div class="fill-exercise" id="fill-container"></div>
+      <button class="btn btn-verde" onclick="checkFill()">Verificar respuestas ✓</button>
+      <button class="btn btn-gris" onclick="resetFill()" style="margin-left:8px">Nuevo ejercicio</button>
+      <div id="fill-result" style="margin-top:16px; font-weight:700; font-size:1.1rem"></div>
+    </div>
+    <div class="sub-content" id="pr-translate">
+      <div id="translate-container"></div>
+      <button class="btn btn-verde" onclick="checkTranslate()">Verificar ✓</button>
+      <button class="btn btn-gris" onclick="loadTranslate()" style="margin-left:8px">Nuevas frases</button>
+      <div id="translate-result" style="margin-top:16px"></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+// ===== DATOS =====
+const vocab = {
+  saludos: [
+    { emoji:'👋', it:'Ciao', es:'Hola / Adiós', pron:'[chao]', ex:'Ciao! Come stai? / ¡Hola! ¿Cómo estás?' },
+    { emoji:'🌅', it:'Buongiorno', es:'Buenos días', pron:'[buon-jor-no]', ex:'Buongiorno! Come va? / ¡Buenos días! ¿Cómo va?' },
+    { emoji:'🌇', it:'Buonasera', es:'Buenas tardes/noches', pron:'[buona-se-ra]', ex:'Buonasera signora! / ¡Buenas tardes señora!' },
+    { emoji:'🌙', it:'Buonanotte', es:'Buenas noches', pron:'[buona-not-te]', ex:'Buonanotte! Dormi bene. / ¡Buenas noches! Duerme bien.' },
+    { emoji:'🤝', it:'Piacere', es:'Encantado/a', pron:'[pia-che-re]', ex:'Piacere di conoscerti! / ¡Encantado de conocerte!' },
+    { emoji:'😊', it:'Come stai?', es:'¿Cómo estás?', pron:'[co-me stai]', ex:'Ciao! Come stai oggi? / ¡Hola! ¿Cómo estás hoy?' },
+    { emoji:'🙋', it:'Bene grazie!', es:'¡Bien, gracias!', pron:'[be-ne gra-tsie]', ex:'Sto bene, grazie! E tu? / ¡Estoy bien, gracias! ¿Y tú?' },
+    { emoji:'👋', it:'Arrivederci', es:'Hasta luego', pron:'[arri-ve-der-chi]', ex:'Arrivederci! A presto! / ¡Hasta luego! ¡Hasta pronto!' },
+  ],
+  numeros: [
+    { emoji:'1️⃣', it:'uno', es:'uno' }, { emoji:'2️⃣', it:'due', es:'dos' },
+    { emoji:'3️⃣', it:'tre', es:'tres' }, { emoji:'4️⃣', it:'quattro', es:'cuatro' },
+    { emoji:'5️⃣', it:'cinque', es:'cinco' }, { emoji:'6️⃣', it:'sei', es:'seis' },
+    { emoji:'7️⃣', it:'sette', es:'siete' }, { emoji:'8️⃣', it:'otto', es:'ocho' },
+    { emoji:'9️⃣', it:'nove', es:'nueve' }, { emoji:'🔟', it:'dieci', es:'diez' },
+    { emoji:'🔢', it:'venti', es:'veinte' }, { emoji:'💯', it:'cento', es:'cien' },
+  ],
+  colores: [
+    { emoji:'🔴', it:'rosso', es:'rojo' }, { emoji:'🔵', it:'blu', es:'azul' },
+    { emoji:'🟢', it:'verde', es:'verde' }, { emoji:'🟡', it:'giallo', es:'amarillo' },
+    { emoji:'🟠', it:'arancione', es:'naranja' }, { emoji:'⚫', it:'nero', es:'negro' },
+    { emoji:'⚪', it:'bianco', es:'blanco' }, { emoji:'🟣', it:'viola', es:'morado' },
+    { emoji:'🩷', it:'rosa', es:'rosa' }, { emoji:'🤎', it:'marrone', es:'marrón' },
+  ],
+  familia: [
+    { emoji:'👨', it:'il padre', es:'el padre' }, { emoji:'👩', it:'la madre', es:'la madre' },
+    { emoji:'👦', it:'il figlio', es:'el hijo' }, { emoji:'👧', it:'la figlia', es:'la hija' },
+    { emoji:'👴', it:'il nonno', es:'el abuelo' }, { emoji:'👵', it:'la nonna', es:'la abuela' },
+    { emoji:'👫', it:'i fratelli', es:'los hermanos' }, { emoji:'🐶', it:'il cane', es:'el perro' },
+    { emoji:'🐱', it:'il gatto', es:'el gato' }, { emoji:'💑', it:'la coppia', es:'la pareja' },
+  ],
+  comida: [
+    { emoji:'🍕', it:'la pizza', es:'la pizza' }, { emoji:'🍝', it:'la pasta', es:'la pasta' },
+    { emoji:'☕', it:'il caffè', es:'el café' }, { emoji:'🍷', it:'il vino', es:'el vino' },
+    { emoji:'🥖', it:'il pane', es:'el pan' }, { emoji:'🧀', it:'il formaggio', es:'el queso' },
+    { emoji:'🍓', it:'la fragola', es:'la fresa' }, { emoji:'🍊', it:'l\'arancia', es:'la naranja' },
+    { emoji:'💧', it:'l\'acqua', es:'el agua' }, { emoji:'🍨', it:'il gelato', es:'el helado' },
+    { emoji:'🥗', it:'l\'insalata', es:'la ensalada' }, { emoji:'🐟', it:'il pesce', es:'el pescado' },
+  ],
+  lugares: [
+    { emoji:'🏠', it:'la casa', es:'la casa' }, { emoji:'🏫', it:'la scuola', es:'la escuela' },
+    { emoji:'🏥', it:'l\'ospedale', es:'el hospital' }, { emoji:'🏪', it:'il negozio', es:'la tienda' },
+    { emoji:'🚉', it:'la stazione', es:'la estación' }, { emoji:'✈️', it:'l\'aeroporto', es:'el aeropuerto' },
+    { emoji:'⛪', it:'la chiesa', es:'la iglesia' }, { emoji:'🏨', it:'l\'albergo', es:'el hotel' },
+    { emoji:'🏖️', it:'la spiaggia', es:'la playa' }, { emoji:'🏔️', it:'la montagna', es:'la montaña' },
+  ],
+  // A2
+  trabajo: [
+    { emoji:'👨‍💼', it:'il lavoro', es:'el trabajo' }, { emoji:'🖥️', it:'il computer', es:'el computador' },
+    { emoji:'📧', it:'l\'email', es:'el correo' }, { emoji:'📅', it:'la riunione', es:'la reunión' },
+    { emoji:'💰', it:'lo stipendio', es:'el salario' }, { emoji:'🏢', it:'l\'ufficio', es:'la oficina' },
+    { emoji:'📊', it:'il progetto', es:'el proyecto' }, { emoji:'👥', it:'il collega', es:'el colega' },
+    { emoji:'📝', it:'il contratto', es:'el contrato' }, { emoji:'🎓', it:'la laurea', es:'el título' },
+  ],
+  tiempo: [
+    { emoji:'☀️', it:'sole', es:'sol' }, { emoji:'🌧️', it:'pioggia', es:'lluvia' },
+    { emoji:'❄️', it:'neve', es:'nieve' }, { emoji:'🌩️', it:'temporale', es:'tormenta' },
+    { emoji:'🌤️', it:'nuvoloso', es:'nublado' }, { emoji:'🌬️', it:'vento', es:'viento' },
+    { emoji:'🌡️', it:'temperatura', es:'temperatura' }, { emoji:'🌈', it:'arcobaleno', es:'arcoíris' },
+    { emoji:'🌿', it:'primavera', es:'primavera' }, { emoji:'☃️', it:'inverno', es:'invierno' },
+  ],
+  emociones: [
+    { emoji:'😊', it:'felice', es:'feliz' }, { emoji:'😢', it:'triste', es:'triste' },
+    { emoji:'😡', it:'arrabbiato', es:'enojado' }, { emoji:'😨', it:'spaventato', es:'asustado' },
+    { emoji:'😴', it:'stanco', es:'cansado' }, { emoji:'😍', it:'innamorato', es:'enamorado' },
+    { emoji:'🤔', it:'confuso', es:'confundido' }, { emoji:'😎', it:'sicuro', es:'seguro' },
+    { emoji:'🥳', it:'entusiasta', es:'entusiasmado' }, { emoji:'😌', it:'tranquillo', es:'tranquilo' },
+  ],
+  viajes: [
+    { emoji:'✈️', it:'il volo', es:'el vuelo' }, { emoji:'🎒', it:'la valigia', es:'la maleta' },
+    { emoji:'🗺️', it:'la mappa', es:'el mapa' }, { emoji:'🏨', it:'la prenotazione', es:'la reserva' },
+    { emoji:'🎫', it:'il biglietto', es:'el boleto' }, { emoji:'🚂', it:'il treno', es:'el tren' },
+    { emoji:'🚌', it:'l\'autobus', es:'el autobús' }, { emoji:'🚗', it:'la macchina', es:'el coche' },
+    { emoji:'🛂', it:'il passaporto', es:'el pasaporte' }, { emoji:'💱', it:'il cambio', es:'el cambio' },
+  ],
+};
+
+// ===== QUIZ DATA =====
+const quizA1 = [
+  { q:'¿Cómo se dice "hola" en italiano?', ctx:'Saludo informal', opts:['Ciao','Buongiorno','Grazie','Prego'], ans:0 },
+  { q:'¿Cuál es el artículo masculino singular correcto?', ctx:'"___ libro" (el libro)', opts:['la','il','le','gli'], ans:1 },
+  { q:'Conjuga ESSERE para "yo" (io)', ctx:'Completa: "Io ___ Marco"', opts:['sei','è','sono','siamo'], ans:2 },
+  { q:'¿Cómo se dice el número 5?', ctx:'Cuenta en italiano', opts:['quattro','sei','cinque','sette'], ans:2 },
+  { q:'¿Qué significa "Grazie mille"?', ctx:'Expresión de gratitud', opts:['Por favor','Perdón','Muchísimas gracias','De nada'], ans:2 },
+  { q:'¿Cuál es el color "rojo" en italiano?', ctx:'I colori', opts:['verde','rosso','blu','giallo'], ans:1 },
+  { q:'Elige la forma correcta de AVERE para "tú"', ctx:'"Tu ___ fame?" (¿Tienes hambre?)', opts:['ho','ha','hai','hanno'], ans:2 },
+  { q:'¿Qué significa "Dove sei?"', ctx:'Pregunta informal', opts:['¿Quién eres?','¿Dónde estás?','¿Cómo te llamas?','¿Cuántos años tienes?'], ans:1 },
+  { q:'La pizza es...', ctx:'Género del sustantivo', opts:['il pizza','la pizza','lo pizza','i pizza'], ans:1 },
+  { q:'¿Cuántos años tiene? "Ho ventidue anni" = ?', ctx:'Números de edad', opts:['20 años','21 años','22 años','12 años'], ans:2 },
+  { q:'¿Cómo se dice "buenos días"?', ctx:'Saludo de mañana', opts:['Buonanotte','Buonasera','Buongiorno','Arrivederci'], ans:2 },
+  { q:'Verbos -ARE en presente para "nosotros" terminan en:', ctx:'Morfología verbal', opts:['-amo','-iamo','-ano','-ate'], ans:1 },
+];
+
+const quizA2 = [
+  { q:'Completa el Passato Prossimo: "Ieri io ___ la pizza"', ctx:'Passato Prossimo con AVERE', opts:['mangiavo','mangiato','ho mangiato','sono mangiato'], ans:2 },
+  { q:'"Ieri siamo ___ al cinema"', ctx:'Passato Prossimo con ESSERE', opts:['andato','andati','andavo','andare'], ans:1 },
+  { q:'¿Qué expresa el Imperfetto?', ctx:'Usos del tiempo verbal', opts:['Acción futura','Acción pasada habitual o descriptiva','Orden o mandato','Acción presente'], ans:1 },
+  { q:'Futuro de PARLARE para "io":', ctx:'Futuro Semplice', opts:['parlerò','parlerò','parlo','parlavo'], ans:0 },
+  { q:'Pronombre de objeto directo para "él" (lo vi)', ctx:'Pronombres átonos', opts:['gli','li','lo','la'], ans:2 },
+  { q:'"Da piccolo, ___ sempre la televisione" — qué tiempo usar:', ctx:'Acciones habituales en el pasado', opts:['Passato Prossimo','Futuro','Imperfetto','Presente'], ans:2 },
+  { q:'¿Cuándo se usa ESSERE en Passato Prossimo?', ctx:'Elección del auxiliar', opts:['Siempre','Con verbos de movimiento y reflexivos','Con verbos de acción','Nunca'], ans:1 },
+  { q:'El participio de "vedere" es:', ctx:'Participi irregolari', opts:['vedato','veduto/visto','vedere','vedeva'], ans:1 },
+  { q:'"Domani ___ a Roma" (futuro de andare)', ctx:'Futuro Semplice irregular', opts:['andrò','anderò','vado','sono andato'], ans:0 },
+  { q:'Pronombre de objeto indirecto para "ella" (le digo algo)', ctx:'Gli/le/loro', opts:['la','gli','le','ci'], ans:2 },
+  { q:'"L\'anno scorso io ___ molto" (lavorare, passato)', ctx:'Passato Prossimo', opts:['lavoravo','ho lavorato','lavoro','lavorerò'], ans:1 },
+  { q:'Forma correcta: "Quando ero bambino, ___ sempre" (giocare, imperfetto, io)', ctx:'Imperfetto', opts:['ho giocato','giocherò','giocavo','gioco'], ans:2 },
+];
+
+// ===== CANCIONES =====
+const songs = [
+  {
+    emoji: '🎵',
+    title: 'Azzurro — Adriano Celentano',
+    level: 'A1',
+    desc: 'Clásico italiano perfecto para A1 — vocabulario simple, ritmo fácil de seguir',
+    lyrics: [
+      { it: 'Azzurro, il pomeriggio è troppo azzurro', es: 'Azul, la tarde es demasiado azul' },
+      { it: 'e lungo per me', es: 'y larga para mí' },
+      { it: 'Mi accorgo di non avere più risorse', es: 'Me doy cuenta de que ya no tengo recursos' },
+      { it: 'senza te', es: 'sin ti' },
+      { it: 'E allora io mi fermo sulla riva', es: 'Y entonces me quedo en la orilla' },
+      { it: 'del mare a guardare le onde', es: 'del mar mirando las olas' },
+    ]
+  },
+  {
+    emoji: '🎶',
+    title: 'Volare — Domenico Modugno',
+    level: 'A1-A2',
+    desc: 'La canción italiana más famosa del mundo — ideal para aprender pronombres y presente',
+    lyrics: [
+      { it: 'Volare... oh oh!', es: 'Volar... ¡oh oh!' },
+      { it: 'Cantare... oh oh oh oh!', es: 'Cantar... ¡oh oh oh oh!' },
+      { it: 'Nel blu dipinto di blu', es: 'En el azul pintado de azul' },
+      { it: 'felice di stare lassù', es: 'feliz de estar allá arriba' },
+      { it: 'Pensavo che un sogno così non ritorni mai più', es: 'Pensaba que un sueño así no volvería jamás' },
+    ]
+  },
+  {
+    emoji: '🎸',
+    title: 'Il Cielo è Sempre Più Blu — Rino Gaetano',
+    level: 'A2',
+    desc: 'Lista de contrastes sociales — perfecta para practicar vocabulario A2 y el passato prossimo',
+    lyrics: [
+      { it: 'C\'è chi ha le ali e non le usa mai', es: 'Hay quien tiene alas y nunca las usa' },
+      { it: 'c\'è chi le ali non le avrà mai', es: 'hay quien nunca tendrá alas' },
+      { it: 'c\'è chi lavora quattordici ore', es: 'hay quien trabaja catorce horas' },
+      { it: 'e poi c\'è chi si riposa', es: 'y luego hay quien descansa' },
+      { it: 'ma il cielo è sempre più blu', es: 'pero el cielo es cada vez más azul' },
+    ]
+  },
+  {
+    emoji: '🎹',
+    title: 'Con te partirò — Andrea Bocelli',
+    level: 'A2',
+    desc: 'Hermosa canción con futuro semplice — perfecta para practicar el tiempo futuro',
+    lyrics: [
+      { it: 'Quando sono solo e sogno all\'orizzonte', es: 'Cuando estoy solo y sueño en el horizonte' },
+      { it: 'e mancan le parole', es: 'y faltan las palabras' },
+      { it: 'Con te partirò', es: 'Contigo partiré' },
+      { it: 'Paesi che non ho mai veduto e vissuto', es: 'Países que nunca he visto ni vivido' },
+      { it: 'con te li vivrò', es: 'contigo los viviré' },
+    ]
+  },
+  {
+    emoji: '🎤',
+    title: 'L\'italiano — Toto Cutugno',
+    level: 'A1-A2',
+    desc: 'Himno italiano lleno de vocabulario cotidiano — ideal para aprender expresiones culturales',
+    lyrics: [
+      { it: 'Lasciatemi cantare con la chitarra in mano', es: 'Dejadme cantar con la guitarra en mano' },
+      { it: 'Lasciatemi cantare una canzone piano piano', es: 'Dejadme cantar una canción despacio' },
+      { it: 'Lasciatemi cantare perché ne sono fiero', es: 'Dejadme cantar porque estoy orgulloso' },
+      { it: 'Sono italiano, un italiano vero', es: 'Soy italiano, un italiano de verdad' },
+    ]
+  },
+];
+
+// ===== EJERCICIOS DE COMPLETAR =====
+const fillExercises = [
+  { sentence: 'Io ___ (essere) di Roma.', blank: 'sono', hint: 'ESSERE → io = ?' },
+  { sentence: 'Tu ___ (avere) un cane?', blank: 'hai', hint: 'AVERE → tu = ?' },
+  { sentence: '___ libro è interessante.', blank: 'Il', hint: 'Artículo masculino singular' },
+  { sentence: 'Noi ___ (parlare) italiano.', blank: 'parliamo', hint: 'PARLARE → noi = ?' },
+  { sentence: 'Lei ___ (essere) molto bella.', blank: 'è', hint: 'ESSERE → lui/lei = ?' },
+  { sentence: 'Loro ___ (avere) fame.', blank: 'hanno', hint: 'AVERE → loro = ?' },
+];
+
+const translateExercises = [
+  { es: 'Yo soy estudiante.', it: 'Io sono studente.' },
+  { es: 'Ella tiene veinte años.', it: 'Lei ha vent\'anni.' },
+  { es: 'Nosotros hablamos italiano.', it: 'Noi parliamo italiano.' },
+  { es: 'Ayer fui al cine.', it: 'Ieri sono andato al cinema.' },
+  { es: '¿Dónde está la estación?', it: 'Dov\'è la stazione?' },
+];
+
+// ===== ESTADO =====
+let state = {
+  corrects: parseInt(localStorage.getItem('it-corrects')||'0'),
+  cards: parseInt(localStorage.getItem('it-cards')||'0'),
+  exercises: parseInt(localStorage.getItem('it-exercises')||'0'),
+  streak: parseInt(localStorage.getItem('it-streak')||'0'),
+  a1: { score:0, total:0, streak:0, idx:0 },
+  a2: { score:0, total:0, streak:0, idx:0 },
+  fc: { saludos: 0 },
+};
+
+let fcCards = {};
+
+// ===== INICIALIZACIÓN =====
+function init() {
+  renderVocabGrids();
+  renderA2Vocabs();
+  renderSongs();
+  loadFill();
+  loadTranslate();
+  initQuiz('a1');
+  initQuiz('a2');
+  updateStats();
+}
+
+function renderVocabGrids() {
+  const grids = ['saludos','numeros','colores','familia','comida','lugares'];
+  grids.forEach(key => {
+    const el = document.getElementById('grid-'+key);
+    if (!el) return;
+    el.innerHTML = vocab[key].map((item,i) => `
+      <div class="vocab-card" onclick="this.classList.toggle('flipped'); trackCard()">
+        <span class="emoji">${item.emoji}</span>
+        <div class="italiano">${item.it}</div>
+        <div class="español">${item.es}</div>
+        <div class="pronuncia">${item.pron||''}</div>
+      </div>`).join('');
+    fcCards[key] = vocab[key];
+  });
+}
+
+function renderA2Vocabs() {
+  const keys = ['trabajo','tiempo','emociones','viajes'];
+  keys.forEach(key => {
+    const el = document.getElementById('grid-'+key);
+    if (!el) return;
+    el.innerHTML = vocab[key].map(item => `
+      <div class="vocab-card" onclick="this.classList.toggle('flipped'); trackCard()">
+        <span class="emoji">${item.emoji}</span>
+        <div class="italiano">${item.it}</div>
+        <div class="español">${item.es}</div>
+      </div>`).join('');
+  });
+}
+
+function renderSongs() {
+  const c = document.getElementById('songs-container');
+  c.innerHTML = songs.map((s,i) => `
+    <div class="song-card">
+      <span class="song-emoji">${s.emoji}</span>
+      <div class="song-info" style="flex:1">
+        <h3>${s.title} <span class="pill pill-${s.level.includes('A2')?'rosso':'verde'}">${s.level}</span></h3>
+        <p>${s.desc}</p>
+        <button class="btn btn-oro" onclick="toggleLyrics(${i})">🎵 Ver letra bilingüe</button>
+        <div class="song-lyrics" id="lyrics-${i}">
+          ${s.lyrics.map(l=>`
+            <div style="margin-bottom:8px">
+              <div class="lyric-it">${l.it}</div>
+              <div class="lyric-es">${l.es}</div>
+            </div>`).join('')}
+          <div style="margin-top:12px; padding-top:12px; border-top:1px solid #eee; color:#888; font-size:0.85rem">
+            💡 Busca "${s.title}" en YouTube o Spotify y canta mientras lees la letra
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function toggleLyrics(i) {
+  const el = document.getElementById('lyrics-'+i);
+  el.classList.toggle('show');
+}
+
+// ===== FLASHCARDS =====
+function flipFlashcard(id, key) {
+  const fc = document.getElementById(id);
+  fc.classList.toggle('flipped');
+  trackCard();
+}
+
+function nextCard(key) {
+  const idx = (state.fc[key] || 0);
+  const cards = fcCards[key] || [];
+  const next = (idx + 1) % cards.length;
+  state.fc[key] = next;
+  updateFlashcard(key, next);
+}
+
+function prevCard(key) {
+  const idx = (state.fc[key] || 0);
+  const cards = fcCards[key] || [];
+  const prev = (idx - 1 + cards.length) % cards.length;
+  state.fc[key] = prev;
+  updateFlashcard(key, prev);
+}
+
+function updateFlashcard(key, idx) {
+  const card = fcCards[key][idx];
+  if (!card) return;
+  const fc = document.getElementById('fc-'+key);
+  if (fc) fc.classList.remove('flipped');
+  const e = document.getElementById('fc-'+key+'-emoji');
+  const it = document.getElementById('fc-'+key+'-it');
+  const es = document.getElementById('fc-'+key+'-es');
+  const ex = document.getElementById('fc-'+key+'-ex');
+  const counter = document.getElementById('fc-'+key+'-counter');
+  if (e) e.textContent = card.emoji;
+  if (it) it.textContent = card.it;
+  if (es) es.textContent = card.es;
+  if (ex) ex.innerHTML = card.ex || '';
+  if (counter) counter.textContent = `${idx+1} / ${fcCards[key].length}`;
+}
+
+// ===== QUIZ =====
+function initQuiz(level) {
+  const data = level === 'a1' ? quizA1 : quizA2;
+  state[level].idx = 0;
+  state[level].score = 0;
+  state[level].total = 0;
+  state[level].streak = 0;
+  renderQuestion(level, 0);
+}
+
+function renderQuestion(level, idx) {
+  const data = level === 'a1' ? quizA1 : quizA2;
+  if (idx >= data.length) {
+    document.getElementById('q'+level+'-question').textContent = '¡Quiz completado! 🎉';
+    document.getElementById('q'+level+'-context').textContent = `Puntuación final: ${state[level].score} / ${data.length}`;
+    document.getElementById('q'+level+'-options').innerHTML = '';
+    document.getElementById('q'+level+'-next').style.display = 'none';
+    return;
+  }
+  const q = data[idx];
+  document.getElementById('q'+level+'-question').textContent = q.q;
+  document.getElementById('q'+level+'-context').textContent = q.ctx;
+  document.getElementById('q'+level+'-feedback').classList.remove('show','ok','fail');
+  document.getElementById('q'+level+'-next').style.display = 'none';
+
+  const opts = document.getElementById('q'+level+'-options');
+  opts.innerHTML = q.opts.map((o,i) => `
+    <button class="quiz-option" onclick="answerQuiz('${level}',${i})">${o}</button>
+  `).join('');
+}
+
+function answerQuiz(level, chosen) {
+  const data = level === 'a1' ? quizA1 : quizA2;
+  const idx = state[level].idx;
+  const q = data[idx];
+  const opts = document.querySelectorAll(`#q${level}-options .quiz-option`);
+  const fb = document.getElementById('q'+level+'-feedback');
+
+  opts.forEach((btn,i) => {
+    btn.classList.add('disabled');
+    if (i === q.ans) btn.classList.add('correct');
+    else if (i === chosen) btn.classList.add('incorrect');
+  });
+
+  const ok = chosen === q.ans;
+  state[level].total++;
+  if (ok) {
+    state[level].score++;
+    state[level].streak++;
+    state.corrects++;
+    state.streak++;
+    fb.textContent = '✅ ¡Corretto! ' + (state[level].streak > 1 ? `Racha: ${state[level].streak}🔥` : '');
+    fb.className = 'quiz-feedback show ok';
+  } else {
+    state[level].streak = 0;
+    state.streak = 0;
+    fb.textContent = `❌ La risposta corretta è: "${q.opts[q.ans]}"`;
+    fb.className = 'quiz-feedback show fail';
+  }
+
+  document.getElementById('q'+level+'-score').textContent = `${state[level].score} / ${state[level].total}`;
+  document.getElementById('q'+level+'-streak').textContent = `Racha: ${state[level].streak}🔥`;
+  document.getElementById('q'+level+'-next').style.display = 'inline-flex';
+  saveState();
+  updateStats();
+  updateProgress();
+}
+
+function nextQuizQuestion(level) {
+  state[level].idx++;
+  renderQuestion(level, state[level].idx);
+}
+
+function resetQuiz(level) {
+  initQuiz(level);
+}
+
+// ===== FILL IN THE BLANK =====
+let currentFill = [];
+function loadFill() {
+  currentFill = fillExercises.sort(() => Math.random()-0.5).slice(0,4);
+  const container = document.getElementById('fill-container');
+  container.innerHTML = `
+    <h3 style="font-size:1.1rem; font-weight:800; margin-bottom:16px">Completa con la forma correcta:</h3>
+    ${currentFill.map((ex,i) => `
+      <div style="margin-bottom:20px; padding:12px; border-radius:10px; background:#f9f9f9">
+        <div class="fill-sentence">
+          ${ex.sentence.replace('___', `<input class="fill-input" id="fill-${i}" placeholder="___">`)}
+        </div>
+        <div style="color:#aaa; font-size:0.8rem; font-style:italic">💡 ${ex.hint}</div>
+      </div>`).join('')}
+  `;
+  document.getElementById('fill-result').textContent = '';
+}
+
+function checkFill() {
+  let score = 0;
+  currentFill.forEach((ex,i) => {
+    const inp = document.getElementById('fill-'+i);
+    if (!inp) return;
+    const val = inp.value.trim().toLowerCase();
+    if (val === ex.blank.toLowerCase()) {
+      inp.classList.add('correct'); inp.classList.remove('incorrect');
+      score++;
+    } else {
+      inp.classList.add('incorrect'); inp.classList.remove('correct');
+      inp.placeholder = ex.blank;
+    }
+  });
+  const result = document.getElementById('fill-result');
+  result.textContent = score === currentFill.length
+    ? `🎉 ¡Perfecto! ${score}/${currentFill.length} correctas`
+    : `${score}/${currentFill.length} correctas — revisa las marcadas en rojo`;
+  result.style.color = score === currentFill.length ? 'var(--verde)' : 'var(--rosso)';
+  state.exercises++;
+  state.corrects += score;
+  saveState(); updateStats();
+}
+
+function resetFill() { loadFill(); }
+
+// ===== TRADUCCIÓN =====
+let currentTranslate = [];
+function loadTranslate() {
+  currentTranslate = translateExercises.sort(() => Math.random()-0.5).slice(0,4);
+  const c = document.getElementById('translate-container');
+  c.innerHTML = `
+    <div style="margin-bottom:16px">
+      <div class="tip-box verde"><span class="tip-icon">🔄</span><div class="tip-text"><strong>Traduce al italiano:</strong></div></div>
+    </div>
+    ${currentTranslate.map((ex,i) => `
+      <div style="margin-bottom:16px; padding:16px; background:white; border-radius:12px; box-shadow:var(--sombra)">
+        <div style="font-weight:700; margin-bottom:8px; color:#333">${ex.es}</div>
+        <input type="text" id="tr-${i}" placeholder="Scrivi in italiano..."
+          style="width:100%; padding:10px 14px; border:2px solid #ddd; border-radius:8px; font-size:1rem; outline:none"
+          onfocus="this.style.borderColor='var(--verde)'" onblur="this.style.borderColor='#ddd'">
+        <div id="tr-hint-${i}" style="font-size:0.85rem; color:#aaa; margin-top:6px; display:none">✅ ${ex.it}</div>
+      </div>`).join('')}
+  `;
+  document.getElementById('translate-result').innerHTML = '';
+}
+
+function checkTranslate() {
+  let score = 0;
+  currentTranslate.forEach((ex,i) => {
+    const inp = document.getElementById('tr-'+i);
+    const hint = document.getElementById('tr-hint-'+i);
+    if (!inp) return;
+    const val = inp.value.trim().toLowerCase().replace(/[.,!?]/g,'');
+    const correct = ex.it.toLowerCase().replace(/[.,!?]/g,'');
+    hint.style.display = 'block';
+    if (val === correct) {
+      inp.style.borderColor = 'var(--verde)'; inp.style.background = '#f0fff4';
+      score++;
+    } else {
+      inp.style.borderColor = 'var(--rosso)'; inp.style.background = '#fff5f5';
+    }
+  });
+  const r = document.getElementById('translate-result');
+  r.innerHTML = `<div class="tip-box ${score===currentTranslate.length?'verde':'rosso'}" style="margin-top:8px">
+    <span class="tip-icon">${score===currentTranslate.length?'🎉':'📝'}</span>
+    <div class="tip-text"><strong>${score}/${currentTranslate.length} correctas</strong>${score<currentTranslate.length?' — Mira las respuestas correctas en verde arriba':' ¡Perfetto!'}</div>
+  </div>`;
+  state.exercises++;
+  saveState(); updateStats();
+}
+
+// ===== UTILIDADES =====
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('#mainNav button').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('currentLevel').textContent = id.includes('a2') ? 'A2' : 'A1';
+  window.scrollTo(0,0);
+}
+
+function showSubTab(parentId, tabId) {
+  const parent = document.getElementById(parentId);
+  parent.querySelectorAll('.sub-content').forEach(s => s.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  const tabs = parent.previousElementSibling;
+  if (tabs && tabs.classList.contains('sub-tabs')) {
+    tabs.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+}
+
+function trackCard() {
+  state.cards++;
+  saveState(); updateStats();
+}
+
+function saveState() {
+  localStorage.setItem('it-corrects', state.corrects);
+  localStorage.setItem('it-cards', state.cards);
+  localStorage.setItem('it-exercises', state.exercises);
+  localStorage.setItem('it-streak', state.streak);
+}
+
+function updateStats() {
+  document.getElementById('st-corrects').textContent = state.corrects;
+  document.getElementById('st-cards').textContent = state.cards;
+  document.getElementById('st-exercises').textContent = state.exercises;
+  document.getElementById('st-streak').textContent = state.streak + '🔥';
+}
+
+function updateProgress() {
+  const total = quizA1.length + quizA2.length;
+  const done = state.a1.total + state.a2.total;
+  const pct = total > 0 ? Math.round(done / total * 100) : 0;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `${done} / ${total} ejercicios`;
+}
+
+init();
+</script>
+</body>
+</html>
