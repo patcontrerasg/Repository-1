@@ -379,6 +379,140 @@
     .song-card { flex-direction: column; }
   }
 
+  /* === PRONUNCIACIÓN === */
+  .pronun-card {
+    background: white; border-radius: var(--radio);
+    padding: 18px 20px; box-shadow: var(--sombra);
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 12px; transition: all 0.2s;
+    border-left: 5px solid var(--verde);
+  }
+  .pronun-card:hover { transform: translateX(4px); }
+  .pronun-card.speaking { border-left-color: var(--oro); background: #fffbeb; }
+  .pronun-word { flex: 1; }
+  .pronun-word .it { font-size: 1.2rem; font-weight: 800; color: var(--verde); }
+  .pronun-word .phonetic { font-size: 0.9rem; color: #888; font-style: italic; margin-top: 2px; }
+  .pronun-word .es { font-size: 0.85rem; color: #aaa; margin-top: 2px; }
+  .pronun-word .tip { font-size: 0.8rem; color: #c9960a; background: #fffbeb; padding: 3px 8px; border-radius: 6px; margin-top: 4px; display: inline-block; }
+  .speak-btn {
+    width: 48px; height: 48px; border-radius: 50%;
+    border: none; background: var(--verde); color: white;
+    font-size: 1.3rem; cursor: pointer; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; box-shadow: 0 3px 10px rgba(0,146,70,0.3);
+  }
+  .speak-btn:hover { transform: scale(1.1); background: #007a39; }
+  .speak-btn.active { background: var(--oro); color: #333; animation: pulse 0.8s infinite; }
+  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
+  .phonetic-guide {
+    background: white; border-radius: var(--radio);
+    padding: 20px; box-shadow: var(--sombra); margin-bottom: 20px;
+  }
+  .phonetic-guide h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 14px; }
+  .phonetic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 10px; }
+  .phonetic-item {
+    background: #f9f9f9; border-radius: 10px; padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+  .phonetic-item .sound { font-weight: 800; color: var(--verde); font-size: 1rem; }
+  .phonetic-item .example { color: #666; }
+
+  /* === EJERCICIOS GRAMÁTICA === */
+  .gram-ex-box {
+    background: white; border-radius: var(--radio);
+    padding: 24px; box-shadow: var(--sombra); margin-bottom: 20px;
+  }
+  .gram-ex-box h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 16px; }
+  .conjugation-table {
+    width: 100%; border-collapse: collapse; margin-bottom: 16px;
+  }
+  .conjugation-table td {
+    padding: 10px 14px; border: 1px solid #eee;
+    font-size: 0.95rem;
+  }
+  .conjugation-table td:first-child { font-weight: 700; color: #555; width: 120px; }
+  .conj-input {
+    border: none; border-bottom: 2px solid var(--verde);
+    width: 120px; font-size: 0.95rem; font-weight: 700;
+    color: var(--verde); background: transparent;
+    outline: none; padding: 2px 6px; text-align: center;
+  }
+  .conj-input.ok { background: #f0fff4; border-radius: 4px 4px 0 0; border-color: var(--verde); }
+  .conj-input.err { background: #fff5f5; border-radius: 4px 4px 0 0; border-color: var(--rosso); }
+  .article-pick { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+  .article-item {
+    background: #f9f9f9; border-radius: 10px; padding: 12px 16px;
+    min-width: 200px; font-size: 0.95rem;
+  }
+  .article-item .noun { font-weight: 700; margin-bottom: 8px; }
+  .art-btn {
+    padding: 6px 14px; border: 2px solid #ddd;
+    border-radius: 20px; background: white;
+    cursor: pointer; font-size: 0.9rem; font-weight: 700;
+    margin: 3px; transition: all 0.2s;
+  }
+  .art-btn:hover:not(.locked) { border-color: var(--verde); }
+  .art-btn.selected-ok { background: var(--verde); color: white; border-color: var(--verde); }
+  .art-btn.selected-err { background: var(--rosso); color: white; border-color: var(--rosso); }
+  .art-btn.locked { cursor: default; }
+  .art-btn.show-correct { background: #d4edda; border-color: var(--verde); }
+  .sentence-order {
+    display: flex; flex-wrap: wrap; gap: 8px; min-height: 50px;
+    padding: 12px; border: 2px dashed #ddd; border-radius: 10px;
+    margin-bottom: 12px; align-items: center;
+  }
+  .sentence-order.dragover { border-color: var(--verde); background: #f0fff4; }
+  .word-token {
+    padding: 8px 14px; background: #f0f0f0;
+    border-radius: 20px; cursor: pointer; font-weight: 600;
+    font-size: 0.9rem; user-select: none;
+    border: 2px solid transparent; transition: all 0.2s;
+  }
+  .word-token:hover { background: #e0e0e0; }
+  .word-token.in-sentence { background: #d4edda; border-color: var(--verde); }
+  .word-token.correct-pos { background: var(--verde); color: white; }
+  .word-token.wrong-pos { background: var(--rosso); color: white; }
+
+  /* === LECTURA === */
+  .reading-card {
+    background: white; border-radius: var(--radio);
+    padding: 24px; box-shadow: var(--sombra); margin-bottom: 20px;
+  }
+  .reading-card h3 { font-size: 1.2rem; font-weight: 800; margin-bottom: 6px; }
+  .reading-meta { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+  .reading-text {
+    font-size: 1rem; line-height: 1.9;
+    border-left: 4px solid var(--verde);
+    padding: 16px 20px; background: #f9fffe;
+    border-radius: 0 10px 10px 0; margin-bottom: 20px;
+  }
+  .reading-text.a2-text { border-left-color: var(--rosso); background: #fff9f9; }
+  .reading-word {
+    cursor: pointer; border-bottom: 1px dashed #aaa;
+    transition: all 0.1s;
+  }
+  .reading-word:hover { background: #fffde7; border-bottom-color: var(--oro); }
+  .word-tooltip {
+    position: fixed; background: #333; color: white;
+    padding: 6px 12px; border-radius: 8px; font-size: 0.85rem;
+    pointer-events: none; z-index: 1000; display: none;
+    max-width: 200px; text-align: center;
+  }
+  .reading-questions { margin-top: 16px; }
+  .read-q { margin-bottom: 16px; }
+  .read-q .q-text { font-weight: 700; margin-bottom: 8px; }
+  .read-opt {
+    display: block; width: 100%; text-align: left;
+    padding: 10px 16px; border: 2px solid #eee;
+    border-radius: 10px; background: white;
+    cursor: pointer; font-size: 0.9rem;
+    margin-bottom: 6px; transition: all 0.2s;
+  }
+  .read-opt:hover:not(.locked) { border-color: var(--verde); background: #f0fff4; }
+  .read-opt.r-correct { border-color: var(--verde); background: #d4edda; color: #155724; }
+  .read-opt.r-incorrect { border-color: var(--rosso); background: #f8d7da; color: #721c24; }
+  .read-opt.locked { cursor: default; }
+
   /* === ANIMACIONES === */
   @keyframes pop {
     0% { transform: scale(0.8); opacity: 0; }
@@ -434,6 +568,9 @@
   <button class="a2-btn" onclick="showSection('grammatica-a2')">📐 Gramática A2</button>
   <button class="a2-btn" onclick="showSection('quiz-a2')">🎯 Quiz A2</button>
   <button onclick="showSection('musica')">🎵 Música</button>
+  <button onclick="showSection('pronunciacion')">🔊 Pronunciación</button>
+  <button onclick="showSection('gram-ejercicios')">🧩 Ejercicios</button>
+  <button onclick="showSection('lectura')">📖 Lectura</button>
   <button onclick="showSection('practica')">✏️ Práctica</button>
 </nav>
 
@@ -1074,6 +1211,154 @@
   <div class="music-section" id="songs-container"></div>
 </section>
 
+<!-- ===== PRONUNCIACIÓN ===== -->
+<section class="section" id="pronunciacion">
+  <div class="section-title">🔊 Pronunciación</div>
+  <div class="section-subtitle">Escucha y repite — el navegador leerá en italiano real usando síntesis de voz</div>
+
+  <div class="tip-box verde">
+    <span class="tip-icon">🎙️</span>
+    <div class="tip-text"><strong>¿Cómo usar?</strong> Toca el botón 🔊 para escuchar la palabra en italiano. Luego <strong>repítela en voz alta</strong>. La repetición oral es clave para fijar la pronunciación. Haz 3 repeticiones por palabra.</div>
+  </div>
+
+  <div class="phonetic-guide">
+    <h3>📖 Guía fonética rápida del italiano</h3>
+    <div class="phonetic-grid">
+      <div class="phonetic-item"><div class="sound">C + e/i → [ch]</div><div class="example">ciao [chao], cinema [chinema]</div></div>
+      <div class="phonetic-item"><div class="sound">C + a/o/u → [k]</div><div class="example">casa [kasa], cane [kane]</div></div>
+      <div class="phonetic-item"><div class="sound">G + e/i → [dj]</div><div class="example">gelato [dj-elato], giro [djiro]</div></div>
+      <div class="phonetic-item"><div class="sound">G + a/o/u → [g]</div><div class="example">gatto [gato], grazie [gratzie]</div></div>
+      <div class="phonetic-item"><div class="sound">GN → [ñ]</div><div class="example">bagno [baño], signore [señore]</div></div>
+      <div class="phonetic-item"><div class="sound">GL + i → [ll]</div><div class="example">famiglia [familla], figlio [fillo]</div></div>
+      <div class="phonetic-item"><div class="sound">SC + e/i → [sh]</div><div class="example">scena [shena], sci [shi]</div></div>
+      <div class="phonetic-item"><div class="sound">Z → [tz] o [dz]</div><div class="example">pizza [pittza], zero [dzero]</div></div>
+      <div class="phonetic-item"><div class="sound">H siempre muda</div><div class="example">ho [o], hai [ai], hanno [anno]</div></div>
+      <div class="phonetic-item"><div class="sound">R → vibrante</div><div class="example">Roma [Rróma] — vibra la lengua</div></div>
+      <div class="phonetic-item"><div class="sound">Double consonante</div><div class="example">palla: alarga el sonido [pal-la]</div></div>
+      <div class="phonetic-item"><div class="sound">Vocales puras</div><div class="example">a,e,i,o,u siempre claras</div></div>
+    </div>
+  </div>
+
+  <div class="sub-tabs">
+    <button class="sub-tab active" onclick="showSubTab('pronun','pr-basico')">🟢 Básico A1</button>
+    <button class="sub-tab" onclick="showSubTab('pronun','pr-frases')">💬 Frases A1</button>
+    <button class="sub-tab" onclick="showSubTab('pronun','pr-avanzado')">🔴 Nivel A2</button>
+    <button class="sub-tab" onclick="showSubTab('pronun','pr-trabalenguas')">👅 Trabalenguas</button>
+  </div>
+
+  <div id="pronun">
+    <div class="sub-content active" id="pr-basico">
+      <div id="pronun-basico-list"></div>
+    </div>
+    <div class="sub-content" id="pr-frases">
+      <div id="pronun-frases-list"></div>
+    </div>
+    <div class="sub-content" id="pr-avanzado">
+      <div id="pronun-avanzado-list"></div>
+    </div>
+    <div class="sub-content" id="pr-trabalenguas">
+      <div class="tip-box oro" style="margin-bottom:16px">
+        <span class="tip-icon">👅</span>
+        <div class="tip-text"><strong>Trabalenguas italianos</strong> — Son difíciles pero ayudan a dominar los sonidos. Empieza despacio y ve aumentando la velocidad.</div>
+      </div>
+      <div id="pronun-trabalenguas-list"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EJERCICIOS GRAMÁTICA ===== -->
+<section class="section" id="gram-ejercicios">
+  <div class="section-title">🧩 Ejercicios de Gramática</div>
+  <div class="section-subtitle">Practica conjugando, eligiendo artículos y ordenando frases</div>
+
+  <div class="sub-tabs">
+    <button class="sub-tab active" onclick="showSubTab('gex','gex-conjugacion')">⚡ Conjugación</button>
+    <button class="sub-tab" onclick="showSubTab('gex','gex-articulos')">📌 Artículos</button>
+    <button class="sub-tab" onclick="showSubTab('gex','gex-orden')">🔀 Orden frases</button>
+    <button class="sub-tab" onclick="showSubTab('gex','gex-passato')">🕰️ Passato</button>
+  </div>
+
+  <div id="gex">
+    <div class="sub-content active" id="gex-conjugacion">
+      <div class="gram-ex-box">
+        <h3>⚡ Completa la conjugación — elige el verbo</h3>
+        <div style="display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap" id="verb-selector"></div>
+        <table class="conjugation-table" id="conj-table-display"></table>
+        <div style="display:flex; gap:10px; margin-top:8px; flex-wrap:wrap">
+          <button class="btn btn-verde" onclick="checkConjugation()">Verificar ✓</button>
+          <button class="btn btn-gris" onclick="resetConjugation()">Reiniciar</button>
+        </div>
+        <div id="conj-result" style="margin-top:12px; font-weight:700"></div>
+      </div>
+    </div>
+
+    <div class="sub-content" id="gex-articulos">
+      <div class="gram-ex-box">
+        <h3>📌 Elige el artículo correcto</h3>
+        <div class="tip-box verde" style="margin-bottom:16px">
+          <span class="tip-icon">💡</span>
+          <div class="tip-text">Verde = masculino (<b>il/lo/un/uno</b>) · Rojo = femenino (<b>la/una</b>) · LO/UNO antes de Z, S+cons, PS, PN, X, Y</div>
+        </div>
+        <div class="article-pick" id="article-exercise"></div>
+        <div style="display:flex; gap:10px; margin-top:16px; flex-wrap:wrap">
+          <button class="btn btn-verde" onclick="checkArticles()">Verificar ✓</button>
+          <button class="btn btn-gris" onclick="loadArticleExercise()">Nuevas palabras</button>
+        </div>
+        <div id="article-result" style="margin-top:12px; font-weight:700"></div>
+      </div>
+    </div>
+
+    <div class="sub-content" id="gex-orden">
+      <div class="gram-ex-box">
+        <h3>🔀 Ordena las palabras para formar la frase</h3>
+        <div id="order-exercise-container"></div>
+        <div style="display:flex; gap:10px; margin-top:16px; flex-wrap:wrap">
+          <button class="btn btn-verde" onclick="checkWordOrder()">Verificar ✓</button>
+          <button class="btn btn-gris" onclick="loadOrderExercise()">Nueva frase</button>
+        </div>
+        <div id="order-result" style="margin-top:12px; font-weight:700"></div>
+      </div>
+    </div>
+
+    <div class="sub-content" id="gex-passato">
+      <div class="gram-ex-box">
+        <h3>🕰️ Passato Prossimo — Elige auxiliar + participio</h3>
+        <div id="passato-exercise"></div>
+        <div style="display:flex; gap:10px; margin-top:16px; flex-wrap:wrap">
+          <button class="btn btn-verde" onclick="checkPassato()">Verificar ✓</button>
+          <button class="btn btn-gris" onclick="loadPassatoExercise()">Nuevas frases</button>
+        </div>
+        <div id="passato-result" style="margin-top:12px; font-weight:700"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LECTURA ===== -->
+<section class="section" id="lectura">
+  <div class="section-title">📖 Lectura y Comprensión</div>
+  <div class="section-subtitle">Textos reales en italiano con vocabulario destacado y preguntas de comprensión</div>
+
+  <div class="tip-box verde">
+    <span class="tip-icon">📚</span>
+    <div class="tip-text"><strong>Método de lectura visual:</strong> 1) Lee todo el texto una vez sin parar. 2) Toca las palabras subrayadas para ver su significado. 3) Responde las preguntas sin mirar. ¡La comprensión es la meta!</div>
+  </div>
+
+  <div class="sub-tabs">
+    <button class="sub-tab active" onclick="showSubTab('lect','lt-a1-1')">🟢 A1 — La famiglia</button>
+    <button class="sub-tab" onclick="showSubTab('lect','lt-a1-2')">🟢 A1 — Roma</button>
+    <button class="sub-tab" onclick="showSubTab('lect','lt-a2-1')">🔴 A2 — Il lavoro</button>
+    <button class="sub-tab" onclick="showSubTab('lect','lt-a2-2')">🔴 A2 — Le vacanze</button>
+  </div>
+
+  <div id="lect">
+    <div class="sub-content active" id="lt-a1-1"></div>
+    <div class="sub-content" id="lt-a1-2"></div>
+    <div class="sub-content" id="lt-a2-1"></div>
+    <div class="sub-content" id="lt-a2-2"></div>
+  </div>
+</section>
+
 <!-- ===== PRÁCTICA ===== -->
 <section class="section" id="practica">
   <div class="section-title">✏️ Práctica Escrita</div>
@@ -1313,18 +1598,6 @@ let state = {
 };
 
 let fcCards = {};
-
-// ===== INICIALIZACIÓN =====
-function init() {
-  renderVocabGrids();
-  renderA2Vocabs();
-  renderSongs();
-  loadFill();
-  loadTranslate();
-  initQuiz('a1');
-  initQuiz('a2');
-  updateStats();
-}
 
 function renderVocabGrids() {
   const grids = ['saludos','numeros','colores','familia','comida','lugares'];
@@ -1637,6 +1910,624 @@ function updateProgress() {
   const pct = total > 0 ? Math.round(done / total * 100) : 0;
   document.getElementById('progressBar').style.width = pct + '%';
   document.getElementById('progressText').textContent = `${done} / ${total} ejercicios`;
+}
+
+// ===== PRONUNCIACIÓN DATA =====
+const pronunData = {
+  basico: [
+    { it:'ciao', phonetic:'[chao]', es:'hola / adiós', tip:'La C antes de i/e suena CH' },
+    { it:'grazie', phonetic:'[gra-tsie]', es:'gracias', tip:'Z suena como TS' },
+    { it:'prego', phonetic:'[pre-go]', es:'de nada / por favor', tip:'G antes de a/o/u suena G fuerte' },
+    { it:'buongiorno', phonetic:'[buon-jor-no]', es:'buenos días', tip:'GI suena como Y suave' },
+    { it:'arrivederci', phonetic:'[arri-ve-der-chi]', es:'hasta luego', tip:'CI suena CH, RR es vibrante' },
+    { it:'scusa', phonetic:'[sku-za]', es:'disculpa', tip:'SC antes de a/o/u suena SK' },
+    { it:'famiglia', phonetic:'[fa-mi-lla]', es:'familia', tip:'GL+i suena como LL española' },
+    { it:'bagno', phonetic:'[ba-ño]', es:'baño', tip:'GN siempre suena Ñ' },
+    { it:'gelato', phonetic:'[dj-e-la-to]', es:'helado', tip:'G antes de e/i suena DJ' },
+    { it:'chiesa', phonetic:'[kje-za]', es:'iglesia', tip:'CH siempre suena K' },
+    { it:'figlio', phonetic:'[fi-llo]', es:'hijo', tip:'GL+i = LL' },
+    { it:'già', phonetic:'[dja]', es:'ya', tip:'GI+vocal = DJ' },
+  ],
+  frases: [
+    { it:'Come ti chiami?', phonetic:'[ko-me ti kia-mi]', es:'¿Cómo te llamas?', tip:'CHI siempre suena KI' },
+    { it:'Mi chiamo Sofia.', phonetic:'[mi kia-mo so-fia]', es:'Me llamo Sofía.', tip:'' },
+    { it:'Dove sei?', phonetic:'[do-ve sei]', es:'¿Dónde estás?', tip:'Ei suena como la E de rey' },
+    { it:'Parlo un po\' italiano.', phonetic:'[par-lo un pó i-ta-lia-no]', es:'Hablo un poco de italiano.', tip:'R es vibrante simple' },
+    { it:'Non capisco.', phonetic:'[non ka-pis-ko]', es:'No entiendo.', tip:'SC antes de o/u = SK' },
+    { it:'Puoi ripetere?', phonetic:'[puo-i ri-pe-te-re]', es:'¿Puedes repetir?', tip:'UO es diptongo' },
+    { it:'Quanto costa?', phonetic:'[kuan-to kos-ta]', es:'¿Cuánto cuesta?', tip:'QU siempre = KU' },
+    { it:'Vorrei un caffè.', phonetic:'[vor-rei un kaf-fè]', es:'Quisiera un café.', tip:'FF: dobla el sonido, pausa breve' },
+  ],
+  avanzado: [
+    { it:'Ho mangiato la pizza ieri.', phonetic:'[o man-dja-to]', es:'Ayer comí pizza.', tip:'GI = DJ, H muda' },
+    { it:'Quando ero piccolo...', phonetic:'[kuan-do e-ro pi-kko-lo]', es:'Cuando era pequeño...', tip:'CC = K larga' },
+    { it:'Domani andrò a Roma.', phonetic:'[do-ma-ni an-dró]', es:'Mañana iré a Roma.', tip:'Acento en la O final: andrÒ' },
+    { it:'Ti voglio bene.', phonetic:'[ti vo-llio be-ne]', es:'Te quiero (afecto).', tip:'GL+i = LL' },
+    { it:'Non ci posso credere!', phonetic:'[non chi pos-so kre-de-re]', es:'¡No me lo puedo creer!', tip:'CI = CHI antes de vocal' },
+    { it:'Che cosa hai fatto?', phonetic:'[ke ko-za ai fat-to]', es:'¿Qué has hecho?', tip:'TT: consonante doble, pausa' },
+    { it:'È una bella giornata.', phonetic:'[è u-na bel-la djor-na-ta]', es:'Es un hermoso día.', tip:'GI = DJ' },
+    { it:'Ho bisogno di aiuto.', phonetic:'[o bi-zo-ño di a-iu-to]', es:'Necesito ayuda.', tip:'GN = Ñ, H muda' },
+  ],
+  trabalenguas: [
+    { it:'Sopra la panca la capra campa, sotto la panca la capra crepa.', phonetic:'[so-pra la pan-ka...]', es:'Sobre el banco la cabra vive, bajo el banco la cabra muere.', tip:'Repite: panca/capra — trabaja la P y la C' },
+    { it:'Trentatré trentini entrarono a Trento, tutti e trentatré trotterellando.', phonetic:'[tren-ta-tré tren-ti-ni...]', es:'Treinta y tres tridentinos entraron en Trento, los treinta y tres al trote.', tip:'Trabaja el sonido TR y la R vibrante' },
+    { it:'Chi fu che ti batté? Nessun ti batté. Ti battesti da te.', phonetic:'[ki fu ke ti bat-té]', es:'¿Quién fue que te golpeó? Nadie te golpeó. Te golpeaste solo.', tip:'TT doble y la É acentuada' },
+  ],
+};
+
+// ===== CONJUGATION DATA =====
+const verbsToConjugate = {
+  'ESSERE (ser/estar)': { forms:['sono','sei','è','siamo','siete','sono'], type:'irr' },
+  'AVERE (tener)': { forms:['ho','hai','ha','abbiamo','avete','hanno'], type:'irr' },
+  'PARLARE (hablar)': { forms:['parlo','parli','parla','parliamo','parlate','parlano'], type:'-are' },
+  'MANGIARE (comer)': { forms:['mangio','mangi','mangia','mangiamo','mangiate','mangiano'], type:'-are' },
+  'VEDERE (ver)': { forms:['vedo','vedi','vede','vediamo','vedete','vedono'], type:'-ere' },
+  'DORMIRE (dormir)': { forms:['dormo','dormi','dorme','dormiamo','dormite','dormono'], type:'-ire' },
+  'ANDARE (ir)': { forms:['vado','vai','va','andiamo','andate','vanno'], type:'irr' },
+  'FARE (hacer)': { forms:['faccio','fai','fa','facciamo','fate','fanno'], type:'irr' },
+};
+const pronouns = ['io','tu','lui/lei','noi','voi','loro'];
+let currentVerb = Object.keys(verbsToConjugate)[0];
+
+// ===== ARTICLE EXERCISE DATA =====
+const articleWords = [
+  { noun:'libro', gender:'m', art_det:'il', art_indet:'un', meaning:'libro' },
+  { noun:'casa', gender:'f', art_det:'la', art_indet:'una', meaning:'casa' },
+  { noun:'studente', gender:'m', art_det:'lo', art_indet:'uno', meaning:'estudiante' },
+  { noun:'amica', gender:'f', art_det:'l\'', art_indet:'un\'', meaning:'amiga' },
+  { noun:'zaino', gender:'m', art_det:'lo', art_indet:'uno', meaning:'mochila' },
+  { noun:'pizza', gender:'f', art_det:'la', art_indet:'una', meaning:'pizza' },
+  { noun:'albero', gender:'m', art_det:'l\'', art_indet:'un', meaning:'árbol' },
+  { noun:'ora', gender:'f', art_det:'l\'', art_indet:'un\'', meaning:'hora' },
+  { noun:'cane', gender:'m', art_det:'il', art_indet:'un', meaning:'perro' },
+  { noun:'strada', gender:'f', art_det:'la', art_indet:'una', meaning:'calle' },
+  { noun:'specchio', gender:'m', art_det:'lo', art_indet:'uno', meaning:'espejo' },
+  { noun:'estate', gender:'f', art_det:'l\'', art_indet:'un\'', meaning:'verano' },
+];
+let currentArticleWords = [];
+
+// ===== ORDER EXERCISE DATA =====
+const orderExercises = [
+  { words:['Io','sono','di','Roma'], sentence:'Io sono di Roma.', translation:'Yo soy de Roma.' },
+  { words:['Tu','hai','quanti','anni','?'], sentence:'Tu quanti anni hai?', translation:'¿Cuántos años tienes tú?' },
+  { words:['Noi','parliamo','italiano','bene'], sentence:'Noi parliamo italiano bene.', translation:'Nosotros hablamos italiano bien.' },
+  { words:['Lei','è','molto','bella'], sentence:'Lei è molto bella.', translation:'Ella es muy hermosa.' },
+  { words:['Dove','è','la','stazione','?'], sentence:'Dove è la stazione?', translation:'¿Dónde está la estación?' },
+  { words:['Ho','mangiato','la','pizza','ieri'], sentence:'Ho mangiato la pizza ieri.', translation:'Ayer comí pizza.' },
+  { words:['Loro','non','capiscono','l\'italiano'], sentence:'Loro non capiscono l\'italiano.', translation:'Ellos no entienden el italiano.' },
+];
+let currentOrderEx = null;
+let sentenceTokens = [];
+
+// ===== PASSATO EXERCISE DATA =====
+const passatoExercises = [
+  { subject:'Io', verb:'mangiare', aux:'ho', part:'mangiato', translation:'Yo comí / He comido' },
+  { subject:'Lei', verb:'andare', aux:'è', part:'andata', translation:'Ella fue / Ha ido' },
+  { subject:'Noi', verb:'vedere', aux:'abbiamo', part:'visto', translation:'Nosotros vimos' },
+  { subject:'Tu', verb:'venire', aux:'sei', part:'venuto/a', translation:'Tú viniste' },
+  { subject:'Loro', verb:'fare', aux:'hanno', part:'fatto', translation:'Ellos hicieron' },
+  { subject:'Io', verb:'uscire', aux:'sono', part:'uscito/a', translation:'Yo salí' },
+];
+let currentPassatoItems = [];
+
+// ===== READING TEXTS =====
+const readingTexts = [
+  {
+    id: 'lt-a1-1', level:'A1', title:'La mia famiglia',
+    text: [
+      { it:'Mi chiamo ', plain:true },
+      { it:'Marco', gloss:'Marco (nombre)', plain:false },
+      { it:' e ho ', plain:true },
+      { it:'venticinque', gloss:'veinticinco', plain:false },
+      { it:' anni. Abito a ', plain:true },
+      { it:'Milano', gloss:'Milán (ciudad)', plain:false },
+      { it:'. La mia ', plain:true },
+      { it:'famiglia', gloss:'familia', plain:false },
+      { it:' è ', plain:true },
+      { it:'grande', gloss:'grande', plain:false },
+      { it:': ho un ', plain:true },
+      { it:'fratello', gloss:'hermano', plain:false },
+      { it:' e due ', plain:true },
+      { it:'sorelle', gloss:'hermanas', plain:false },
+      { it:'. Mio ', plain:true },
+      { it:'padre', gloss:'padre', plain:false },
+      { it:' si chiama Luigi e fa il ', plain:true },
+      { it:'medico', gloss:'médico', plain:false },
+      { it:'. Mia ', plain:true },
+      { it:'madre', gloss:'madre', plain:false },
+      { it:' si chiama Anna e ', plain:true },
+      { it:'insegna', gloss:'enseña (verbo: insegnare)', plain:false },
+      { it:' matematica. Noi siamo una famiglia molto ', plain:true },
+      { it:'unita', gloss:'unida', plain:false },
+      { it:'!', plain:true },
+    ],
+    questions: [
+      { q:'¿Cuántos años tiene Marco?', opts:['20','25','30','22'], ans:1 },
+      { q:'¿Dónde vive Marco?', opts:['Roma','Nápoles','Milán','Florencia'], ans:2 },
+      { q:'¿Cuántos hermanos tiene en total?', opts:['1','2','3','4'], ans:2 },
+      { q:'¿Cuál es la profesión del padre?', opts:['Profesor','Médico','Ingeniero','Abogado'], ans:1 },
+    ]
+  },
+  {
+    id: 'lt-a1-2', level:'A1', title:'Roma è bella',
+    text: [
+      { it:'Roma è la ', plain:true },
+      { it:'capitale', gloss:'capital', plain:false },
+      { it:" d'Italia. È una ", plain:true },
+      { it:'città', gloss:'ciudad', plain:false },
+      { it:' molto ', plain:true },
+      { it:'antica', gloss:'antigua', plain:false },
+      { it:' e ', plain:true },
+      { it:'bella', gloss:'bella / hermosa', plain:false },
+      { it:'. A Roma ci sono molti ', plain:true },
+      { it:'monumenti', gloss:'monumentos', plain:false },
+      { it:' famosi: il ', plain:true },
+      { it:'Colosseo', gloss:'Coliseo', plain:false },
+      { it:', la ', plain:true },
+      { it:'Fontana di Trevi', gloss:'Fontana de Trevi', plain:false },
+      { it:' e ', plain:true },
+      { it:'Piazza Navona', gloss:'Plaza Navona', plain:false },
+      { it:'. I ', plain:true },
+      { it:'turisti', gloss:'turistas', plain:false },
+      { it:' vengono da tutto il ', plain:true },
+      { it:'mondo', gloss:'mundo', plain:false },
+      { it:' per ', plain:true },
+      { it:'visitare', gloss:'visitar', plain:false },
+      { it:' Roma. La ', plain:true },
+      { it:'cucina', gloss:'cocina / gastronomía', plain:false },
+      { it:' romana è ', plain:true },
+      { it:'deliziosa', gloss:'deliciosa', plain:false },
+      { it:'!', plain:true },
+    ],
+    questions: [
+      { q:'¿Qué es Roma?', opts:['Una ciudad pequeña','La capital de Italia','Una ciudad medieval','Un pueblo'], ans:1 },
+      { q:'¿Cuál NO es un monumento de Roma mencionado?', opts:['Colosseo','Fontana di Trevi','Torre di Pisa','Piazza Navona'], ans:2 },
+      { q:'¿Por qué vienen turistas a Roma?', opts:['Por el trabajo','Por el clima','Para visitar sus monumentos','Para estudiar'], ans:2 },
+      { q:'¿Cómo describe el texto la cocina romana?', opts:['Piccola','Deliziosa','Cara','Normale'], ans:1 },
+    ]
+  },
+  {
+    id: 'lt-a2-1', level:'A2', title:'Il mio primo lavoro',
+    text: [
+      { it:'Quando avevo ', plain:true },
+      { it:'ventitré anni', gloss:'veintitrés años', plain:false },
+      { it:", ho trovato il mio primo ", plain:true },
+      { it:'lavoro', gloss:'trabajo', plain:false },
+      { it:' in uno ', plain:true },
+      { it:'studio di architettura', gloss:'estudio de arquitectura', plain:false },
+      { it:'. Era un\'', plain:true },
+      { it:'esperienza', gloss:'experiencia', plain:false },
+      { it:' molto ', plain:true },
+      { it:'importante', gloss:'importante', plain:false },
+      { it:' per me. Tutti i giorni ', plain:true },
+      { it:'andavo', gloss:'iba (imperfecto: andare)', plain:false },
+      { it:' in ', plain:true },
+      { it:'ufficio', gloss:'oficina', plain:false },
+      { it:' con i ', plain:true },
+      { it:'mezzi pubblici', gloss:'transporte público', plain:false },
+      { it:'. I miei ', plain:true },
+      { it:'colleghi', gloss:'colegas', plain:false },
+      { it:' erano molto ', plain:true },
+      { it:'simpatici', gloss:'simpáticos', plain:false },
+      { it:' e ho ', plain:true },
+      { it:'imparato', gloss:'aprendido (participio: imparare)', plain:false },
+      { it:' tantissimo. Dopo due anni ho ', plain:true },
+      { it:'deciso', gloss:'decidido (participio: decidere)', plain:false },
+      { it:' di ', plain:true },
+      { it:'cambiare', gloss:'cambiar', plain:false },
+      { it:' lavoro per nuove ', plain:true },
+      { it:'opportunità', gloss:'oportunidades', plain:false },
+      { it:'.', plain:true },
+    ],
+    questions: [
+      { q:'¿Cuántos años tenía cuando encontró su primer trabajo?', opts:['21','22','23','24'], ans:2 },
+      { q:'¿En qué tipo de empresa trabajaba?', opts:['Empresa de tecnología','Estudio de arquitectura','Hospital','Escuela'], ans:1 },
+      { q:'¿Cómo iba a la oficina cada día?', opts:['En coche','En bicicleta','En transporte público','A pie'], ans:2 },
+      { q:'¿Por qué decidió cambiar de trabajo?', opts:['Por mal ambiente','Por nuevas oportunidades','Por el salario','Por problemas personales'], ans:1 },
+    ]
+  },
+  {
+    id: 'lt-a2-2', level:'A2', title:'Le vacanze in Sicilia',
+    text: [
+      { it:'La scorsa estate, io e la mia ', plain:true },
+      { it:'famiglia', gloss:'familia', plain:false },
+      { it:' siamo ', plain:true },
+      { it:'andati', gloss:'ido (participio pl.: andare + essere)', plain:false },
+      { it:' in ', plain:true },
+      { it:'Sicilia', gloss:'Sicilia (isla italiana)', plain:false },
+      { it:' per due ', plain:true },
+      { it:'settimane', gloss:'semanas', plain:false },
+      { it:'. È stata una ', plain:true },
+      { it:'vacanza', gloss:'vacación', plain:false },
+      { it:' ', plain:true },
+      { it:'indimenticabile', gloss:'inolvidable', plain:false },
+      { it:'! Abbiamo ', plain:true },
+      { it:'visitato', gloss:'visitado (participio: visitare)', plain:false },
+      { it:' molti ', plain:true },
+      { it:'posti', gloss:'lugares / sitios', plain:false },
+      { it:' meravigliosi: Taormina, ', plain:true },
+      { it:'l\'Etna', gloss:'el Etna (volcán activo)', plain:false },
+      { it:' e le bellissime ', plain:true },
+      { it:'spiagge', gloss:'playas', plain:false },
+      { it:'. Ho ', plain:true },
+      { it:'assaggiato', gloss:'probado (participio: assaggiare)', plain:false },
+      { it:' la cucina siciliana: la ', plain:true },
+      { it:'caponata', gloss:'caponata (plato de verduras agridulce)', plain:false },
+      { it:', il ', plain:true },
+      { it:'cannolo', gloss:'cannolo (postre típico siciliano)', plain:false },
+      { it:' e gli ', plain:true },
+      { it:'arancini', gloss:'arancini (bolitas de arroz fritas)', plain:false },
+      { it:' sono stati i miei preferiti. ', plain:true },
+      { it:'Tornerò', gloss:'Volveré (futuro: tornare)', plain:false },
+      { it:' sicuramente!', plain:true },
+    ],
+    questions: [
+      { q:'¿Cuánto tiempo pasaron en Sicilia?', opts:['Una semana','Dos semanas','Un mes','Diez días'], ans:1 },
+      { q:'¿Qué es el Etna?', opts:['Una ciudad','Una playa','Un volcán','Un museo'], ans:2 },
+      { q:'¿Cuál de estos es un postre típico siciliano?', opts:['Caponata','Cannolo','Arancini','Todos son del texto'], ans:3 },
+      { q:'¿Qué indica el verbo "Tornerò"?', opts:['Pasado: volvió','Presente: vuelve','Futuro: volverá','Imperfecto'], ans:2 },
+    ]
+  },
+];
+
+// ===== SPEECH SYNTHESIS =====
+let speechSynth = window.speechSynthesis;
+let currentSpeakBtn = null;
+
+function speakItalian(text, btnEl) {
+  if (!speechSynth) { alert('Tu navegador no soporta síntesis de voz.'); return; }
+  speechSynth.cancel();
+  if (currentSpeakBtn) { currentSpeakBtn.classList.remove('active'); currentSpeakBtn.textContent = '🔊'; }
+  if (currentSpeakBtn === btnEl) { currentSpeakBtn = null; return; }
+
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.lang = 'it-IT';
+  utt.rate = 0.85;
+  utt.pitch = 1;
+
+  // Try to find Italian voice
+  const voices = speechSynth.getVoices();
+  const itVoice = voices.find(v => v.lang.startsWith('it'));
+  if (itVoice) utt.voice = itVoice;
+
+  btnEl.classList.add('active');
+  btnEl.textContent = '⏸';
+  currentSpeakBtn = btnEl;
+
+  utt.onend = () => { btnEl.classList.remove('active'); btnEl.textContent = '🔊'; currentSpeakBtn = null; };
+  utt.onerror = () => { btnEl.classList.remove('active'); btnEl.textContent = '🔊'; currentSpeakBtn = null; };
+  speechSynth.speak(utt);
+}
+
+function renderPronunList(containerId, items) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  el.innerHTML = items.map((item, i) => `
+    <div class="pronun-card" id="pc-${containerId}-${i}">
+      <button class="speak-btn" onclick="speakItalian('${item.it.replace(/'/g,"\\'")}', this)">🔊</button>
+      <div class="pronun-word">
+        <div class="it">${item.it}</div>
+        <div class="phonetic">${item.phonetic}</div>
+        <div class="es">${item.es}</div>
+        ${item.tip ? `<div class="tip">💡 ${item.tip}</div>` : ''}
+      </div>
+    </div>`).join('');
+}
+
+function initPronunciation() {
+  // Wait for voices to load
+  if (speechSynth.getVoices().length === 0) {
+    speechSynth.addEventListener('voiceschanged', () => {}, { once: true });
+  }
+  renderPronunList('pronun-basico-list', pronunData.basico);
+  renderPronunList('pronun-frases-list', pronunData.frases);
+  renderPronunList('pronun-avanzado-list', pronunData.avanzado);
+  renderPronunList('pronun-trabalenguas-list', pronunData.trabalenguas);
+}
+
+// ===== CONJUGATION EXERCISE =====
+function initConjugation() {
+  const sel = document.getElementById('verb-selector');
+  sel.innerHTML = Object.keys(verbsToConjugate).map(v => `
+    <button class="btn ${v===currentVerb?'btn-verde':'btn-gris'}" onclick="selectVerb('${v}')">${v}</button>
+  `).join('');
+  renderConjTable();
+}
+
+function selectVerb(v) {
+  currentVerb = v;
+  initConjugation();
+  document.getElementById('conj-result').textContent = '';
+}
+
+function renderConjTable() {
+  const data = verbsToConjugate[currentVerb];
+  const table = document.getElementById('conj-table-display');
+  table.innerHTML = `
+    <tr style="background:#f5f5f5"><th style="padding:10px;text-align:left">Pronombre</th><th style="padding:10px;text-align:left">Forma verbal</th><th style="padding:10px;text-align:left">Respuesta</th></tr>
+    ${pronouns.map((p,i) => `
+      <tr>
+        <td style="font-weight:700;color:#555;padding:8px 14px">${p}</td>
+        <td><input class="conj-input" id="conj-${i}" placeholder="..." autocomplete="off" autocorrect="off" spellcheck="false"></td>
+        <td id="conj-hint-${i}" style="font-size:0.85rem;color:#aaa"></td>
+      </tr>`).join('')}
+  `;
+}
+
+function checkConjugation() {
+  const data = verbsToConjugate[currentVerb];
+  let score = 0;
+  data.forms.forEach((form, i) => {
+    const inp = document.getElementById('conj-'+i);
+    const hint = document.getElementById('conj-hint-'+i);
+    if (!inp) return;
+    const val = inp.value.trim().toLowerCase();
+    if (val === form) {
+      inp.classList.add('ok'); inp.classList.remove('err');
+      hint.innerHTML = '✅';
+      score++;
+    } else {
+      inp.classList.add('err'); inp.classList.remove('ok');
+      hint.innerHTML = `→ <strong style="color:var(--verde)">${form}</strong>`;
+    }
+  });
+  const r = document.getElementById('conj-result');
+  r.textContent = score === 6 ? '🎉 ¡Perfetto! Conjugación completa.' : `${score}/6 correctas — revisa las marcadas`;
+  r.style.color = score === 6 ? 'var(--verde)' : 'var(--rosso)';
+  state.exercises++;
+  saveState(); updateStats();
+}
+
+function resetConjugation() {
+  pronouns.forEach((_, i) => {
+    const inp = document.getElementById('conj-'+i);
+    if (inp) { inp.value = ''; inp.classList.remove('ok','err'); }
+    const hint = document.getElementById('conj-hint-'+i);
+    if (hint) hint.innerHTML = '';
+  });
+  document.getElementById('conj-result').textContent = '';
+}
+
+// ===== ARTICLE EXERCISE =====
+function loadArticleExercise() {
+  currentArticleWords = [...articleWords].sort(() => Math.random()-0.5).slice(0, 6);
+  const c = document.getElementById('article-exercise');
+  c.innerHTML = currentArticleWords.map((w, i) => {
+    const opts = w.gender === 'm'
+      ? (w.noun.match(/^[aeiou]/i) ? ["l'", "il", "lo"] : (w.art_det === 'lo' ? ["lo", "il", "la"] : ["il", "lo", "la"]))
+      : (w.noun.match(/^[aeiou]/i) ? ["l'", "la", "il"] : ["la", "il", "l'"]);
+    const shuffled = [...new Set(opts)].sort(() => Math.random()-0.5);
+    return `
+      <div class="article-item">
+        <div class="noun">___ ${w.noun} <span style="color:#aaa;font-size:0.8rem">(${w.meaning})</span></div>
+        <div>${shuffled.map(o => `<button class="art-btn" id="art-${i}-${o.replace(/'/g,'')}" onclick="selectArticle(${i},'${o.replace(/'/g,"\\'")}',this)">${o}</button>`).join('')}</div>
+      </div>`;
+  }).join('');
+  document.getElementById('article-result').textContent = '';
+}
+
+let articleSelections = {};
+function selectArticle(idx, art, btn) {
+  if (btn.classList.contains('locked')) return;
+  articleSelections[idx] = art;
+  // Deselect siblings
+  const siblings = btn.parentElement.querySelectorAll('.art-btn');
+  siblings.forEach(b => b.classList.remove('selected-ok','selected-err','selected'));
+  btn.classList.add('selected');
+  btn.style.background = '#f0f9ff'; btn.style.borderColor = '#60b8e0';
+}
+
+function checkArticles() {
+  let score = 0;
+  currentArticleWords.forEach((w, i) => {
+    const sel = articleSelections[i];
+    const correct = w.art_det;
+    const siblings = document.querySelectorAll(`[id^="art-${i}-"]`);
+    siblings.forEach(b => {
+      b.classList.add('locked');
+      b.style.background = ''; b.style.borderColor = '';
+      const bArt = b.textContent;
+      if (bArt === correct) b.classList.add('show-correct');
+    });
+    if (sel === correct) score++;
+  });
+  const r = document.getElementById('article-result');
+  r.textContent = score === currentArticleWords.length ? `🎉 ¡Perfetto! ${score}/${currentArticleWords.length}` : `${score}/${currentArticleWords.length} — Los artículos correctos están en verde`;
+  r.style.color = score === currentArticleWords.length ? 'var(--verde)' : 'var(--rosso)';
+  articleSelections = {};
+  state.exercises++;
+  saveState(); updateStats();
+}
+
+// ===== WORD ORDER EXERCISE =====
+function loadOrderExercise() {
+  currentOrderEx = orderExercises[Math.floor(Math.random() * orderExercises.length)];
+  sentenceTokens = [];
+  const shuffled = [...currentOrderEx.words].sort(() => Math.random()-0.5);
+  document.getElementById('order-result').textContent = '';
+
+  document.getElementById('order-exercise-container').innerHTML = `
+    <div style="margin-bottom:12px;color:#888;font-size:0.9rem">Traducción: <em>${currentOrderEx.translation}</em></div>
+    <div style="margin-bottom:8px;font-weight:700;font-size:0.9rem">Tu frase:</div>
+    <div class="sentence-order" id="order-sentence" onclick="orderSentenceClick(event)"></div>
+    <div style="margin-bottom:8px;font-weight:700;font-size:0.9rem;margin-top:12px">Palabras disponibles:</div>
+    <div class="drag-words" id="order-words">
+      ${shuffled.map((w,i) => `<span class="word-token" id="wt-${i}" data-idx="${i}" data-word="${w}" onclick="addWordToSentence(this)">${w}</span>`).join('')}
+    </div>
+  `;
+}
+
+function addWordToSentence(el) {
+  if (el.classList.contains('used')) return;
+  el.classList.add('used');
+  const sentence = document.getElementById('order-sentence');
+  const token = document.createElement('span');
+  token.className = 'word-token in-sentence';
+  token.textContent = el.dataset.word;
+  token.dataset.srcId = el.id;
+  token.onclick = function() {
+    el.classList.remove('used');
+    token.remove();
+  };
+  sentence.appendChild(token);
+}
+
+function checkWordOrder() {
+  const sentence = document.getElementById('order-sentence');
+  const tokens = sentence.querySelectorAll('.word-token');
+  const formed = Array.from(tokens).map(t => t.textContent).join(' ');
+  const correct = currentOrderEx.sentence.replace(/[?!.]/g,'').trim();
+  const formedClean = formed.replace(/[?!.]/g,'').trim();
+  const ok = formedClean.toLowerCase() === correct.toLowerCase();
+  tokens.forEach(t => { t.classList.add(ok ? 'correct-pos' : 'wrong-pos'); });
+  const r = document.getElementById('order-result');
+  r.textContent = ok ? '🎉 ¡Corretto!' : `❌ La forma correcta es: "${currentOrderEx.sentence}"`;
+  r.style.color = ok ? 'var(--verde)' : 'var(--rosso)';
+  state.exercises++;
+  saveState(); updateStats();
+}
+
+// ===== PASSATO EXERCISE =====
+function loadPassatoExercise() {
+  currentPassatoItems = [...passatoExercises].sort(() => Math.random()-0.5).slice(0,4);
+  const c = document.getElementById('passato-exercise');
+  const auxOptions = ['ho','hai','ha','abbiamo','avete','hanno','sono','sei','è','siamo','siete','sono (loro)'];
+  c.innerHTML = `
+    <div class="tip-box verde" style="margin-bottom:16px">
+      <span class="tip-icon">🔑</span>
+      <div class="tip-text">Recuerda: verbos de movimiento/estado usan <b>ESSERE</b> (el participio concuerda en género). El resto usa <b>AVERE</b>.</div>
+    </div>
+    ${currentPassatoItems.map((ex,i) => `
+      <div style="background:#f9f9f9;border-radius:10px;padding:14px 16px;margin-bottom:12px">
+        <div style="font-size:0.85rem;color:#888;margin-bottom:8px">${ex.translation}</div>
+        <div style="font-size:1.05rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span style="font-weight:700">${ex.subject}</span>
+          <select id="pp-aux-${i}" style="padding:6px 10px;border:2px solid #ddd;border-radius:8px;font-size:0.95rem;background:white">
+            <option value="">— aux —</option>
+            ${['ho','hai','ha','abbiamo','avete','hanno','sono','sei','è','siamo','siete'].map(a=>`<option>${a}</option>`).join('')}
+          </select>
+          <input id="pp-part-${i}" placeholder="participio..." autocomplete="off" autocorrect="off" spellcheck="false"
+            style="border:none;border-bottom:2px solid var(--verde);padding:4px 8px;font-size:0.95rem;width:130px;font-weight:700;color:var(--verde);background:transparent;outline:none">
+          <span style="color:#aaa;font-size:0.85rem">(${ex.verb})</span>
+          <span id="pp-fb-${i}" style="font-size:0.85rem"></span>
+        </div>
+      </div>`).join('')}
+  `;
+  document.getElementById('passato-result').textContent = '';
+}
+
+function checkPassato() {
+  let score = 0;
+  currentPassatoItems.forEach((ex,i) => {
+    const auxSel = document.getElementById('pp-aux-'+i);
+    const partInp = document.getElementById('pp-part-'+i);
+    const fb = document.getElementById('pp-fb-'+i);
+    const auxVal = auxSel ? auxSel.value.trim().toLowerCase() : '';
+    const partVal = partInp ? partInp.value.trim().toLowerCase() : '';
+    const auxOk = auxVal === ex.aux.toLowerCase();
+    const partOk = partVal === ex.part.toLowerCase() || (ex.part.includes('/') && (partVal === ex.part.split('/')[0] || partVal === ex.part.split('/')[1]));
+    if (auxOk && partOk) { score++; fb.innerHTML = '✅'; fb.style.color = 'var(--verde)'; }
+    else { fb.innerHTML = `→ <b>${ex.aux} ${ex.part}</b>`; fb.style.color = 'var(--rosso)'; }
+  });
+  const r = document.getElementById('passato-result');
+  r.textContent = score === currentPassatoItems.length ? `🎉 ¡Perfetto! ${score}/${currentPassatoItems.length}` : `${score}/${currentPassatoItems.length} correctas`;
+  r.style.color = score === currentPassatoItems.length ? 'var(--verde)' : 'var(--rosso)';
+  state.exercises++;
+  saveState(); updateStats();
+}
+
+// ===== READING TEXTS =====
+const tooltip = document.createElement('div');
+tooltip.className = 'word-tooltip';
+document.body.appendChild(tooltip);
+
+function showTooltip(el, text) {
+  tooltip.textContent = text;
+  tooltip.style.display = 'block';
+  const rect = el.getBoundingClientRect();
+  tooltip.style.left = rect.left + rect.width/2 - tooltip.offsetWidth/2 + 'px';
+  tooltip.style.top = rect.top - 40 + window.scrollY + 'px';
+}
+function hideTooltip() { tooltip.style.display = 'none'; }
+
+function renderReadingText(containerId, data) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const isA2 = data.level === 'A2';
+  const textHtml = data.text.map(chunk => {
+    if (chunk.plain) return chunk.it;
+    return `<span class="reading-word" onmouseenter="showTooltip(this,'${chunk.gloss}')" onmouseleave="hideTooltip()" onclick="showTooltip(this,'${chunk.gloss}')">${chunk.it}</span>`;
+  }).join('');
+
+  let questionsHtml = data.questions.map((q,qi) => `
+    <div class="read-q" id="rq-${containerId}-${qi}">
+      <div class="q-text">${qi+1}. ${q.q}</div>
+      ${q.opts.map((o,oi) => `
+        <button class="read-opt" onclick="answerReading('${containerId}',${qi},${oi})">${o}</button>
+      `).join('')}
+    </div>`).join('');
+
+  el.innerHTML = `
+    <div class="reading-card">
+      <h3>${data.title}</h3>
+      <div class="reading-meta">
+        <span class="pill ${isA2?'pill-rosso':'pill-verde'}">${data.level}</span>
+        <span class="pill pill-azul">🖱️ Toca las palabras para ver el significado</span>
+        <button class="btn btn-oro" style="padding:4px 14px;font-size:0.85rem" onclick="speakItalian(\`${data.text.map(c=>c.it).join('')}\`, this)">🔊 Escuchar</button>
+      </div>
+      <div class="reading-text ${isA2?'a2-text':''}">${textHtml}</div>
+      <h4 style="font-size:1rem;font-weight:800;margin-bottom:14px">❓ Preguntas de comprensión</h4>
+      <div class="reading-questions" id="rqs-${containerId}">${questionsHtml}</div>
+      <div id="read-score-${containerId}" style="margin-top:16px;font-weight:700;font-size:1.1rem"></div>
+    </div>`;
+}
+
+let readingAnswers = {};
+function answerReading(textId, qi, chosen) {
+  const data = readingTexts.find(t => t.id === textId);
+  const q = data.questions[qi];
+  const btns = document.querySelectorAll(`#rq-${textId}-${qi} .read-opt`);
+  btns.forEach((b,i) => {
+    b.classList.add('locked');
+    if (i === q.ans) b.classList.add('r-correct');
+    else if (i === chosen) b.classList.add('r-incorrect');
+  });
+  if (!readingAnswers[textId]) readingAnswers[textId] = {};
+  readingAnswers[textId][qi] = chosen === q.ans;
+
+  const answered = Object.keys(readingAnswers[textId]).length;
+  const total = data.questions.length;
+  const correct = Object.values(readingAnswers[textId]).filter(Boolean).length;
+  if (answered === total) {
+    const scoreEl = document.getElementById('read-score-'+textId);
+    scoreEl.textContent = correct === total ? `🎉 ¡Perfetto! ${correct}/${total} correctas` : `${correct}/${total} correctas`;
+    scoreEl.style.color = correct === total ? 'var(--verde)' : 'var(--rosso)';
+    state.exercises++;
+    state.corrects += correct;
+    saveState(); updateStats();
+  }
+}
+
+function initReadingTexts() {
+  readingTexts.forEach(t => renderReadingText(t.id, t));
+}
+
+// ===== INIT UPDATE =====
+function init() {
+  renderVocabGrids();
+  renderA2Vocabs();
+  renderSongs();
+  loadFill();
+  loadTranslate();
+  initQuiz('a1');
+  initQuiz('a2');
+  initPronunciation();
+  initConjugation();
+  loadArticleExercise();
+  loadOrderExercise();
+  loadPassatoExercise();
+  initReadingTexts();
+  updateStats();
 }
 
 init();
